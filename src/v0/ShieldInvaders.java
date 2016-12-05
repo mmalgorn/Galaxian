@@ -3,7 +3,9 @@ package v0;
 import java.awt.Point;
 
 import v0.Element.movement;
-
+/*
+ * Vaisseau invaders avec deux fois plus de vie
+ */
 public class ShieldInvaders extends Invaders {
 	
 	public ShieldInvaders(Point p){
