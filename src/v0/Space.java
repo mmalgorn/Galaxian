@@ -1,6 +1,11 @@
 package v0;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -11,13 +16,18 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+import v0.Element.movement;
 
-public class Space extends JComponent {
+
+public class Space extends JComponent implements ActionListener,KeyListener{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	Set <Element> contents = Collections.synchronizedSet(new HashSet<Element>());
+	
+	java.awt.Button RightButton;
+	java.awt.Button LeftButton;
 
 	void addElement(Element anElement) {
 		contents.add(anElement);
@@ -53,8 +63,62 @@ public class Space extends JComponent {
 		window.setIconImage(new ImageIcon("./img/vaisseau_icon.png").getImage());
 		window.getContentPane().add(this);
 		window.setVisible(true);
+		window.addKeyListener(this);
 		new GestFenetre(window);
 		Universe.addSpace(this);
+		
+		RightButton = new java.awt.Button("Right");
+		LeftButton = new java.awt.Button("Left");
+  	    RightButton.addActionListener(this);
+  	    LeftButton.addActionListener(this);
+		add(RightButton);
+		add(LeftButton);
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		boolean trouvee = false;
+		Element elem = null;
+		
+		Iterator<Element> iter = elementIterator();
+		while(iter.hasNext() && (!trouvee)){
+			elem = iter.next();
+			if(elem.isDefender())trouvee = true;
+		}
+		switch(e.getKeyCode()){
+			case KeyEvent.VK_LEFT :
+				if(elem.getX()>50)elem.move(movement.LEFT);
+				break;
+				
+			case KeyEvent.VK_RIGHT :
+				if(elem.getX()<650)elem.move(movement.RIGHT);
+				break;
+			default:
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object object = e.getSource();
+		
+		/*if (object.equals(RightButton))
+			
+		else if (object.equals(LeftButton));*/
+			
 	}
 	
 }

@@ -8,7 +8,7 @@ import java.util.Iterator;
 // credits: 
 //	random color: http://stackoverflow.com/questions/4246351/creating-random-colour-in-java
 
-public class Main {
+public class Game {
 
 	public static void main(String[] args) throws IOException {
 		Space root = new Space();
@@ -25,7 +25,7 @@ public class Main {
 		root.start();
   		while (true) {
 			try {
-				Thread.sleep(300);
+				Thread.sleep(10);
 				Iterator<Element> iter = root.elementIterator();
 				
 				/*while(iter.hasNext()){

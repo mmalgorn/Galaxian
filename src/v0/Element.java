@@ -54,6 +54,8 @@ public abstract class Element {
 	
 	public void setImage(String img) { urlImage = img; }
 	
+	public boolean isDefender(){ return false;}
+	
 	public boolean collide(Element e) {
 		Point[] tmp = {
 				new Point((int) (e.getX() - (e.getWidth()/2)), (int) (e.getY() - (e.getHeight()/2))),
