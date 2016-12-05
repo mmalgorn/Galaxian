@@ -1,6 +1,5 @@
 package v0;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -93,7 +92,7 @@ public class Space extends JComponent implements ActionListener,KeyListener{
 				break;
 				
 			case KeyEvent.VK_RIGHT :
-				if(elem.getX()<650)elem.move(movement.RIGHT);
+				if(elem.getX()<550)elem.move(movement.RIGHT);
 				break;
 			default:
 		}
@@ -115,11 +114,19 @@ public class Space extends JComponent implements ActionListener,KeyListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object object = e.getSource();
+		boolean trouvee = false;
+		Element elem = null;
 		
-		/*if (object.equals(RightButton))
-			
-		else if (object.equals(LeftButton));*/
-			
+		Iterator<Element> iter = elementIterator();
+		while(iter.hasNext() && (!trouvee)){
+			elem = iter.next();
+			if(elem.isDefender())trouvee = true;
+		}
+		
+		if (object.equals(RightButton))
+			if(elem.getX()>50)elem.move(movement.LEFT);
+		else if (object.equals(LeftButton)) 
+			if(elem.getX()<650)elem.move(movement.RIGHT);
 	}
 	
 }
