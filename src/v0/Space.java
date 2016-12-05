@@ -36,7 +36,7 @@ public class Space extends JComponent {
 	}
 	
 	public void start() {
-		this.start(30, 30, 800, 600);
+		this.start(30, 30, 700, 600);
 	}
 	
 	Iterator<Element> elementIterator() { 
@@ -52,6 +52,7 @@ public class Space extends JComponent {
 		window.setTitle("Galaxian : Le meilleur jeu de Space Invaders de TOUTE la galaxie !!!!!!!!!!");
 		window.setIconImage(new ImageIcon("./img/vaisseau_icon.png").getImage());
 		window.getContentPane().add(this);
+		window.setResizable(false);
 		window.setVisible(true);
 		new GestFenetre(window);
 		Universe.addSpace(this);
