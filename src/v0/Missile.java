@@ -16,9 +16,9 @@ public class Missile extends Element {
 		missiles.add(this);
 		direction = m;
 		this.setPosition(p);
-		this.height = 10;
-		this.width = 5;
-		this.speed = 5;
+		this.height = 30;
+		this.width = 15;
+		this.speed = 8;
 		this.setImage("./img/missile.png");
 		missileEnnemy = me;
 		this.move();
@@ -34,8 +34,7 @@ public class Missile extends Element {
 	
 	public void destroy() {
 		missiles.remove(this);
-		
 	}
 	
-	public boolean isMissileEnnemy(){return this.missileEnnemy;}
+	public boolean isMissileEnnemy() { return this.missileEnnemy; }
 }

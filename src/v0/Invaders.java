@@ -28,6 +28,11 @@ public abstract class Invaders extends Element {
 		this.move(movement.BOTTOM);
 	}
 	
+	public void getDamage() {
+		life -= 25;
+		if(life <= 0) destroy();
+	}
+	
 	public void destroy() {
 		invaders.remove(this);
 	}

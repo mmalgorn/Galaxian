@@ -26,6 +26,7 @@ public class Space extends JComponent implements KeyListener{
 	Set <Element> contents = Collections.synchronizedSet(new HashSet<Element>());
 	boolean moveLeft = false;
 	boolean moveRight = false;
+	boolean fire = false;
 	ThreadVaisseau tv;
 	movement moveAdv = movement.RIGHT;
 
@@ -38,16 +39,14 @@ public class Space extends JComponent implements KeyListener{
 	}
 
 	public void paint(Graphics g) {
+		moveElements();
 		super.paint(g);
 		drawBackground(g);
-		Iterator<Element> itor = this.elementIterator();
-		while (itor.hasNext()) {
-			itor.next().drawOn(g);
-		}
-		for(int i = Missile.missiles.size()-1; i > 0; i--) {
-			Missile m = Missile.missiles.get(i);
-			m.drawOn(g);
-		}
+		Defender.def.drawOn(g);
+		Iterator<Invaders> inv = Invaders.invaders.iterator();
+		while (inv.hasNext()) inv.next().drawOn(g);
+		Iterator<Missile> mis = Missile.missiles.iterator();
+		while (mis.hasNext()) mis.next().drawOn(g); 
 	}
 	
 	public void start() {
@@ -126,14 +125,12 @@ public class Space extends JComponent implements KeyListener{
 				inv.move(movement.BOTTOM);
 				inv.move(moveAdv);
 			}
-			if(!isOnBorder){
-				inv.move(moveAdv);
-			}
+			if(!isOnBorder) inv.move(moveAdv);
 		}
 	}
 
-	public boolean moveDirLeft(){return moveLeft;}
-	public boolean moveDirRight(){return moveRight;}
+	public boolean moveDirLeft() { return moveLeft; }
+	public boolean moveDirRight() { return moveRight; }
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -148,11 +145,12 @@ public class Space extends JComponent implements KeyListener{
 			tv = new ThreadVaisseau(Defender.def,"right");
 			tv.start();
 			moveRight = true;
-		}else if(e.getKeyCode()==KeyEvent.VK_SPACE)
-			new Missile((new Point((int)(Defender.def.getX()+Defender.def.width/2),(int)Defender.def.getY())),movement.TOP,false);
+		}else if(e.getKeyCode()==KeyEvent.VK_SPACE) {
+			if(!fire) new Missile((new Point((int)(Defender.def.getX()+Defender.def.width/2),(int)Defender.def.getY())),movement.TOP,false);
+			fire = true;
+		}
 		
 	}
-
 	
 	public boolean isCol(Missile m) {
 		if (m.isMissileEnnemy()) return m.collideWith(Defender.def);
@@ -160,7 +158,8 @@ public class Space extends JComponent implements KeyListener{
 		while(it.hasNext()) {
 			Invaders inv = it.next();
 			if (m.collideWith(inv)) {
-				inv.destroy();
+				inv.getDamage();
+				if (Invaders.invaders.size() == 0) win();
 				return true;
 			};
 		}
@@ -170,14 +169,15 @@ public class Space extends JComponent implements KeyListener{
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if(moveLeft && e.getKeyCode()==KeyEvent.VK_LEFT){
+		if(moveLeft && e.getKeyCode() == KeyEvent.VK_LEFT){
 			moveLeft = false;
-			if(tv.getDir().equals("left"))tv.arret();
+			if(tv.getDir().equals("left")) tv.arret();
 		}
-		if(moveRight && e.getKeyCode()==KeyEvent.VK_RIGHT){
+		if(moveRight && e.getKeyCode() == KeyEvent.VK_RIGHT){
 			moveRight = false;
-			if(tv.getDir().equals("right"))tv.arret();
+			if(tv.getDir().equals("right")) tv.arret();
 		}
+		if(e.getKeyCode() == KeyEvent.VK_SPACE) fire = false; 
 	}
 
 	@Override
@@ -185,5 +185,8 @@ public class Space extends JComponent implements KeyListener{
 		// TODO Auto-generated method stub
 	}
 
+	public void win() {
+		System.out.println("YOUPI !");
+	}
 	
 }

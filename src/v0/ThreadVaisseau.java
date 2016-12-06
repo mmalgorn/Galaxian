@@ -27,7 +27,7 @@ public class ThreadVaisseau extends Thread{
 				if(elem.getX()>50){
 					elem.move(movement.LEFT);
 					try {
-						Thread.sleep(100);
+						Thread.sleep(40);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -38,7 +38,7 @@ public class ThreadVaisseau extends Thread{
 				if(elem.getX()<550){
 					elem.move(movement.RIGHT);
 					try {
-						Thread.sleep(100);
+						Thread.sleep(40);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

@@ -15,18 +15,17 @@ public class Game {
 	public static void main(String[] args) throws IOException {
 		Space root = new Space();
 		ArrayList<Element> ennemys = new ArrayList<Element>();
-		int i,nbEnnemy = 10;
+		int i,nbEnnemy = 35;
 
 		new Defender(new Point(350,450));
 		
 		for(i=0;i<nbEnnemy;i++){
-			new FireInvaders(new Point(100+(i*50),100));
+			new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
 		}
 		root.start();
   		while (true) {
 			try {
 				Thread.sleep(30);
-				root.moveElements();
 				root.repaint();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

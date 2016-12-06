@@ -67,7 +67,6 @@ public abstract class Element {
  		for(int i = 0; i < 4; i++) {
  			if(!(tmp[i].getX() >= position.getX()  && tmp[i].getX() <= position.getX() + width)) continue;
  			if(!(tmp[i].getY() >= position.getY() && tmp[i].getY() <= position.getY() + height)) continue;
- 			System.out.println("Collision");
  			return true;
  		}
  		return false;

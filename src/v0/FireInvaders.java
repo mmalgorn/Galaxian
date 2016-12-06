@@ -15,7 +15,7 @@ public class FireInvaders extends Invaders {
 		this.life = 50;
 		this.damageAmount = 25;
 		this.setPosition(p);
-		this.setImage("./img/mechant03.png");
+		this.setImage("./img/invaders.png");
 	}
 	
 	public void fire(){
