@@ -29,18 +29,19 @@ public class Game {
 			try {
 				Thread.sleep(100);
 				Iterator<Element> iter = root.elementIterator();
-				
+				Iterator<Missile> missIter = Missile.missiles.iterator();
 				while(iter.hasNext()){
 					
 					Element m = iter.next();
-					if(m instanceof Missile){
-						m.move(movement.TOP);
-					}
-					
+				
 					if(!(m instanceof Defender)){
-						//m.move(movement.RIGHT);
+						m.move(movement.RIGHT);
 					}
 					
+				}
+				while(missIter.hasNext()){
+					Element miss = iter.next();
+					miss.move(movement.TOP);
 				}
 				root.repaint();
 			} catch (Exception e) {

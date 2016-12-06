@@ -34,5 +34,6 @@ public class Missile extends Element {
 	
 	public void destroy() {
 		missiles.remove(this);
+		
 	}
 }
