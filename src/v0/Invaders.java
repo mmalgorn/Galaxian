@@ -9,7 +9,6 @@ import v0.Element.movement;
 public abstract class Invaders extends Element {
 	
 	static List<Invaders> invaders = new ArrayList<Invaders>();
-	
 	protected int life;
 	protected int damageAmount;
 	

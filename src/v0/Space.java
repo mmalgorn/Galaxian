@@ -27,6 +27,7 @@ public class Space extends JComponent implements KeyListener{
 	boolean moveLeft = false;
 	boolean moveRight = false;
 	ThreadVaisseau tv;
+	movement moveAdv = movement.RIGHT;
 
 	void addElement(Element anElement) {
 		contents.add(anElement);
@@ -92,6 +93,42 @@ public class Space extends JComponent implements KeyListener{
 			m.move();
 			if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
 			else m.destroy();
+		}
+		
+		moveEnemys(Invaders.invaders.iterator());
+	}
+	
+	/*
+	 * Deplacement Ennemis
+	 */
+	public void moveEnemys(Iterator<Invaders> iter){
+		boolean isOnBorder = false;
+		while(iter.hasNext()){
+			Invaders inv = iter.next();
+			if(inv.getX() <= 0){
+				moveAdv = movement.RIGHT;
+				isOnBorder = true;
+			}
+			if ((inv.getX() + inv.width) >= 700){
+				moveAdv = movement.LEFT;
+				isOnBorder = true;
+			}
+			if(inv.getY() <= 0 || (inv.getY()+inv.height) >= 450){
+				System.out.println("GAME OVER");
+				System.exit(0);
+			}
+		}
+		iter = Invaders.invaders.iterator();
+		while(iter.hasNext()){
+			Element inv = iter.next();
+			if(isOnBorder){
+				inv.move(movement.BOTTOM);
+				inv.move(movement.BOTTOM);
+				inv.move(moveAdv);
+			}
+			if(!isOnBorder){
+				inv.move(moveAdv);
+			}
 		}
 	}
 
