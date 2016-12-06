@@ -58,7 +58,6 @@ public abstract class Element {
 	public boolean isDefender(){ return false;}
 	
 	public boolean collide(Element e) {
-<<<<<<< HEAD
 		Point[] tmp = {
 			new Point((int) e.getX() , (int) e.getY()),
 			new Point((int) (e.getX() + e.getWidth()), (int) e.getY() ),
@@ -72,35 +71,6 @@ public abstract class Element {
  			return true;
  		}
  		return false;
-=======
-		
-		double[] interval = {e.getX(),e.getX()+e.width,e.getY(),e.getY()+e.height};
-		double[] intervalThis = {this.getX(),this.getX()+width,this.getY(),this.getY()+height};		
-		
-		//Test si le premier intervalle est dans le second
-		for(int i=0;i<2;i++){
-			
-			if(interval[0]<=intervalThis[i]&&interval[1]>=intervalThis[i]){
-				for(int j=0;j<2;j++){
-					if(interval[2]<=intervalThis[j+2]&&interval[3]>=intervalThis[j+2]) {System.out.println("colision");return true;}
-				}
-			}
-		}
-		
-		for(int i=0;i<2;i++){
-			if(intervalThis[0]<=interval[i]&&intervalThis[1]>=interval[i]){
-				
-				for(int j=0;j<2;j++){
-					if(intervalThis[2]<=interval[j+2]&&intervalThis[3]>=interval[j+2]) {System.out.println("colision"); return true;}
-				}
-			}
-		}
-		
-		return false;
-		
-		
-		
->>>>>>> branch 'master' of https://github.com/mmalgorn/Galaxian
 	}
 	
 	public boolean collideWith(Element e) {
