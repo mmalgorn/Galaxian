@@ -15,8 +15,8 @@ public class Missile extends Element {
 		missiles.add(this);
 		direction = m;
 		this.setPosition(p);
-		this.height = 2;
-		this.width = 10;
+		this.height = 100;
+		this.width = 20;
 		this.speed = 5;
 		this.setImage("./img/missile.png");
 		missileEnnemy = me;

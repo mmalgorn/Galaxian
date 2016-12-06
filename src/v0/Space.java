@@ -108,6 +108,7 @@ public class Space extends JComponent implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 		Element elem = searchDefender();
 		if((!moveLeft) && (e.getKeyCode()==KeyEvent.VK_LEFT ))
 			if(elem.getX()>50){
@@ -123,6 +124,28 @@ public class Space extends JComponent implements KeyListener{
 			new Missile((new Point((int)(elem.getX()+elem.width/2),(int)elem.getY())),movement.TOP,false);
 		if(moveLeft)if(elem.getX()>50)elem.move(movement.LEFT);
 		if(moveRight)if(elem.getX()<550)elem.move(movement.RIGHT);
+=======
+		boolean trouvee = false;
+		Element elem = null;
+		
+		Iterator<Element> iter = elementIterator();
+		while(iter.hasNext() && (!trouvee)){
+			elem = iter.next();
+			if(elem.isDefender())trouvee = true;
+		}
+		switch(e.getKeyCode()){
+			case KeyEvent.VK_LEFT :
+				if(elem.getX()>50)elem.move(movement.LEFT);
+				break;
+				
+			case KeyEvent.VK_RIGHT :
+				if(elem.getX()<550)elem.move(movement.RIGHT);
+				break;
+			case KeyEvent.VK_SPACE : 
+				elem.fire();
+			default:
+		}
+>>>>>>> branch 'master' of https://github.com/mmalgorn/Galaxian.git
 	}
 
 	@Override
