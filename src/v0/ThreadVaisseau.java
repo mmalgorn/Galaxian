@@ -16,6 +16,10 @@ public class ThreadVaisseau extends Thread{
 		arretThread = true;
 	}
 	
+	public String getDir(){
+		return dir;
+	}
+	
 	public void run(){
 		arretThread = false;
 		if(dir.equals("left"))
