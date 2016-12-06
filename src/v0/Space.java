@@ -24,6 +24,8 @@ public class Space extends JComponent implements KeyListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	Set <Element> contents = Collections.synchronizedSet(new HashSet<Element>());
+	boolean moveLeft = false;
+	boolean moveRight = false;
 
 	void addElement(Element anElement) {
 		contents.add(anElement);
@@ -92,43 +94,47 @@ public class Space extends JComponent implements KeyListener{
 			
 		}
 	}
+	
+	public Element searchDefender(){
+		Element elem;
+		Iterator<Element> iter = elementIterator();
+		while(iter.hasNext()){
+			elem = iter.next();
+			if(elem.isDefender())return elem;
+		}
+		return null;
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		boolean trouvee = false;
-		Element elem = null;
-		
-		Iterator<Element> iter = elementIterator();
-		while(iter.hasNext() && (!trouvee)){
-			elem = iter.next();
-			if(elem.isDefender())trouvee = true;
-		}
-		switch(e.getKeyCode()){
-			case KeyEvent.VK_LEFT :
-				if(elem.getX()>50)elem.move(movement.LEFT);
-				break;
-				
-			case KeyEvent.VK_RIGHT :
-				if(elem.getX()<550)elem.move(movement.RIGHT);
-				break;
-			case KeyEvent.VK_SPACE : 
-				new Missile((new Point((int)(elem.getX()+elem.width/2),(int)elem.getY())),movement.TOP,false);
-				
-			default:
-		}
+		Element elem = searchDefender();
+		if((!moveLeft) && (e.getKeyCode()==KeyEvent.VK_LEFT ))
+			if(elem.getX()>50){
+				elem.move(movement.LEFT);
+				moveLeft = true;
+			}
+		if((!moveRight) && (e.getKeyCode()==KeyEvent.VK_RIGHT))
+			if(elem.getX()<550){
+				elem.move(movement.RIGHT);
+				moveRight = true;
+			}
+		if(e.getKeyCode()==KeyEvent.VK_SPACE)
+			new Missile((new Point((int)(elem.getX()+elem.width/2),(int)elem.getY())),movement.TOP,false);
+		if(moveLeft)if(elem.getX()>50)elem.move(movement.LEFT);
+		if(moveRight)if(elem.getX()<550)elem.move(movement.RIGHT);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		Element elem = searchDefender();
+		if(e.getKeyCode()==KeyEvent.VK_LEFT )moveLeft = false;
+		if(e.getKeyCode()==KeyEvent.VK_RIGHT)moveRight = false;
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	
