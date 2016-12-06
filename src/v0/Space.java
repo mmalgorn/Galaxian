@@ -37,8 +37,12 @@ public class Space extends JComponent implements KeyListener{
 		super.paint(g);
 		drawBackground(g);
 		Iterator<Element> itor = this.elementIterator();
+		Iterator<Missile> missItor = Missile.missiles.iterator();
 		while (itor.hasNext()) {
 			itor.next().drawOn(g);
+		}
+		while (missItor.hasNext()){
+			missItor.next().drawOn(g);
 		}
 	}
 	
@@ -79,6 +83,9 @@ public class Space extends JComponent implements KeyListener{
 	
 	public void moveElements(){
 		Iterator<Element> iter = elementIterator();
+		Iterator<Missile> missItor = Missile.missiles.iterator();
+		
+		
 		while(iter.hasNext()){
 			Element m = iter.next();
 			if(m instanceof Missile){
@@ -89,6 +96,12 @@ public class Space extends JComponent implements KeyListener{
 			if(!(m instanceof Defender)){
 				//m.move(movement.RIGHT);
 			}
+			
+		}
+		while (missItor.hasNext()){
+			Missile m = missItor.next();
+			if(!this.isCol(m)) m.move();
+			else m.destroy();
 			
 		}
 	}
@@ -118,6 +131,19 @@ public class Space extends JComponent implements KeyListener{
 		}
 	}
 
+	
+	public boolean isCol(Missile m){
+		
+		Iterator<Element> iter = elementIterator();
+		
+		while (iter.hasNext()) {
+			if(m.collide(iter.next())) {
+				System.out.println("Colision =(");
+				return true;
+			}
+		}
+		return false;			
+	}
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub

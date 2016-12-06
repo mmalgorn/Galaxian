@@ -17,7 +17,7 @@ public class Defender extends Element{
 	}
 	
 	public void fire(){
-		Point p = new Point((int)this.getX(),(int)(this.getY()-(this.height/2)));
+		Point p = new Point((int)(this.getX()+this.width/2),(int)(this.getY()));
 		Missile m = new Missile(p,movement.TOP,false);
 	}
 
