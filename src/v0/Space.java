@@ -27,6 +27,7 @@ public class Space extends JComponent implements KeyListener{
 	boolean moveLeft = false;
 	boolean moveRight = false;
 	ThreadVaisseau tv;
+	movement moveAdv = movement.RIGHT;
 
 	void addElement(Element anElement) {
 		contents.add(anElement);
@@ -87,28 +88,64 @@ public class Space extends JComponent implements KeyListener{
 	public void moveElements(){
 		Iterator<Element> iter = elementIterator();
 		Iterator<Missile> missItor = Missile.missiles.iterator();
-		
-		
-		while(iter.hasNext()){
-			Element m = iter.next();
-			if(m instanceof Missile){
-				if(((Missile)m).isMissileEnnemy())m.move(movement.TOP);
-				else m.move(movement.BOTTOM);
-			}
-			
-			if(!(m instanceof Defender)){
-				//m.move(movement.RIGHT);
-			}
-			
-		}
+//		while(iter.hasNext()){
+//			Element m = iter.next();
+//			if(m instanceof Missile){
+//				if(((Missile)m).isMissileEnnemy())m.move(movement.TOP);
+//				else m.move(movement.BOTTOM);
+//			}
+//			if(!(m instanceof Defender)){
+//				//m.move(movement.RIGHT);
+//			}
+//		}
 		while (missItor.hasNext()){
 			Missile m = missItor.next();
-			if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
+			if((!(this.isCol(m) || (m.getY()<=0 || m.getY()>=600)))) m.move();
 			else m.destroy();
+		}
+		
+		moveEnemys(iter);
+		
+		
+	}
+	/*
+	 * Deplacement Ennemis
+	 */
+	public void moveEnemys(Iterator<Element> iter){
+		boolean isOnBorder = false;
+		while(iter.hasNext()){
+			Element e = iter.next();
+			if(!(e.isDefender())){
+				if(e.getX() <= 0){
+					moveAdv = movement.RIGHT;
+					isOnBorder = true;
+				}
+				if ((e.getX() + e.width) >= 700){
+					moveAdv = movement.LEFT;
+					isOnBorder = true;
+				}
+				if(e.getY() <= 0 || (e.getY()+e.height) >= 450){
+					System.out.println("GAME OVER");
+					System.exit(0);
+				}
+			}
 			
 		}
+		iter = elementIterator();
+		while(iter.hasNext()){
+			Element e = iter.next();
+			if(!(e.isDefender())){
+				if(isOnBorder){
+					e.move(movement.BOTTOM);
+					e.move(movement.BOTTOM);
+					e.move(moveAdv);
+				}
+				if(!isOnBorder){
+					e.move(moveAdv);
+				}
+			}
+		}
 	}
-	
 	public Element searchDefender(){
 		Element elem;
 		Iterator<Element> iter = elementIterator();
@@ -140,8 +177,6 @@ public class Space extends JComponent implements KeyListener{
 			new Missile((new Point((int)(elem.getX()+elem.width/2),(int)elem.getY())),movement.TOP,false);
 		
 	}
-
-	
 	public boolean isCol(Missile m){
 		
 		Iterator<Element> iter = elementIterator();
@@ -175,7 +210,6 @@ public class Space extends JComponent implements KeyListener{
 			if(tv.getDir().equals("right"))tv.arret();
 		}
 	}
-
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub

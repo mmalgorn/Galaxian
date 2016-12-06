@@ -27,7 +27,7 @@ public class Game {
 		root.start();
   		while (true) {
 			try {
-				Thread.sleep(10);
+				Thread.sleep(30);
 				root.moveElements();
 				root.repaint();
 			} catch (Exception e) {

@@ -76,7 +76,7 @@ public abstract class Element {
 			if(intervalThis[0]<=interval[i]&&intervalThis[1]>=interval[i]){
 				
 				for(int j=0;j<2;j++){
-					if(intervalThis[4]<=interval[j+2]&&intervalThis[3]>=interval[j+2]) {System.out.println("colision"); return true;}
+					if(intervalThis[2]<=interval[j+2]&&intervalThis[3]>=interval[j+2]) {System.out.println("colision"); return true;}
 				}
 			}
 		}
