@@ -26,6 +26,7 @@ public class Space extends JComponent implements KeyListener{
 	Set <Element> contents = Collections.synchronizedSet(new HashSet<Element>());
 	boolean moveLeft = false;
 	boolean moveRight = false;
+	ThreadVaisseau tv;
 
 	void addElement(Element anElement) {
 		contents.add(anElement);
@@ -105,31 +106,42 @@ public class Space extends JComponent implements KeyListener{
 		return null;
 	}
 
+	public boolean moveDirLeft(){return moveLeft;}
+	public boolean moveDirRight(){return moveRight;}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		Element elem = searchDefender();
-		if((!moveLeft) && (e.getKeyCode()==KeyEvent.VK_LEFT ))
-			if(elem.getX()>50){
-				elem.move(movement.LEFT);
-				moveLeft = true;
-			}
-		if((!moveRight) && (e.getKeyCode()==KeyEvent.VK_RIGHT))
-			if(elem.getX()<550){
-				elem.move(movement.RIGHT);
-				moveRight = true;
-			}
-		if(e.getKeyCode()==KeyEvent.VK_SPACE)
+		if((!moveLeft) && (e.getKeyCode()==KeyEvent.VK_LEFT )){
+			if(tv != null)tv.arret();
+			tv = new ThreadVaisseau(elem,"left");
+			tv.start();
+			moveLeft = true;
+		}else if((!moveRight) && (e.getKeyCode()==KeyEvent.VK_RIGHT)){
+			if(tv != null)tv.arret();
+			tv = new ThreadVaisseau(elem,"right");
+			tv.start();
+			moveRight = true;
+		}else if(e.getKeyCode()==KeyEvent.VK_SPACE)
 			new Missile((new Point((int)(elem.getX()+elem.width/2),(int)elem.getY())),movement.TOP,false);
-		if(moveLeft)if(elem.getX()>50)elem.move(movement.LEFT);
-		if(moveRight)if(elem.getX()<550)elem.move(movement.RIGHT);
+		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 		Element elem = searchDefender();
-		if(e.getKeyCode()==KeyEvent.VK_LEFT )moveLeft = false;
-		if(e.getKeyCode()==KeyEvent.VK_RIGHT)moveRight = false;
+		if(moveLeft || moveRight){
+			if(e.getKeyCode()==KeyEvent.VK_LEFT ){
+				tv.arret();
+				moveLeft = false;
+			}
+			if(e.getKeyCode()==KeyEvent.VK_RIGHT){
+				tv.arret();
+				moveRight = false;
+			}
+		}
 	}
 
 	@Override
