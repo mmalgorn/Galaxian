@@ -3,6 +3,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.io.IOException;
 
+import v0.Element.movement;
+
 /*
  * La classe Element sera hériter par tout les vaisseaux et regroupe donc les fonctionnalité principales 
  * utiliser par chacun.
@@ -78,5 +80,9 @@ public abstract class Element {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void fire(){
+	
 	}
 }	
