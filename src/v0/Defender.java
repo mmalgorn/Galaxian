@@ -13,7 +13,7 @@ public class Defender extends Element{
 		this.height = 75;
 		this.speed = 15;
 		this.setPosition(p);
-		this.setImage("./img/mechant03.png");
+		this.setImage("./img/vaisseau.png");
 	}
 	
 	public void fire(){
