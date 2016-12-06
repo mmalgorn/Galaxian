@@ -17,11 +17,19 @@ public class Missile extends Element {
 		this.height = 2;
 		this.width = 10;
 		this.speed = 5;
+		this.setImage("./img/missile.png");
+		this.move();
 	}
 	
 	public void move(){
-		move(direction);
+		
+			
+		if(this.getY()>0) move(direction);
+		else this.destroy();
+			
 		// tester si collision avec tout les elements 
+		
+		
 	}
 	
 	public void destroy() {

@@ -27,16 +27,20 @@ public class Game {
 		root.start();
   		while (true) {
 			try {
-				Thread.sleep(10);
+				Thread.sleep(100);
 				Iterator<Element> iter = root.elementIterator();
 				
 				while(iter.hasNext()){
 					
 					Element m = iter.next();
-					if(!(m instanceof Defender)){
-						m.move(movement.RIGHT);
+					if(m instanceof Missile){
+						m.move(movement.TOP);
 					}
-
+					
+					if(!(m instanceof Defender)){
+						//m.move(movement.RIGHT);
+					}
+					
 				}
 				root.repaint();
 			} catch (Exception e) {
