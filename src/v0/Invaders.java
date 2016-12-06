@@ -35,6 +35,8 @@ public abstract class Invaders extends Element {
 	
 	public void destroy() {
 		invaders.remove(this);
+		Sound snd = new Sound("./sound/explosion.wav");
+		snd.play();
 	}
 	
 }

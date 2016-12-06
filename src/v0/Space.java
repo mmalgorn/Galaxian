@@ -29,7 +29,7 @@ public class Space extends JComponent implements KeyListener{
 	boolean fire = false;
 	ThreadVaisseau tv;
 	movement moveAdv = movement.RIGHT;
-	Sound snd = new Sound();
+	Sound snd;
 
 	void addElement(Element anElement) {
 		contents.add(anElement);
@@ -152,7 +152,8 @@ public class Space extends JComponent implements KeyListener{
 		}else if(e.getKeyCode()==KeyEvent.VK_SPACE) {
 			if(!fire){
 				Defender.def.fire();
-				snd.jouer();
+				snd = new Sound("./sound/fire.wav");
+				snd.play();
 			}
 			fire = true;
 		}
