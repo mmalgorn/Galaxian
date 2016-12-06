@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -18,15 +19,12 @@ import javax.swing.JFrame;
 import v0.Element.movement;
 
 
-public class Space extends JComponent implements ActionListener,KeyListener{
+public class Space extends JComponent implements KeyListener{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	Set <Element> contents = Collections.synchronizedSet(new HashSet<Element>());
-	
-	java.awt.Button RightButton;
-	java.awt.Button LeftButton;
 
 	void addElement(Element anElement) {
 		contents.add(anElement);
@@ -38,6 +36,7 @@ public class Space extends JComponent implements ActionListener,KeyListener{
 
 	public void paint(Graphics g) {
 		super.paint(g);
+		drawBackground(g);
 		Iterator<Element> itor = this.elementIterator();
 		while (itor.hasNext()) {
 			itor.next().drawOn(g);
@@ -66,13 +65,17 @@ public class Space extends JComponent implements ActionListener,KeyListener{
 		window.addKeyListener(this);
 		new GestFenetre(window);
 		Universe.addSpace(this);
+	}
+	
+	public void drawBackground(Graphics g){
+		try {
+			ImagePanel imgp = new ImagePanel("./img/background.jpg");
+			imgp.paintComponent(g);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		RightButton = new java.awt.Button("Right");
-		LeftButton = new java.awt.Button("Left");
-  	    RightButton.addActionListener(this);
-  	    LeftButton.addActionListener(this);
-		add(RightButton);
-		add(LeftButton);
 	}
 
 	@Override
@@ -110,23 +113,5 @@ public class Space extends JComponent implements ActionListener,KeyListener{
 		
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		Object object = e.getSource();
-		boolean trouvee = false;
-		Element elem = null;
-		
-		Iterator<Element> iter = elementIterator();
-		while(iter.hasNext() && (!trouvee)){
-			elem = iter.next();
-			if(elem.isDefender())trouvee = true;
-		}
-		
-		if (object.equals(RightButton))
-			if(elem.getX()>50)elem.move(movement.LEFT);
-		else if (object.equals(LeftButton)) 
-			if(elem.getX()<650)elem.move(movement.RIGHT);
-	}
 	
 }
