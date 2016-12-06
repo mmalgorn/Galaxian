@@ -113,7 +113,7 @@ public class Space extends JComponent implements KeyListener{
 				if(elem.getX()<550)elem.move(movement.RIGHT);
 				break;
 			case KeyEvent.VK_SPACE : 
-				contents.add(new Missile((new Point((int)(elem.getX()+elem.width/2),(int)elem.getY())),movement.TOP,false));
+				new Missile((new Point((int)(elem.getX()+elem.width/2),(int)elem.getY())),movement.TOP);
 				
 			default:
 		}
