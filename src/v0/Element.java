@@ -64,17 +64,19 @@ public abstract class Element {
 		
 		//Test si le premier intervalle est dans le second
 		for(int i=0;i<2;i++){
-			if(interval[0]>=intervalThis[i]&&interval[1]<=intervalThis[i]){
+			
+			if(interval[0]<=intervalThis[i]&&interval[1]>=intervalThis[i]){
 				for(int j=0;j<2;j++){
-					if(interval[4]>=intervalThis[j+2]&&interval[3]<=intervalThis[j+2]) return true;
+					if(interval[2]<=intervalThis[j+2]&&interval[3]>=intervalThis[j+2]) {System.out.println("colision");return true;}
 				}
 			}
 		}
 		
 		for(int i=0;i<2;i++){
-			if(intervalThis[0]>=interval[i]&&intervalThis[1]<=interval[i]){
+			if(intervalThis[0]<=interval[i]&&intervalThis[1]>=interval[i]){
+				
 				for(int j=0;j<2;j++){
-					if(intervalThis[4]>=interval[j+2]&&intervalThis[3]<=interval[j+2]) return true;
+					if(intervalThis[4]<=interval[j+2]&&intervalThis[3]>=interval[j+2]) {System.out.println("colision"); return true;}
 				}
 			}
 		}

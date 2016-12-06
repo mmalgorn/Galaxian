@@ -103,7 +103,7 @@ public class Space extends JComponent implements KeyListener{
 		}
 		while (missItor.hasNext()){
 			Missile m = missItor.next();
-			if(!this.isCol(m)) m.move();
+			if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
 			else m.destroy();
 			
 		}
@@ -148,8 +148,16 @@ public class Space extends JComponent implements KeyListener{
 		
 		while (iter.hasNext()) {
 			if(m.collide(iter.next())) {
-				System.out.println("Colision =(");
-				return true;
+				
+				if(m.isMissileEnnemy()){
+					if(!iter.next().isDefender()) return true;
+				}else{
+					if(iter.next().isDefender()) return true;
+				}
+				}
+			
+			else {
+				
 			}
 		}
 		return false;			
