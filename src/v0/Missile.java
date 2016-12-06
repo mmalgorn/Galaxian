@@ -2,6 +2,7 @@ package v0;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Missile extends Element {
@@ -15,8 +16,8 @@ public class Missile extends Element {
 		missiles.add(this);
 		direction = m;
 		this.setPosition(p);
-		this.height = 100;
-		this.width = 20;
+		this.height = 10;
+		this.width = 5;
 		this.speed = 5;
 		this.setImage("./img/missile.png");
 		missileEnnemy = me;
@@ -24,14 +25,11 @@ public class Missile extends Element {
 	}
 	
 	public void move(){
+
+		move(direction);
 		
 			
-		if(this.getY()>0) move(direction);
-		else this.destroy();
-			
-		// tester si collision avec tout les elements 
-		
-		
+		// tester si collision avec tout les elements 	
 	}
 	
 	public void destroy() {
