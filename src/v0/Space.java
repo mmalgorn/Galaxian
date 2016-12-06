@@ -166,15 +166,13 @@ public class Space extends JComponent implements KeyListener{
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		Element elem = searchDefender();
-		if(moveLeft || moveRight){
-			if(e.getKeyCode()==KeyEvent.VK_LEFT ){
-				tv.arret();
-				moveLeft = false;
-			}
-			if(e.getKeyCode()==KeyEvent.VK_RIGHT){
-				tv.arret();
-				moveRight = false;
-			}
+		if(moveLeft && e.getKeyCode()==KeyEvent.VK_LEFT){
+			moveLeft = false;
+			if(tv.getDir().equals("left"))tv.arret();
+		}
+		if(moveRight && e.getKeyCode()==KeyEvent.VK_RIGHT){
+			moveRight = false;
+			if(tv.getDir().equals("right"))tv.arret();
 		}
 	}
 
