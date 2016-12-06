@@ -57,14 +57,14 @@ public abstract class Element {
 	
 	public boolean collide(Element e) {
 		Point[] tmp = {
-				new Point((int) (e.getX() - (e.getWidth()/2)), (int) (e.getY() - (e.getHeight()/2))),
-				new Point((int) (e.getX() + (e.getWidth()/2)), (int) (e.getY() - (e.getHeight()/2))),
-				new Point((int) (e.getX() - (e.getWidth()/2)), (int) (e.getY() + (e.getHeight()/2))),
-				new Point((int) (e.getX() + (e.getWidth()/2)), (int) (e.getY() + (e.getHeight()/2)))
+				new Point((int) e.getX() , (int) e.getY()),
+				new Point((int) (e.getX() + e.getWidth()), (int) e.getY() ),
+				new Point((int) e.getX(), (int) (e.getY() + e.getHeight())),
+				new Point((int) (e.getX() + (e.getWidth())), (int) (e.getY() + (e.getHeight())))
 		};
 		for(int i = 0; i < 4; i++) {
-			if(!(tmp[i].getX() >= position.getX() - (width/2) && tmp[i].getX() <= position.getX() + (width/2))) continue;
-			if(!(tmp[i].getY() >= position.getY() - (height/2) && tmp[i].getY() <= position.getY() + (height/2))) continue;
+			if(!(tmp[i].getX() >= position.getX()  && tmp[i].getX() <= position.getX() + width)) continue;
+			if(!(tmp[i].getY() >= position.getY() && tmp[i].getY() <= position.getY() + height)) continue;
 			return true;
 		}
 		return false;
