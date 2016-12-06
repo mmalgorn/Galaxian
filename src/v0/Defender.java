@@ -19,9 +19,19 @@ public class Defender extends Element{
 		def = this;
 	}
 	
+	public int getLife(){
+		return this.life;
+	}
 	public void fire(){
 		Point p = new Point((int)(this.getX()+this.width/2),(int)(this.getY()));
 		new Missile(p, movement.TOP, false);
 	}
+	
+	public void getDamage() {
+		life -= 25;
+	}
+	
+	
+	
 	
 }

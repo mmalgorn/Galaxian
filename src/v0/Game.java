@@ -19,9 +19,13 @@ public class Game {
 
 		new Defender(new Point(350,450));
 		
-		for(i=0;i<nbEnnemy;i++){
+		for(i=0;i<nbEnnemy/2;i++){
 			new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
 		}
+		for(i=nbEnnemy/2;i<nbEnnemy;i++){
+			new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+		}
+		
 		root.start();
   		while (true) {
 			try {

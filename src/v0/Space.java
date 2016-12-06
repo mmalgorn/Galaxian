@@ -52,18 +52,18 @@ public class Space extends JComponent implements KeyListener{
 			m.drawOn(g);
 		}
 	}
-	
+
 	public void start() {
 		this.start(30, 30, 700, 600);
 	}
-	
+
 	Iterator<Element> elementIterator() {
 		ArrayList<Element> e = new ArrayList<Element>(Invaders.invaders);
 		e.add(Defender.def);
 		return e.iterator();
 	}
-	
-	
+
+
 	public void start (int x, int y, int width, int height) {
 		JFrame window = new JFrame();
 		window.setBounds(x, y, width, height);
@@ -76,7 +76,7 @@ public class Space extends JComponent implements KeyListener{
 		new GestFenetre(window);
 		Universe.addSpace(this);
 	}
-	
+
 	public void drawBackground(Graphics g){
 		try {
 			ImagePanel imgp = new ImagePanel("./img/background.jpg");
@@ -85,22 +85,22 @@ public class Space extends JComponent implements KeyListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void moveElements(){
 		Iterator<Element> iter = elementIterator();
-		
+
 		for(int i = Missile.missiles.size()-1; i >= 0; i--) {
 			Missile m = Missile.missiles.get(i);
 			m.move();
 			if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
 			else m.destroy();
 		}
-		
+
 		moveEnemys(Invaders.invaders.iterator());
 	}
-	
+
 	/*
 	 * Deplacement Ennemis
 	 */
@@ -108,6 +108,7 @@ public class Space extends JComponent implements KeyListener{
 		boolean isOnBorder = false;
 		while(iter.hasNext()){
 			Invaders inv = iter.next();
+			inv.fire();
 			if(inv.getX() <= 0){
 				moveAdv = movement.RIGHT;
 				isOnBorder = true;
@@ -157,23 +158,31 @@ public class Space extends JComponent implements KeyListener{
 			}
 			fire = true;
 		}
-		
+
 	}
-	
+
 	public boolean isCol(Missile m) {
-		if (m.isMissileEnnemy()) return m.collideWith(Defender.def);
-		Iterator<Invaders> it = Invaders.invaders.iterator();
-		while(it.hasNext()) {
-			Invaders inv = it.next();
-			if (m.collideWith(inv)) {
-				inv.getDamage();
-				if (Invaders.invaders.size() == 0) win();
+		if (m.isMissileEnnemy()){
+			if(m.collideWith(Defender.def)){
+				Defender.def.getDamage();
+				if(Defender.def.getLife()<=0) gameOver();
 				return true;
-			};
+
+			}
+		}else{
+			Iterator<Invaders> it = Invaders.invaders.iterator();
+			while(it.hasNext()) {
+				Invaders inv = it.next();
+				if (m.collideWith(inv)) {
+					inv.getDamage();
+					if (Invaders.invaders.size() == 0) win();
+					return true;
+				};
+			}
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -196,5 +205,12 @@ public class Space extends JComponent implements KeyListener{
 	public void win() {
 		System.out.println("YOUPI !");
 	}
-	
+
+	public void gameOver(){
+		System.out.println("GameOver");
+		Defender.def.setImage("./img/explosion.png");
+		
+	}
+
+
 }
