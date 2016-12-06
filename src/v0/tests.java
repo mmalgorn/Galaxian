@@ -8,28 +8,36 @@ import org.junit.Test;
 
 public class tests {
 	
-	Defender ourShip = new Defender(new Point(50,100));
-	Invaders inv  = new FireInvaders(new Point(200,300));
+	Defender ourShip;
+	Invaders inv;
+	Missile mis;
 	
 	@Test
 	public void CollideTest1() {
 		ourShip = new Defender(new Point(50,100));
 		inv  = new FireInvaders(new Point(60,80));
-		assertEquals(ourShip.collide(inv), true);
+		assertEquals(ourShip.collideWith(inv), true);
 	}
 	
 	@Test
 	public void CollideTest2() {
-		ourShip = new Defender(new Point(100,100));
+		ourShip = new Defender(new Point(200,100));
 		inv  = new FireInvaders(new Point(10,100));
-		assertEquals(ourShip.collide(inv), false);
+		assertEquals(ourShip.collideWith(inv), false);
 	}
 	
 	@Test
 	public void CollideTest3() {
 		ourShip = new Defender(new Point(100,100));
 		inv  = new FireInvaders(new Point(137,100));
-		assertEquals(ourShip.collide(inv), true);
+		assertEquals(ourShip.collideWith(inv), true);
+	}
+	
+	@Test
+	public void CollideTest4() {
+		mis = new Missile(new Point(100,125), Element.movement.TOP, false);
+		inv  = new FireInvaders(new Point(100,100));
+		assertEquals(mis.collideWith(inv), true);
 	}
 
 }

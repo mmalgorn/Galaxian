@@ -17,12 +17,10 @@ public class Game {
 		ArrayList<Element> ennemys = new ArrayList<Element>();
 		int i,nbEnnemy = 10;
 
-		Element defender =  new Defender(new Point(350,450));
-		root.addElement(defender);
+		new Defender(new Point(350,450));
 		
 		for(i=0;i<nbEnnemy;i++){
-			ennemys.add(new FireInvaders(new Point(100+(i*50),100)));
-			root.addElement(ennemys.get(i));
+			new FireInvaders(new Point(100+(i*50),100));
 		}
 		root.start();
   		while (true) {

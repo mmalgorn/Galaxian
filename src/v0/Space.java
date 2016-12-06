@@ -40,12 +40,12 @@ public class Space extends JComponent implements KeyListener{
 		super.paint(g);
 		drawBackground(g);
 		Iterator<Element> itor = this.elementIterator();
-		Iterator<Missile> missItor = Missile.missiles.iterator();
 		while (itor.hasNext()) {
 			itor.next().drawOn(g);
 		}
-		while (missItor.hasNext()){
-			missItor.next().drawOn(g);
+		for(int i = Missile.missiles.size()-1; i > 0; i--) {
+			Missile m = Missile.missiles.get(i);
+			m.drawOn(g);
 		}
 	}
 	
@@ -53,10 +53,10 @@ public class Space extends JComponent implements KeyListener{
 		this.start(30, 30, 700, 600);
 	}
 	
-	Iterator<Element> elementIterator() { 
-		ArrayList<Element> cpy = new ArrayList<Element>(contents);
-		Iterator<Element> itor = cpy.iterator();
-		return itor;
+	Iterator<Element> elementIterator() {
+		ArrayList<Element> e = new ArrayList<Element>(Invaders.invaders);
+		e.add(Defender.def);
+		return e.iterator();
 	}
 	
 	
@@ -86,37 +86,13 @@ public class Space extends JComponent implements KeyListener{
 	
 	public void moveElements(){
 		Iterator<Element> iter = elementIterator();
-		Iterator<Missile> missItor = Missile.missiles.iterator();
 		
-		
-		while(iter.hasNext()){
-			Element m = iter.next();
-			if(m instanceof Missile){
-				if(((Missile)m).isMissileEnnemy())m.move(movement.TOP);
-				else m.move(movement.BOTTOM);
-			}
-			
-			if(!(m instanceof Defender)){
-				//m.move(movement.RIGHT);
-			}
-			
-		}
-		while (missItor.hasNext()){
-			Missile m = missItor.next();
+		for(int i = Missile.missiles.size()-1; i > 0; i--) {
+			Missile m = Missile.missiles.get(i);
+			m.move();
 			if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
 			else m.destroy();
-			
 		}
-	}
-	
-	public Element searchDefender(){
-		Element elem;
-		Iterator<Element> iter = elementIterator();
-		while(iter.hasNext()){
-			elem = iter.next();
-			if(elem.isDefender())return elem;
-		}
-		return null;
 	}
 
 	public boolean moveDirLeft(){return moveLeft;}
@@ -125,47 +101,38 @@ public class Space extends JComponent implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		Element elem = searchDefender();
 		if((!moveLeft) && (e.getKeyCode()==KeyEvent.VK_LEFT )){
 			if(tv != null)tv.arret();
-			tv = new ThreadVaisseau(elem,"left");
+			tv = new ThreadVaisseau(Defender.def,"left");
 			tv.start();
 			moveLeft = true;
 		}else if((!moveRight) && (e.getKeyCode()==KeyEvent.VK_RIGHT)){
 			if(tv != null)tv.arret();
-			tv = new ThreadVaisseau(elem,"right");
+			tv = new ThreadVaisseau(Defender.def,"right");
 			tv.start();
 			moveRight = true;
 		}else if(e.getKeyCode()==KeyEvent.VK_SPACE)
-			new Missile((new Point((int)(elem.getX()+elem.width/2),(int)elem.getY())),movement.TOP,false);
+			new Missile((new Point((int)(Defender.def.getX()+Defender.def.width/2),(int)Defender.def.getY())),movement.TOP,false);
 		
 	}
 
 	
-	public boolean isCol(Missile m){
-		
-		Iterator<Element> iter = elementIterator();
-		
-		while (iter.hasNext()) {
-			if(m.collide(iter.next())) {
-				
-				if(m.isMissileEnnemy()){
-					if(!iter.next().isDefender()) return true;
-				}else{
-					if(iter.next().isDefender()) return true;
-				}
-				}
-			
-			else {
-				
-			}
+	public boolean isCol(Missile m) {
+		if (m.isMissileEnnemy()) return m.collideWith(Defender.def);
+		Iterator<Invaders> it = Invaders.invaders.iterator();
+		while(it.hasNext()) {
+			Invaders inv = it.next();
+			if (m.collideWith(inv)) {
+				inv.destroy();
+				return true;
+			};
 		}
-		return false;			
+		return false;
 	}
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		Element elem = searchDefender();
 		if(moveLeft && e.getKeyCode()==KeyEvent.VK_LEFT){
 			moveLeft = false;
 			if(tv.getDir().equals("left"))tv.arret();

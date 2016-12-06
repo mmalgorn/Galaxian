@@ -26,7 +26,7 @@ public class Missile extends Element {
 	
 	public void move(){
 
-		if(this.getY()>0&&this.getY()<600) move(direction);
+		if(this.getY()>0 && this.getY()<600) move(direction);
 		//else this.destroy();
 			
 		// tester si collision avec tout les elements 	

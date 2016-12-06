@@ -58,41 +58,23 @@ public abstract class Element {
 	public boolean isDefender(){ return false;}
 	
 	public boolean collide(Element e) {
-		
-		double[] interval = {e.getX(),e.getX()+e.width,e.getY(),e.getY()+e.height};
-		double[] intervalThis = {this.getX(),this.getX()+width,this.getY(),this.getY()+height};		
-		
-		//Test si le premier intervalle est dans le second
-		for(int i=0;i<2;i++){
-			
-			if(interval[0]<=intervalThis[i]&&interval[1]>=intervalThis[i]){
-				for(int j=0;j<2;j++){
-					if(interval[2]<=intervalThis[j+2]&&interval[3]>=intervalThis[j+2]) {System.out.println("colision");return true;}
-				}
-			}
-		}
-		
-		for(int i=0;i<2;i++){
-			if(intervalThis[0]<=interval[i]&&intervalThis[1]>=interval[i]){
-				
-				for(int j=0;j<2;j++){
-					if(intervalThis[4]<=interval[j+2]&&intervalThis[3]>=interval[j+2]) {System.out.println("colision"); return true;}
-				}
-			}
-		}
-		
-		return false;
-		
-		
-		
+		Point[] tmp = {
+			new Point((int) e.getX() , (int) e.getY()),
+			new Point((int) (e.getX() + e.getWidth()), (int) e.getY() ),
+			new Point((int) e.getX(), (int) (e.getY() + e.getHeight())),
+			new Point((int) (e.getX() + (e.getWidth())), (int) (e.getY() + (e.getHeight())))
+ 		};
+ 		for(int i = 0; i < 4; i++) {
+ 			if(!(tmp[i].getX() >= position.getX()  && tmp[i].getX() <= position.getX() + width)) continue;
+ 			if(!(tmp[i].getY() >= position.getY() && tmp[i].getY() <= position.getY() + height)) continue;
+ 			System.out.println("Collision");
+ 			return true;
+ 		}
+ 		return false;
 	}
 	
-	public boolean isInside(Point p,double x1,double x2,double y1,double y2){
-		double x=p.getX(),y=p.getY();
-		if((x>=x1&&x<=x2)&&(y>=y1&&y<=y2)) return true;
-		return false;
-		
-		
+	public boolean collideWith(Element e) {
+		return collide(e) || e.collide(this);
 	}
 	
 	public void drawOn(Graphics g) {

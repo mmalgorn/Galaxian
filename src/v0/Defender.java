@@ -6,6 +6,8 @@ import java.awt.Point;
  */
 public class Defender extends Element{
 	
+	static Defender def;
+	
 	private int life = 100;
 	
 	public Defender(Point p){
@@ -14,6 +16,7 @@ public class Defender extends Element{
 		this.speed = 15;
 		this.setPosition(p);
 		this.setImage("./img/vaisseau.png");
+		def = this;
 	}
 	
 	public void fire(){
