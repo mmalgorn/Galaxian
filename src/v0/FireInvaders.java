@@ -20,7 +20,7 @@ public class FireInvaders extends Invaders {
 	
 	public void fire(){
 		Point p = new Point((int)this.getX(),(int)(this.getY()+(this.height/2)));
-		Missile m = new Missile(p,movement.TOP);
+		Missile m = new Missile(p,movement.TOP,true);
 	}
 	
 }

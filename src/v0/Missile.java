@@ -9,8 +9,9 @@ public class Missile extends Element {
 	static List<Missile> missiles = new ArrayList<Missile>();
 	
 	private movement direction;
+	private boolean missileEnnemy;
 	
-	public Missile(Point p,movement m){
+	public Missile(Point p,movement m,boolean me){
 		missiles.add(this);
 		direction = m;
 		this.setPosition(p);
@@ -18,6 +19,7 @@ public class Missile extends Element {
 		this.width = 10;
 		this.speed = 5;
 		this.setImage("./img/missile.png");
+		missileEnnemy = me;
 		this.move();
 	}
 	
@@ -35,4 +37,6 @@ public class Missile extends Element {
 	public void destroy() {
 		missiles.remove(this);
 	}
+	
+	public boolean isMissileEnnemy(){return this.missileEnnemy;}
 }

@@ -76,6 +76,22 @@ public class Space extends JComponent implements KeyListener{
 		}
 		
 	}
+	
+	public void moveElements(){
+		Iterator<Element> iter = elementIterator();
+		while(iter.hasNext()){
+			Element m = iter.next();
+			if(m instanceof Missile){
+				if(((Missile)m).isMissileEnnemy())m.move(movement.TOP);
+				else m.move(movement.BOTTOM);
+			}
+			
+			if(!(m instanceof Defender)){
+				//m.move(movement.RIGHT);
+			}
+			
+		}
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -97,7 +113,7 @@ public class Space extends JComponent implements KeyListener{
 				if(elem.getX()<550)elem.move(movement.RIGHT);
 				break;
 			case KeyEvent.VK_SPACE : 
-				contents.add(new Missile((new Point((int)(elem.getX()+elem.width/2),(int)elem.getY())),movement.TOP));
+				contents.add(new Missile((new Point((int)(elem.getX()+elem.width/2),(int)elem.getY())),movement.TOP,false));
 				
 			default:
 		}

@@ -28,20 +28,7 @@ public class Game {
   		while (true) {
 			try {
 				Thread.sleep(100);
-				Iterator<Element> iter = root.elementIterator();
-				
-				while(iter.hasNext()){
-					
-					Element m = iter.next();
-					if(m instanceof Missile){
-						m.move(movement.TOP);
-					}
-					
-					if(!(m instanceof Defender)){
-						//m.move(movement.RIGHT);
-					}
-					
-				}
+				root.moveElements();
 				root.repaint();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
