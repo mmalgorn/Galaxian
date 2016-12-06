@@ -12,7 +12,7 @@ public class Missile extends Element {
 	private movement direction;
 	private boolean missileEnnemy;
 	
-	public Missile(Point p, movement m, boolean me){
+	public Missile(Point p,movement m,boolean me){
 		missiles.add(this);
 		direction = m;
 		this.setPosition(p);
@@ -21,13 +21,12 @@ public class Missile extends Element {
 		this.speed = 8;
 		this.setImage("./img/missile.png");
 		missileEnnemy = me;
+		this.move();
 	}
 	
 	public void move(){
 
-		move(direction);
-		//else this.destroy();
-			
+		if(this.getY()>0 && this.getY()<600) move(direction);
 		// tester si collision avec tout les elements 	
 	}
 	
@@ -36,9 +35,4 @@ public class Missile extends Element {
 	}
 	
 	public boolean isMissileEnnemy() { return this.missileEnnemy; }
-	
-	@Override
-	public String toString() {
-		return direction + " " + missileEnnemy;
-	}
 }
