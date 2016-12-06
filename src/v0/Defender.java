@@ -21,9 +21,7 @@ public class Defender extends Element{
 	
 	public void fire(){
 		Point p = new Point((int)(this.getX()+this.width/2),(int)(this.getY()));
-		Missile m = new Missile(p,movement.TOP,false);
+		new Missile(p, movement.TOP, false);
 	}
-
-	public boolean isDefender(){ return true;}
 	
 }

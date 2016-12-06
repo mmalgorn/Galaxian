@@ -24,7 +24,7 @@ public class ThreadVaisseau extends Thread{
 		arretThread = false;
 		if(dir.equals("left"))
 			while(!arretThread)
-				if(elem.getX()>50){
+				if(elem.getX()>10){
 					elem.move(movement.LEFT);
 					try {
 						Thread.sleep(40);
@@ -35,7 +35,7 @@ public class ThreadVaisseau extends Thread{
 				}
 		if(dir.equals("right"))
 			while(!arretThread)
-				if(elem.getX()<550){
+				if(elem.getX()<590){
 					elem.move(movement.RIGHT);
 					try {
 						Thread.sleep(40);

@@ -46,7 +46,10 @@ public class Space extends JComponent implements KeyListener{
 		Iterator<Invaders> inv = Invaders.invaders.iterator();
 		while (inv.hasNext()) inv.next().drawOn(g);
 		Iterator<Missile> mis = Missile.missiles.iterator();
-		while (mis.hasNext()) mis.next().drawOn(g); 
+		while (mis.hasNext()) {
+			Missile m = mis.next();
+			m.drawOn(g);
+		}
 	}
 	
 	public void start() {
@@ -87,7 +90,7 @@ public class Space extends JComponent implements KeyListener{
 	public void moveElements(){
 		Iterator<Element> iter = elementIterator();
 		
-		for(int i = Missile.missiles.size()-1; i > 0; i--) {
+		for(int i = Missile.missiles.size()-1; i >= 0; i--) {
 			Missile m = Missile.missiles.get(i);
 			m.move();
 			if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
@@ -146,7 +149,7 @@ public class Space extends JComponent implements KeyListener{
 			tv.start();
 			moveRight = true;
 		}else if(e.getKeyCode()==KeyEvent.VK_SPACE) {
-			if(!fire) new Missile((new Point((int)(Defender.def.getX()+Defender.def.width/2),(int)Defender.def.getY())),movement.TOP,false);
+			if(!fire) Defender.def.fire();
 			fire = true;
 		}
 		
