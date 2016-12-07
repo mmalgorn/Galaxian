@@ -16,6 +16,7 @@ public class Game {
 	static int nbEnemyMax = 45;
 	static int i;
 	static Sound theme;
+	
 	public static void win(){
 		System.out.println("You WIN !");
 		Invaders.invaders.clear();
@@ -29,6 +30,20 @@ public class Game {
 		}
 		
 	}
+	
+	public static void resetGame(){
+		Invaders.invaders.clear();
+		new Defender(new Point(350,450));
+		
+		for(i=nbEnemy/2;i<nbEnemy;i++){
+			new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+		}
+		for(i=0;i<nbEnemy/2;i++){
+			
+			new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+		}
+	}
+	
 	public static void main(String[] args) throws IOException {
 		theme = new Sound("./sound/mainTheme.wav");
 		theme.loop();
@@ -50,7 +65,6 @@ public class Game {
 			try {
 				Thread.sleep(30);
 				if(Invaders.invaders.isEmpty()) win();
-				//if(root.getGameOver())
 				root.repaint();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

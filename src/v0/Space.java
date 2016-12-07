@@ -35,7 +35,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	static Map<String, Integer> scoreTable = new TreeMap<String, Integer>();
-	Set <Element> contents = Collections.synchronizedSet(new HashSet<Element>());
+	ImagePanel imgFond,imgTitre,imgGameOver,imgBJ,imgBJC,imgBQ,imgBQC,imgBR,imgBRC,imgBM,imgBMC;
 	boolean moveLeft = false;
 	boolean moveRight = false;
 	boolean fire = false;
@@ -52,16 +52,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	static int score;
 	String username = "";
 	int cursor = 0;
-	void addElement(Element anElement) {
-		contents.add(anElement);
-	}
-
-	void removeElement(Element anElement) {
-		contents.remove(anElement);
-	}
 
 	public void paint(Graphics g) {
-
 		if(!gameOver)moveElements();
 		super.paint(g);
 		if(menu) {
@@ -98,6 +90,22 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public boolean getGameOver(){return this.gameOver2;}
 
 	public void start() {
+		try {
+			imgFond = new ImagePanel("./img/background.jpg");
+			imgTitre = new ImagePanel("./img/titre.png");
+			imgGameOver = new ImagePanel("./img/gameover.png");
+			imgBJ = new ImagePanel("./img/boutonJouer.png");
+			imgBJC = new ImagePanel("./img/boutonJouerClick.png");
+			imgBQ = new ImagePanel("./img/boutonQuitter.png");
+			imgBQC = new ImagePanel("./img/boutonQuitterClick.png");
+			imgBR = new ImagePanel("./img/boutonRejouer.png");
+			imgBRC = new ImagePanel("./img/boutonRejouerClick.png");
+			imgBM = new ImagePanel("./img/boutonMenu.png");
+			imgBMC = new ImagePanel("./img/boutonMenuClick.png");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.start(30, 30, 700, 600);
 	}
 	
@@ -125,19 +133,10 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 
 	
 	public void drawMenu(Graphics g){
-		try {
-			ImagePanel imgFond = new ImagePanel("./img/background.jpg");
-			ImagePanel imgTitre = new ImagePanel("./img/titre.png");
-			ImagePanel imgBJ = new ImagePanel("./img/boutonJouer.png");
-			ImagePanel imgBQ = new ImagePanel("./img/boutonQuitter.png");
-			imgFond.paintComponent(g);
-			imgTitre.paintComponent(g, 125, 100, 450, 100);
-			imgBJ.paintComponent(g, 225, 250, 250, 75);
-			imgBQ.paintComponent(g, 225, 350, 250, 75);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		imgFond.paintComponent(g);
+		imgTitre.paintComponent(g, 125, 100, 450, 100);
+		imgBJ.paintComponent(g, 225, 250, 250, 75);
+		imgBQ.paintComponent(g, 225, 350, 250, 75);
 	}
 	
 	public void drawScorePanel(Graphics g){
@@ -169,52 +168,27 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 	
 	public void drawBoutonClik(Graphics g){
-		try {
-			if(typeBouton.equals("jouer")){
-				ImagePanel imgBJ = new ImagePanel("./img/boutonJouerClick.png");
-				imgBJ.paintComponent(g, 225, 250, 250, 75);
-			}else if(typeBouton.equals("rejouer")) {
-				ImagePanel imgBR = new ImagePanel("./img/boutonRejouer.png");
-				imgBR.paintComponent(g, 75, 450, 250, 75);
-			}else if(typeBouton.equals("menu")) {
-				ImagePanel imgBM = new ImagePanel("./img/boutonMenu.png");
-				imgBM.paintComponent(g, 350, 450, 250, 75);
-			}else if(typeBouton.equals("quitter")) {
-				ImagePanel imgBQ = new ImagePanel("./img/boutonQuitterClick.png");
-				imgBQ.paintComponent(g, 225, 350, 250, 75);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(typeBouton.equals("jouer")){
+			imgBJC.paintComponent(g, 225, 250, 250, 75);
+		}else if(typeBouton.equals("rejouer")) {
+			imgBRC.paintComponent(g, 75, 450, 250, 75);
+		}else if(typeBouton.equals("menu")) {
+			imgBMC.paintComponent(g, 350, 450, 250, 75);
+		}else if(typeBouton.equals("quitter")) {
+			imgBQC.paintComponent(g, 225, 350, 250, 75);
 		}
 
 	}
 	
 	public void drawGameOver(Graphics g){
-		ImagePanel imgFond;
-		try {
-			imgFond = new ImagePanel("./img/background.jpg");
-			ImagePanel imgGameOver = new ImagePanel("./img/gameover.png");
-			ImagePanel imgBR = new ImagePanel("./img/boutonRejouer.png");
-			ImagePanel imgBM = new ImagePanel("./img/boutonMenu.png");
-			imgFond.paintComponent(g);
-			imgGameOver.paintComponent(g, 75, 50, 550, 100);
-			imgBR.paintComponent(g, 75, 450, 250, 75);
-			imgBM.paintComponent(g, 350, 450, 250, 75);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		imgFond.paintComponent(g);
+		imgGameOver.paintComponent(g, 75, 50, 550, 100);
+		imgBR.paintComponent(g, 75, 450, 250, 75);
+		imgBM.paintComponent(g, 350, 450, 250, 75);
 	}
 
 	public void drawBackground(Graphics g){
-		try {
-			ImagePanel imgp = new ImagePanel("./img/background.jpg");
-			imgp.paintComponent(g);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		imgFond.paintComponent(g);
 	}
 
 	public void moveElements(){
@@ -249,6 +223,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			}
 			if(inv.getY() <= 0 || (inv.getY()+inv.height) >= 450){
 				gameOver = true;
+				Defender.def.setImage("./img/explosion.png");
 			}
 		}
 		iter = Invaders.invaders.iterator();
@@ -312,6 +287,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				addScore(username, score);
 				writeScores();
 				gameOver = false;
+				gameOver2 = false;
 				menu = true;
 				break;
 			case KeyEvent.VK_BACK_SPACE:
@@ -332,7 +308,10 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		if (m.isMissileEnnemy()){
 			if(m.collideWith(Defender.def)){
 				Defender.def.getDamage();
-				if(Defender.def.getLife()<=0) gameOver = true;
+				if(Defender.def.getLife()<=0){
+					gameOver = true;
+					Defender.def.setImage("./img/explosion.png");
+				}
 				return true;
 
 			}
@@ -456,12 +435,14 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					gameOver = false;
 					gameOver2 = false;
 					attente = true;
+					Game.resetGame();
 				}else if(e.getX()>350 && e.getX()<600){
 					//Menu
 					menu = true;
 					gameOver = false;
 					gameOver2 = false;
 					attente = true;
+					Game.resetGame();
 				}
 			}
 		}

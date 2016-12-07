@@ -19,6 +19,7 @@ public abstract class Element {
 	protected double height;
 	private Point position;
 	private String urlImage;
+	private ImagePanel img;
 	
 	/*
 	 * Retourne la position de l'élément
@@ -113,7 +114,7 @@ public abstract class Element {
 	 */
 	public void drawOn(Graphics g) {
 		try {
-			ImagePanel img = new ImagePanel(this.urlImage);
+			img = new ImagePanel(this.urlImage);
 			img.paintComponent(g,this.getX(),this.getY(),this.getWidth(),this.getHeight());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
