@@ -181,7 +181,7 @@ public class Space extends JComponent implements KeyListener{
 				Invaders inv = it.next();
 				if (m.collideWith(inv)) {
 					inv.getDamage();
-					if (Invaders.invaders.size() == 0) win();
+					if (Invaders.invaders.size() == 0) Game.win();
 					return true;
 				};
 			}
@@ -206,10 +206,6 @@ public class Space extends JComponent implements KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-	}
-
-	public void win() {
-		System.out.println("YOUPI !");
 	}
 
 	public void gameOver(){
