@@ -26,7 +26,7 @@ public class Game {
 		}
 		for(i=nbEnemy/2;i<nbEnemy;i++){
 			
-			new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+			new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
 		}
 		
 	}
@@ -52,7 +52,7 @@ public class Game {
 		new Defender(new Point(350,450));
 		
 		for(i=nbEnemy/2;i<nbEnemy;i++){
-			new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+			new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
 		}
 		for(i=0;i<nbEnemy/2;i++){
 			
