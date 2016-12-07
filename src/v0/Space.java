@@ -1,5 +1,7 @@
 package v0;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -19,6 +21,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.jws.soap.SOAPBinding.Style;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -38,6 +41,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	boolean fire = false;
 	boolean menu = true;
 	boolean boutonClik = false;
+	boolean gameOver = false;
 	int attente = 0;
 	String typeBouton;
 	ThreadVaisseau tv;
@@ -45,6 +49,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	Sound snd;
 
 	static int score;
+	String username = "";
+	int cursor = 0;
 	void addElement(Element anElement) {
 		contents.add(anElement);
 	}
@@ -54,14 +60,15 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	public void paint(Graphics g) {
-
-		moveElements();
 		super.paint(g);
-		if(menu){
+		if(menu) {
 			drawMenu(g);
 			if(boutonClik)
 				drawBoutonClik(g);
-		}else{
+		} else if (gameOver) {
+			drawScorePanel(g);
+		} else {
+			moveElements();
 			drawBackground(g);
 			paintLife(g);
 			Defender.def.drawOn(g);
@@ -116,7 +123,34 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+	}
+	
+	public void drawScorePanel(Graphics g){
+		drawBackground(g);
+		g.setColor(Color.WHITE);
+		Font f = new Font("Arial", Font.BOLD, 30);
+		Font f2 = new Font("Arial", Font.PLAIN, 20);
+		g.setFont(f);
+		drawStringCenter("SCORES", 350, 50, g);
+		g.setFont(f2);
+		int i = 0;
+		for(Entry<String, Integer> e : scoreTable.entrySet()) {
+			g.drawString(e.getKey(), 150, 100+(30*i));
+			drawStringRight(e.getValue().toString(), 550, 100+(30*i), g);
+			i++;
+		}
+		g.drawString(username, 150, 100+(30*i));
+		drawStringRight(""+score, 550, 100+(30*i), g);
+	}
+	
+	public void drawStringCenter(String s, int x, int y, Graphics g) {
+		int shift = g.getFontMetrics().stringWidth(s)/2;
+		g.drawString(s, x-shift, y);
+	}
+	
+	public void drawStringRight(String s, int x, int y, Graphics g) {
+		int shift = g.getFontMetrics().stringWidth(s);
+		g.drawString(s, x-shift, y);
 	}
 	
 	public void drawBoutonClik(Graphics g){
@@ -143,7 +177,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public void moveElements(){
@@ -151,8 +184,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		moveEnemys();
 		DefenderEvolve();
 	}
-
-
 
 	// Deplacement des missiles a chaque tours
 	public void moveMissiles(){
@@ -215,25 +246,49 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if((!moveLeft) && (e.getKeyCode()==KeyEvent.VK_LEFT )){
-			if(tv != null)tv.arret();
-			tv = new ThreadVaisseau(Defender.def,"left");
-			tv.start();
-			moveLeft = true;
-		}else if((!moveRight) && (e.getKeyCode()==KeyEvent.VK_RIGHT)){
-			if(tv != null)tv.arret();
-			tv = new ThreadVaisseau(Defender.def,"right");
-			tv.start();
-			moveRight = true;
-		}else if(e.getKeyCode()==KeyEvent.VK_SPACE) {
-			if(!fire){
-				Defender.def.fire();
-				snd = new Sound("./sound/fire.wav");
-				snd.play();
-			}
-			fire = true;
+		switch(e.getKeyCode()) {
+			case KeyEvent.VK_LEFT:
+				if (!moveLeft) {
+					if(tv != null)tv.arret();
+					tv = new ThreadVaisseau(Defender.def,"left");
+					tv.start();
+					moveLeft = true;
+				}
+				break;
+			case KeyEvent.VK_RIGHT:
+				if (!moveRight) {
+					if(tv != null)tv.arret();
+					tv = new ThreadVaisseau(Defender.def,"right");
+					tv.start();
+					moveRight = true;
+				}
+				break;
+			case KeyEvent.VK_SPACE:
+				if(!fire){
+					Defender.def.fire();
+					snd = new Sound("./sound/fire.wav");
+					snd.play();
+				}
+				fire = true;
+				break;
+			case KeyEvent.VK_ENTER:
+				addScore(username, score);
+				writeScores();
+				gameOver = false;
+				menu = true;
+				break;
+			case KeyEvent.VK_BACK_SPACE:
+				if (gameOver) username = username.substring(0, Math.max(0, username.length() - 1));
+				break;
+			default:
+				if (gameOver) {
+					char c = e.getKeyChar();
+					if((c >= 97 && c <= 122) || (c >= 48 && c <= 57)) {
+						username += c;
+						username = username.toUpperCase().substring(0, Math.min(3, username.length()));
+					}
+				}
 		}
-
 	}
 
 	public boolean isCol(Missile m) {
@@ -280,10 +335,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void gameOver(){
 		System.out.println("GameOver");
 		Defender.def.setImage("./img/explosion.png");
-
+		gameOver = true;
 	}
-
-	
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -302,7 +355,10 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 	
 	public static void addScore(String username, int score) {
-		if (scoreTable.size() < 10) scoreTable.put(username, score);
+		if (scoreTable.size() < 10) {
+			scoreTable.put(username, score);
+			return;
+		}
 		int min = Integer.MAX_VALUE;
 		Entry<String, Integer> minEntry = null;
 		for(Entry<String, Integer> s : scoreTable.entrySet()) {
