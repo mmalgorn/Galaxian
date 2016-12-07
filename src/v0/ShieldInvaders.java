@@ -22,6 +22,6 @@ public class ShieldInvaders extends Invaders {
 	 */
 	public void getDamage() {
 		super.getDamage();
-		if (life <= 50)	this.setImage("./img/invaders.png");
+		if (life <= 50)	this.setImage("./img/peon_invaders.png");
 	}
 }
