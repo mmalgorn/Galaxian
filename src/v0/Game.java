@@ -49,6 +49,7 @@ public class Game {
 			try {
 				Thread.sleep(30);
 				if(Invaders.invaders.isEmpty()) win();
+				//if(root.getGameOver())
 				root.repaint();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
