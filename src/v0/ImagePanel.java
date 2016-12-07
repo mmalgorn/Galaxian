@@ -23,4 +23,7 @@ public class ImagePanel extends JPanel{
 		super.paintComponent(g);
 		g.drawImage(image,0,0,null); 
 	}
+	protected void setImage(String path) throws IOException{
+		this.image = ImageIO.read(new File(path));
+	}
 }

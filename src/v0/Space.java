@@ -39,9 +39,11 @@ public class Space extends JComponent implements KeyListener{
 	}
 
 	public void paint(Graphics g) {
+		
 		moveElements();
 		super.paint(g);
 		drawBackground(g);
+		paintLife(g);
 		Defender.def.drawOn(g);
 		Iterator<Invaders> inv = Invaders.invaders.iterator();
 		while (inv.hasNext()) inv.next().drawOn(g);
@@ -75,7 +77,7 @@ public class Space extends JComponent implements KeyListener{
 		new GestFenetre(window);
 		Universe.addSpace(this);
 	}
-
+	
 	public void drawBackground(Graphics g){
 		try {
 			ImagePanel imgp = new ImagePanel("./img/background.jpg");
@@ -133,6 +135,11 @@ public class Space extends JComponent implements KeyListener{
 		}
 	}
 
+	// Affichage de la vie
+	public void paintLife(Graphics g){
+		Defender.def.drawLife(g);
+		
+	}
 	public boolean moveDirLeft() { return moveLeft; }
 	public boolean moveDirRight() { return moveRight; }
 
