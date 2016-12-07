@@ -220,7 +220,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	// Deplacement des missiles a chaque tours
 	public void moveMissiles() {
 		for(int i = Missile.missiles.size()-1; i >= 0; i--) {
-			if(Missile.missiles.size()>0){
+			if(Missile.missiles.size() > 0){
 				Missile m = Missile.missiles.get(i);
 				m.move();
 				if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();

@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.soap.Node;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -16,15 +18,15 @@ import org.xml.sax.SAXException;
 
 public class Level {
 	static int nbLvl;
-	static int nbFire;
-	static int nbShield;
-	static int nbPeon;
-	static String boss;
+	int nbFire;
+	int nbShield;
+	int nbPeon;
+	String boss;
 	FileInputStream fi;
 	static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	static DocumentBuilder builder;
-	static  Document document ;
-	public static HashMap<Integer,Level> levelMap = new HashMap<Integer,Level>();
+	static Document document ;
+	public static Map<Integer,Level> levelMap = new HashMap<Integer,Level>();
 	
 	static {
 		try{
@@ -33,23 +35,21 @@ public class Level {
 			Element racine = document.getDocumentElement();
 			NodeList racineNodes = racine.getChildNodes();
 			int nbNodes = racineNodes.getLength();
-			String name;
-			String nameBoss;
-			int value;
 			for(int i = 0 ; i < nbNodes ; i++){
-				Element el =  (Element) racineNodes.item(0);
-				nbFire = Integer.parseInt(el.getAttribute("FireInvaders"));
-				nbShield = Integer.parseInt(el.getAttribute("ShieldInvaders"));
-				nbPeon = Integer.parseInt(el.getAttribute("PeonInvaders"));
-				boss = el.getAttribute("Boss");
-				
-				levelMap.put(i,new Level(nbFire,nbShield,nbPeon,boss));
+				if(racineNodes.item(i).getNodeType() == Node.ELEMENT_NODE) {
+					Element el = (Element) racineNodes.item(i);
+					int nbFire = Integer.parseInt(el.getAttribute("FireInvaders"));
+					int nbShield = Integer.parseInt(el.getAttribute("ShieldInvaders"));
+					int nbPeon = Integer.parseInt(el.getAttribute("PeonInvaders"));
+					String boss = el.getAttribute("Boss");
+					
+					levelMap.put(Integer.parseInt(el.getAttribute("Index")),new Level(nbFire, nbShield, nbPeon, boss));
+				}
 				
 			}
-		}catch(ParserConfigurationException e){
+		} catch(ParserConfigurationException e) {
 			e.printStackTrace();
-		}catch (SAXException | IOException e) {
-			// TODO Auto-generated catch block
+		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -58,5 +58,12 @@ public class Level {
 		this.nbFire = f;
 		this.nbPeon = p;
 		this.nbShield = s;
+	}
+	
+	public String toString() {
+		return this.boss + " " +
+		this.nbFire + " " +
+		this.nbPeon + " " +
+		this.nbShield;
 	}
 }

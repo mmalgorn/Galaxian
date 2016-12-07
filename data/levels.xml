@@ -1,4 +1,10 @@
-<Levels><lvl1 FireInvaders="10" ShieldInvaders="10" PeonInvaders="10" Boss="null">
-	</lvl1>
-	<lvl2 FireInvaders="15" ShieldInvaders="15" PeonInvaders="0" Boss="null"></lvl2>
-	<lvl3 FireInvaders="0" ShieldInvaders="0" PeonInvaders="0"></lvl3></Levels>
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<Levels>
+	<Level FireInvaders="10" ShieldInvaders="10" PeonInvaders="10" Boss="null" Index="0"></Level>
+	<Level Boss="null" FireInvaders="15" PeonInvaders="15"
+		ShieldInvaders="15" Index="1">
+	</Level>
+	<Level Boss="null" FireInvaders="20" PeonInvaders="0"
+		ShieldInvaders="20" Index="2">
+	</Level>
+</Levels>

@@ -16,7 +16,7 @@ public class Game {
 	static int nbEnemyMax = 45;
 	static int i;
 	static Sound theme;
-	static int nbLvl = 1;
+	static int nbLvl = 0;
 	
 	public static void win(){
 		nbLvl++;
@@ -26,6 +26,7 @@ public class Game {
 	
 	public static void resetGame(){
 		new Defender(new Point(350,450));
+		nbLvl = 0;
 		Space.score = 0;
 		inizialise();
 	}
