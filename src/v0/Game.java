@@ -33,6 +33,7 @@ public class Game {
 	
 	public static void resetGame(){
 		Invaders.invaders.clear();
+		Space.score = 0;
 		new Defender(new Point(350,450));
 		
 		for(i=nbEnemy/2;i<nbEnemy;i++){

@@ -22,8 +22,8 @@ public class Defender extends Element{
 		this.speed = 15;
 		this.setPosition(p);
 		this.setImage("./img/vaisseau1.png");
-		def = this;
 		this.niveau=1;
+		def = this;
 	}
 	
 	/*
