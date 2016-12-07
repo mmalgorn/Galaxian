@@ -9,7 +9,13 @@ public class BonusCoeur extends Bonus{
 		this.height = 50;
 		this.speed = 2;
 		this.setPosition(p);
-		this.setImage("./img/bonus_coeur.png");
+		this.type = "coeur";
+		this.setImage("./img/full_heart.png");
+	}
+
+	
+	public void action(){
+		Defender.def.heal();
 	}
 
 }

@@ -9,7 +9,13 @@ public class BonusBouclier extends Bonus{
 		this.height = 50;
 		this.speed = 2;
 		this.setPosition(p);
+		this.type = "bouclier";
 		this.setImage("./img/bonus_bouclier.png");
+	}
+
+	
+	public void action(){
+		
 	}
 
 }
