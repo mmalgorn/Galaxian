@@ -29,8 +29,10 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	boolean moveRight = false;
 	boolean fire = false;
 	boolean menu = true;
+	boolean gameOver = false;
+	boolean gameOver2 = false;
 	boolean boutonClik = false;
-	int attente = 0;
+	boolean attente = true;
 	String typeBouton;
 	ThreadVaisseau tv;
 	movement moveAdv = movement.RIGHT;
@@ -46,8 +48,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	public void paint(Graphics g) {
-
-		moveElements();
+		if(!gameOver)moveElements();
 		super.paint(g);
 		if(menu){
 			drawMenu(g);
@@ -65,6 +66,19 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				m.drawOn(g);
 			}
 		}
+		if(gameOver2){
+			if(attente){
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				attente = false;
+			}
+			drawGameOver(g);
+		}
+		if(gameOver)gameOver2 = true;
 	}
 
 	public void start() {
@@ -124,6 +138,19 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void drawGameOver(Graphics g){
+		ImagePanel imgFond;
+		try {
+			imgFond = new ImagePanel("./img/background.jpg");
+			ImagePanel imgGameOver = new ImagePanel("./img/gameover.png");
+			imgFond.paintComponent(g);
+			imgGameOver.paintComponent(g, 75, 100, 550, 100);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void drawBackground(Graphics g){
@@ -207,23 +234,25 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if((!moveLeft) && (e.getKeyCode()==KeyEvent.VK_LEFT )){
-			if(tv != null)tv.arret();
-			tv = new ThreadVaisseau(Defender.def,"left");
-			tv.start();
-			moveLeft = true;
-		}else if((!moveRight) && (e.getKeyCode()==KeyEvent.VK_RIGHT)){
-			if(tv != null)tv.arret();
-			tv = new ThreadVaisseau(Defender.def,"right");
-			tv.start();
-			moveRight = true;
-		}else if(e.getKeyCode()==KeyEvent.VK_SPACE) {
-			if(!fire){
-				Defender.def.fire();
-				snd = new Sound("./sound/fire.wav");
-				snd.play();
+		if(!gameOver){
+			if((!moveLeft) && (e.getKeyCode()==KeyEvent.VK_LEFT )){
+				if(tv != null)tv.arret();
+				tv = new ThreadVaisseau(Defender.def,"left");
+				tv.start();
+				moveLeft = true;
+			}else if((!moveRight) && (e.getKeyCode()==KeyEvent.VK_RIGHT)){
+				if(tv != null)tv.arret();
+				tv = new ThreadVaisseau(Defender.def,"right");
+				tv.start();
+				moveRight = true;
+			}else if(e.getKeyCode()==KeyEvent.VK_SPACE) {
+				if(!fire){
+					Defender.def.fire();
+					snd = new Sound("./sound/fire.wav");
+					snd.play();
+				}
+				fire = true;
 			}
-			fire = true;
 		}
 
 	}
@@ -253,15 +282,17 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if(moveLeft && e.getKeyCode() == KeyEvent.VK_LEFT){
-			moveLeft = false;
-			if(tv.getDir().equals("left")) tv.arret();
+		if(!gameOver){
+			if(moveLeft && e.getKeyCode() == KeyEvent.VK_LEFT){
+				moveLeft = false;
+				if(tv.getDir().equals("left")) tv.arret();
+			}
+			if(moveRight && e.getKeyCode() == KeyEvent.VK_RIGHT){
+				moveRight = false;
+				if(tv.getDir().equals("right")) tv.arret();
+			}
+			if(e.getKeyCode() == KeyEvent.VK_SPACE) fire = false; 
 		}
-		if(moveRight && e.getKeyCode() == KeyEvent.VK_RIGHT){
-			moveRight = false;
-			if(tv.getDir().equals("right")) tv.arret();
-		}
-		if(e.getKeyCode() == KeyEvent.VK_SPACE) fire = false; 
 	}
 
 	@Override
@@ -270,9 +301,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	public void gameOver(){
-		System.out.println("GameOver");
+		gameOver = true;
 		Defender.def.setImage("./img/explosion.png");
-
 	}
 
 	
@@ -319,7 +349,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				if(e.getY()>250 && e.getY()<325){
 					//Jouer
 					menu = false;
-					attente = 1;
 				}else if(e.getY()>350 && e.getY()<425){
 					//Quitter
 					System.exit(0);

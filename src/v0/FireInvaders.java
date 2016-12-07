@@ -25,7 +25,7 @@ public class FireInvaders extends Invaders {
 	 */
 	public void fire(){
 		Random randomGenerator = new Random();
-		if(randomGenerator.nextInt(1000)<1){
+		if(randomGenerator.nextInt(200)<1){
 
 			Point p = new Point((int)this.getX(),(int)(this.getY()+(this.height/2)));
 			Missile m = new Missile(p,movement.BOTTOM,true);
