@@ -50,14 +50,15 @@ public class Game {
 		Space root = new Space();
 		new Defender(new Point(350,450));
 		
-		for(i=nbEnemy/2;i<nbEnemy;i++){
+	for(i=nbEnemy/2;i<nbEnemy;i++){
 			new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
 		}
 		for(i=0;i<nbEnemy/2;i++){
 			
 			new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
 		}		
-
+	
+		//new BossInvaders(new Point(100,100));
 		root.start();
 		
   		while (true) {
