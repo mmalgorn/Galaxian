@@ -1,0 +1,4 @@
+<Levels><lvl1 FireInvaders="10" ShieldInvaders="10" PeonInvaders="10" Boss="null">
+	</lvl1>
+	<lvl2 FireInvaders="15" ShieldInvaders="15" PeonInvaders="0" Boss="null"></lvl2>
+	<lvl3 FireInvaders="0" ShieldInvaders="0" PeonInvaders="0"></lvl3></Levels>

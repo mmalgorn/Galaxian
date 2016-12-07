@@ -13,19 +13,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import v0.Element.movement;
 
@@ -72,6 +67,11 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			while (mis.hasNext()) {
 				Missile m = mis.next();
 				m.drawOn(g);
+			}
+			Iterator<Laser> las = Laser.lasers.iterator();
+			while (las.hasNext()) {
+				Laser l = las.next();
+				l.drawOn(g);
 			}
 		}
 		if(gameOver2){
@@ -211,20 +211,42 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	//Met en mouvements les éléments du jeu(missiles, ennemies et le vaisseau principale)
 	public void moveElements(){
 		moveMissiles();
+		//moveBonus();
 		moveEnemys();
+		moveLaser();
 		DefenderEvolve();
 	}
 
 	// Deplacement des missiles a chaque tours
 	public void moveMissiles() {
 		for(int i = Missile.missiles.size()-1; i >= 0; i--) {
-			Missile m = Missile.missiles.get(i);
-			m.move();
-			if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
-			else m.destroy();
+			if(Missile.missiles.size()>0){
+				Missile m = Missile.missiles.get(i);
+				m.move();
+				if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
+				else m.destroy();
+			}
 		}
 	}
 	
+	// Deplacement des bonus a chaque tours
+	public void moveBonus(){
+		for(int i = Bonus.bonus.size()-1; i >= 0; i--) {
+			Bonus b = Bonus.bonus.get(i);
+			b.move();
+			//if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
+			//else m.destroy();
+		}
+	}
+	
+	public void moveLaser(){
+		for(int i = Laser.lasers.size()-1; i >= 0; i--) {
+			Laser l = Laser.lasers.get(i);
+			 l.move(moveAdv);
+			if(this.isCol(l)) l.destroy();
+			else l.destroyTemp();
+		}
+	}
 	// Deplacement des Ennemis
 	public void moveEnemys(){
 		Iterator<Invaders> iter = Invaders.invaders.iterator();
@@ -338,7 +360,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	//Renvoie vrai si il y a une collision avec le missile en paramètre
-	public boolean isCol(Missile m) {
+	public boolean isCol(Element m) {
 		if (m.isMissileEnnemy()){
 			if(m.collideWith(Defender.def)){
 				Defender.def.getDamage();

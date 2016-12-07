@@ -3,6 +3,7 @@ package v0;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import v0.Element.movement;
 
@@ -11,6 +12,7 @@ public abstract class Invaders extends Element {
 	static List<Invaders> invaders = new ArrayList<Invaders>();
 	protected int life;
 	protected int damageAmount;
+	private Random rand;
 	
 	public Invaders() {
 		invaders.add(this);
@@ -50,6 +52,13 @@ public abstract class Invaders extends Element {
 	 * par suppression dans la liste invaders
 	 */
 	public void destroy() {
+		rand = new Random();
+		if(rand.nextInt(2)<1){
+			Point p = new Point((int)this.getX(),(int)this.getY());
+			if(rand.nextInt(3)==1)new BonusBouclier(p);
+			else if(rand.nextInt(3)==2)new BonusLaser(p);
+			else new BonusCoeur(p);
+		}
 		Space.score+=100;
 		invaders.remove(this);
 		Sound snd = new Sound("./sound/explosion.wav");
