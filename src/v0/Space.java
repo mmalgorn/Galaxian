@@ -59,8 +59,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		super.paint(g);
 		if(menu) {
 			drawMenu(g);
-			if(boutonClik)
-				drawBoutonClik(g);
+			if(boutonClik)drawBoutonClik(g);
 		} else {
 			if(!gameOver)moveElements();
 			drawBackground(g);
@@ -270,7 +269,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	@Override
-	//Fonction de gestion des évènements clavier
+	//Fonction de gestion des évènements des appuie sur une touche du clavier
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		switch(e.getKeyCode()) {
@@ -358,7 +357,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	@Override
-	
+
+	//Fonction de gestion des évènements de la relache sur une touche du clavier
 	public void keyReleased(KeyEvent e) {
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
@@ -420,6 +420,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	@Override
+	//Fonction de gestion des évènements des appuies sur un clic de la souris
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if(menu){
@@ -450,6 +451,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	@Override
+	//Fonction de gestion des évènements des relaches sur un clic de la souris
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if(menu){

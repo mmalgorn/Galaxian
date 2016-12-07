@@ -52,12 +52,7 @@ public class Game {
 		theme.loop();
 		Space root = new Space();
 		new Defender(new Point(350,450));
-<<<<<<< HEAD
 		for(i=nbEnemy/2;i<nbEnemy;i++){
-=======
-		
-	for(i=nbEnemy/2;i<nbEnemy;i++){
->>>>>>> branch 'master' of https://github.com/mmalgorn/Galaxian.git
 			new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
 		}
 		for(i=0;i<nbEnemy/2;i++){
