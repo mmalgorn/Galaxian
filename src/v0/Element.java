@@ -126,4 +126,9 @@ public abstract class Element {
 		
 	}
 
+	public boolean isMissileEnnemy() {
+		
+		return false;
+	}
+
 }	

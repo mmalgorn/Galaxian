@@ -70,6 +70,11 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				Missile m = mis.next();
 				m.drawOn(g);
 			}
+			Iterator<Laser> las = Laser.lasers.iterator();
+			while (las.hasNext()) {
+				Laser l = las.next();
+				l.drawOn(g);
+			}
 		}
 		if(gameOver2){
 			if(attente){
@@ -192,7 +197,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 
 	public void moveElements(){
 		moveMissiles();
+		
 		moveEnemys();
+		moveLaser();
 		DefenderEvolve();
 	}
 
@@ -203,6 +210,15 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			m.move();
 			if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
 			else m.destroy();
+		}
+	}
+	
+	public void moveLaser(){
+		for(int i = Laser.lasers.size()-1; i >= 0; i--) {
+			Laser l = Laser.lasers.get(i);
+			 l.move(moveAdv);
+			if(this.isCol(l)) l.destroy();
+			else l.destroyTemp();
 		}
 	}
 	// Deplacement des Ennemis
@@ -303,7 +319,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		}
 	}
 
-	public boolean isCol(Missile m) {
+	public boolean isCol(Element m) {
 		if (m.isMissileEnnemy()){
 			if(m.collideWith(Defender.def)){
 				Defender.def.getDamage();
