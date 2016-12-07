@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
+import java.io.IOException;    
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -53,6 +53,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				drawBoutonClik(g);
 		}else{
 			drawBackground(g);
+			paintLife(g);
 			Defender.def.drawOn(g);
 			Iterator<Invaders> inv = Invaders.invaders.iterator();
 			while (inv.hasNext()) inv.next().drawOn(g);
@@ -135,22 +136,22 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	public void moveElements(){
-		Iterator<Element> iter = elementIterator();
+		moveMissiles();
+		moveEnemys();
+	}
 
+	// Deplacement des missiles a chaque tours
+	public void moveMissiles(){
 		for(int i = Missile.missiles.size()-1; i >= 0; i--) {
 			Missile m = Missile.missiles.get(i);
 			m.move();
 			if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
 			else m.destroy();
 		}
-
-		moveEnemys(Invaders.invaders.iterator());
 	}
-
-	/*
-	 * Deplacement Ennemis
-	 */
-	public void moveEnemys(Iterator<Invaders> iter){
+	// Deplacement des Ennemis
+	public void moveEnemys(){
+		Iterator<Invaders> iter = Invaders.invaders.iterator();
 		boolean isOnBorder = false;
 		while(iter.hasNext()){
 			Invaders inv = iter.next();
@@ -178,6 +179,12 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			}
 			if(!isOnBorder) inv.move(moveAdv);
 		}
+	}
+
+	// Affichage de la vie
+	public void paintLife(Graphics g){
+		Defender.def.drawLife(g);
+		
 	}
 
 	public boolean moveDirLeft() { return moveLeft; }

@@ -1,10 +1,17 @@
-package v0;
+package tests;
 
 import static org.junit.Assert.*;
 
 import java.awt.Point;
 
 import org.junit.Test;
+
+import v0.Defender;
+import v0.Element;
+import v0.FireInvaders;
+import v0.Invaders;
+import v0.Missile;
+import v0.Element.movement;
 
 public class tests {
 	
