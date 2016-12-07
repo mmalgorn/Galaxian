@@ -65,7 +65,10 @@ public class Defender extends Element{
 	public void getDamage() {
 		life -= 25;
 	}
-	
+	public void heal() {
+		if(life<=(nbHeart-1)*25)life += 25;
+		else if(life<nbHeart*25)life = nbHeart*25;
+	}
 	public int getNiveau() {
 		return this.niveau;
 	}

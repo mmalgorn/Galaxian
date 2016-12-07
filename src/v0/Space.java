@@ -44,6 +44,11 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	ThreadVaisseau tv;
 	movement moveAdv = movement.RIGHT;
 	Sound snd;
+	
+	Iterator<Invaders> inv;
+	Iterator<Missile> mis;
+	Iterator<Laser> las;
+	Iterator<Bonus> bon;
 
 	static int score;
 	String username = "";
@@ -61,18 +66,14 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			paintLife(g);
 			drawScore(g);
 			Defender.def.drawOn(g);
-			Iterator<Invaders> inv = Invaders.invaders.iterator();
+			inv = Invaders.invaders.iterator();
 			while (inv.hasNext()) inv.next().drawOn(g);
-			Iterator<Missile> mis = Missile.missiles.iterator();
-			while (mis.hasNext()) {
-				Missile m = mis.next();
-				m.drawOn(g);
-			}
-			Iterator<Laser> las = Laser.lasers.iterator();
-			while (las.hasNext()) {
-				Laser l = las.next();
-				l.drawOn(g);
-			}
+			mis = Missile.missiles.iterator();
+			while (mis.hasNext())mis.next().drawOn(g);
+			las = Laser.lasers.iterator();
+			while (las.hasNext())las.next().drawOn(g);
+			bon = Bonus.bonus.iterator();
+			while (bon.hasNext())bon.next().drawOn(g);
 		}
 		if(gameOver2){
 			if(attente){
@@ -211,7 +212,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	//Met en mouvements les éléments du jeu(missiles, ennemies et le vaisseau principale)
 	public void moveElements(){
 		moveMissiles();
-		//moveBonus();
+		moveBonus();
 		moveEnemys();
 		moveLaser();
 		DefenderEvolve();
@@ -234,8 +235,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		for(int i = Bonus.bonus.size()-1; i >= 0; i--) {
 			Bonus b = Bonus.bonus.get(i);
 			b.move();
-			//if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
-			//else m.destroy();
+			if((!(this.isColBonus(b)||(b.getY()<=0||b.getY()>=600)))) b.move();
+			else b.destroy();
 		}
 	}
 	
@@ -306,7 +307,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			//Flèche gauche du clavier
 			case KeyEvent.VK_LEFT:
 				if (!moveLeft) {
-					if(tv != null)tv.arret();
+					if(tv != null){
+						tv.arret();
+					}
 					tv = new ThreadVaisseau(Defender.def,"left");
 					tv.start();
 					moveLeft = true;
@@ -385,8 +388,15 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		return false;
 	}
 
+	public boolean isColBonus(Bonus m) {
+		if(m.collideWith(Defender.def)){
+			m.action();
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
-
 	//Fonction de gestion des évènements de la relache sur une touche du clavier
 	public void keyReleased(KeyEvent e) {
 		switch(e.getKeyCode()) {

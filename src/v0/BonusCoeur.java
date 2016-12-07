@@ -5,11 +5,17 @@ import java.awt.Point;
 public class BonusCoeur extends Bonus{
 
 	public BonusCoeur(Point p) {
-		this.width = 50;
-		this.height = 50;
+		this.width = 30;
+		this.height = 30;
 		this.speed = 2;
 		this.setPosition(p);
-		this.setImage("./img/bonus_coeur.png");
+		this.type = "coeur";
+		this.setImage("./img/full_heart.png");
+	}
+
+	
+	public void action(){
+		Defender.def.heal();
 	}
 
 }

@@ -3,9 +3,6 @@ package v0;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import v0.Element.movement;
 
 // credits: 
 //	random color: http://stackoverflow.com/questions/4246351/creating-random-colour-in-java
