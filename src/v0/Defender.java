@@ -10,6 +10,7 @@ public class Defender extends Element{
 	final String full_heart = "./img/full_heart.png";
 	final String empty_heart = "./img/empty_heart.png";
 	static Defender def;
+	private ImagePanel ip;
 	
 	
 	private int life = 100;
@@ -33,7 +34,7 @@ public class Defender extends Element{
 	}
 	public void drawLife(Graphics g){
 	try{
-		ImagePanel ip = new ImagePanel(full_heart);
+		ip = new ImagePanel(full_heart);
 		for (int i = nbHeart ; i > 0; i--){
 			if(life >= i*25){
 				ip.setImage(full_heart);
