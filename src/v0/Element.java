@@ -120,4 +120,8 @@ public abstract class Element {
 			e.printStackTrace();
 		}
 	}
+	public void evolve(){
+		
+	}
+
 }	

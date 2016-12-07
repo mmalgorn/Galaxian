@@ -50,9 +50,11 @@ public abstract class Invaders extends Element {
 	 * par suppression dans la liste invaders
 	 */
 	public void destroy() {
+		Space.score+=100;
 		invaders.remove(this);
 		Sound snd = new Sound("./sound/explosion.wav");
 		snd.play();
+		
 	}
 	
 	public void fire() {}

@@ -3,6 +3,8 @@ package v0;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,7 +25,8 @@ import javax.swing.JFrame;
 
 import v0.Element.movement;
 
-public class Space extends JComponent implements KeyListener{
+
+public class Space extends JComponent implements KeyListener,MouseListener{
 	/**
 	 * 
 	 */
@@ -33,10 +36,15 @@ public class Space extends JComponent implements KeyListener{
 	boolean moveLeft = false;
 	boolean moveRight = false;
 	boolean fire = false;
+	boolean menu = true;
+	boolean boutonClik = false;
+	int attente = 0;
+	String typeBouton;
 	ThreadVaisseau tv;
 	movement moveAdv = movement.RIGHT;
 	Sound snd;
 
+	static int score;
 	void addElement(Element anElement) {
 		contents.add(anElement);
 	}
@@ -46,18 +54,24 @@ public class Space extends JComponent implements KeyListener{
 	}
 
 	public void paint(Graphics g) {
-		
+
 		moveElements();
 		super.paint(g);
-		drawBackground(g);
-		paintLife(g);
-		Defender.def.drawOn(g);
-		Iterator<Invaders> inv = Invaders.invaders.iterator();
-		while (inv.hasNext()) inv.next().drawOn(g);
-		Iterator<Missile> mis = Missile.missiles.iterator();
-		while (mis.hasNext()) {
-			Missile m = mis.next();
-			m.drawOn(g);
+		if(menu){
+			drawMenu(g);
+			if(boutonClik)
+				drawBoutonClik(g);
+		}else{
+			drawBackground(g);
+			paintLife(g);
+			Defender.def.drawOn(g);
+			Iterator<Invaders> inv = Invaders.invaders.iterator();
+			while (inv.hasNext()) inv.next().drawOn(g);
+			Iterator<Missile> mis = Missile.missiles.iterator();
+			while (mis.hasNext()) {
+				Missile m = mis.next();
+				m.drawOn(g);
+			}
 		}
 	}
 
@@ -81,11 +95,46 @@ public class Space extends JComponent implements KeyListener{
 		window.setResizable(false);
 		window.setVisible(true);
 		window.addKeyListener(this);
+		window.addMouseListener(this);
 		new GestFenetre(window);
 		Universe.addSpace(this);
 		readScores();
 	}
+
 	
+	public void drawMenu(Graphics g){
+		try {
+			ImagePanel imgFond = new ImagePanel("./img/background.jpg");
+			ImagePanel imgTitre = new ImagePanel("./img/titre.png");
+			ImagePanel imgBJ = new ImagePanel("./img/boutonJouer.png");
+			ImagePanel imgBQ = new ImagePanel("./img/boutonQuitter.png");
+			imgFond.paintComponent(g);
+			imgTitre.paintComponent(g, 125, 100, 450, 100);
+			imgBJ.paintComponent(g, 225, 250, 250, 75);
+			imgBQ.paintComponent(g, 225, 350, 250, 75);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void drawBoutonClik(Graphics g){
+		try {
+			if(typeBouton.equals("jouer")){
+				ImagePanel imgBJ = new ImagePanel("./img/boutonJouerClick.png");
+				imgBJ.paintComponent(g, 225, 250, 250, 75);
+			}else if(typeBouton.equals("quitter")) {
+				ImagePanel imgBQ = new ImagePanel("./img/boutonQuitterClick.png");
+				imgBQ.paintComponent(g, 225, 350, 250, 75);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	public void drawBackground(Graphics g){
 		try {
 			ImagePanel imgp = new ImagePanel("./img/background.jpg");
@@ -100,7 +149,10 @@ public class Space extends JComponent implements KeyListener{
 	public void moveElements(){
 		moveMissiles();
 		moveEnemys();
+		DefenderEvolve();
 	}
+
+
 
 	// Deplacement des missiles a chaque tours
 	public void moveMissiles(){
@@ -142,7 +194,16 @@ public class Space extends JComponent implements KeyListener{
 			if(!isOnBorder) inv.move(moveAdv);
 		}
 	}
-
+	private void DefenderEvolve() {
+		if(Space.score>1000&&Defender.def.getNiveau()==1){
+			Defender.def.evolve();
+		}else{
+			if(Space.score>2000&&Defender.def.getNiveau()==2){
+				Defender.def.evolve();
+			}
+		}
+		
+	}
 	// Affichage de la vie
 	public void paintLife(Graphics g){
 		Defender.def.drawLife(g);
@@ -189,7 +250,7 @@ public class Space extends JComponent implements KeyListener{
 				Invaders inv = it.next();
 				if (m.collideWith(inv)) {
 					inv.getDamage();
-					if (Invaders.invaders.size() == 0) win();
+					if (Invaders.invaders.size() == 0) Game.win();
 					return true;
 				};
 			}
@@ -216,13 +277,27 @@ public class Space extends JComponent implements KeyListener{
 		// TODO Auto-generated method stub
 	}
 
-	public void win() {
-		System.out.println("YOUPI !");
-	}
-
 	public void gameOver(){
 		System.out.println("GameOver");
 		Defender.def.setImage("./img/explosion.png");
+
+	}
+
+	
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 	
@@ -240,6 +315,42 @@ public class Space extends JComponent implements KeyListener{
 			scoreTable.remove(minEntry);
 			scoreTable.put(username, score);
 		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(menu){
+			if(e.getX()>225 && e.getX()<425){
+				if(e.getY()>250 && e.getY()<325){
+					//Jouer
+					boutonClik = true;
+					typeBouton = "jouer";
+				}else if(e.getY()>350 && e.getY()<425){
+					//Quitter
+					boutonClik = true;
+					typeBouton = "quitter";
+				}
+			}
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(menu){
+			if(e.getX()>225 && e.getX()<425){
+				if(e.getY()>250 && e.getY()<325){
+					//Jouer
+					menu = false;
+					attente = 1;
+				}else if(e.getY()>350 && e.getY()<425){
+					//Quitter
+					System.exit(0);
+				}
+			}
+		}
+		boutonClik = false;
 	}
 
 	public static void writeScores() {
