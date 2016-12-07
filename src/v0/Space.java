@@ -5,12 +5,19 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;    
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -24,6 +31,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	static Map<String, Integer> scoreTable = new TreeMap<String, Integer>();
 	Set <Element> contents = Collections.synchronizedSet(new HashSet<Element>());
 	boolean moveLeft = false;
 	boolean moveRight = false;
@@ -70,7 +78,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void start() {
 		this.start(30, 30, 700, 600);
 	}
-
+	
 	Iterator<Element> elementIterator() {
 		ArrayList<Element> e = new ArrayList<Element>(Invaders.invaders);
 		e.add(Defender.def);
@@ -90,6 +98,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		window.addMouseListener(this);
 		new GestFenetre(window);
 		Universe.addSpace(this);
+		readScores();
 	}
 
 	
@@ -198,9 +207,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	// Affichage de la vie
 	public void paintLife(Graphics g){
 		Defender.def.drawLife(g);
-
+		
 	}
-
 	public boolean moveDirLeft() { return moveLeft; }
 	public boolean moveDirRight() { return moveRight; }
 
@@ -290,6 +298,22 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public static void addScore(String username, int score) {
+		if (scoreTable.size() < 10) scoreTable.put(username, score);
+		int min = Integer.MAX_VALUE;
+		Entry<String, Integer> minEntry = null;
+		for(Entry<String, Integer> s : scoreTable.entrySet()) {
+			if(s.getValue() < min) {
+				min = s.getValue();
+				minEntry = s;
+			}
+		}
+		if (score > min) {
+			scoreTable.remove(minEntry);
+			scoreTable.put(username, score);
+		}
+	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -327,5 +351,25 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		boutonClik = false;
 	}
 
-
+	public static void writeScores() {
+		try {
+			FileOutputStream fOut = new FileOutputStream("./data/scores.dat");
+			ObjectOutputStream oOs = new ObjectOutputStream(fOut);
+			oOs.writeObject(scoreTable);
+			oOs.close();			
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public static void readScores() {
+		try {
+			FileInputStream fIn = new FileInputStream("./data/scores.dat");
+		    ObjectInputStream oIs = new ObjectInputStream(fIn);
+		    scoreTable = (TreeMap<String, Integer>) oIs.readObject();
+		    oIs.close();
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 }
