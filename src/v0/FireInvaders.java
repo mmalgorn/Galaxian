@@ -8,7 +8,9 @@ import v0.Element.movement;
  * Vaisseau Invaders pouvant tirer
  */
 public class FireInvaders extends Invaders {
-
+	
+	private Random randomGenerator;
+	
 	public FireInvaders(Point p){
 		this.width = 50;
 		this.height = 50;
@@ -24,7 +26,7 @@ public class FireInvaders extends Invaders {
 	 * dirigé vers le bas
 	 */
 	public void fire(){
-		Random randomGenerator = new Random();
+		randomGenerator = new Random();
 		if(randomGenerator.nextInt(200)<1){
 
 			Point p = new Point((int)this.getX(),(int)(this.getY()+(this.height/2)));

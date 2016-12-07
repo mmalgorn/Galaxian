@@ -24,6 +24,8 @@ import java.util.TreeMap;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import v0.Element.movement;
 
@@ -81,6 +83,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				}
 				attente = false;
 			}
+			moveLeft = false;
+			moveRight = false;
 			drawGameOver(g);
 			drawScorePanel(g);
 		}
