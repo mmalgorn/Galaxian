@@ -15,6 +15,7 @@ public class Defender extends Element{
 	
 	private int life = 100;
 	private int niveau;
+	private int nbHeart = 4;
 	public Defender(Point p){
 		this.width = 75;
 		this.height = 75;
@@ -34,7 +35,7 @@ public class Defender extends Element{
 	public void drawLife(Graphics g){
 	try{
 		ip = new ImagePanel(full_heart);
-		for (int i = 4 ; i > 0; i--){
+		for (int i = nbHeart ; i > 0; i--){
 			if(life >= i*25){
 				ip.setImage(full_heart);
 				ip.paintComponent(g, 5+(i*21), 5, 20, 20);
@@ -70,6 +71,7 @@ public class Defender extends Element{
 	public void evolve(){
 		if(this.niveau<3){
 			this.niveau++;
+			this.nbHeart++;
 			this.life+=25;
 			this.setImage("./img/vaisseau"+this.niveau+".png");
 		}

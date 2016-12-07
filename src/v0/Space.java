@@ -258,22 +258,22 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		switch(e.getKeyCode()) {
-		case KeyEvent.VK_LEFT:
-			if (!moveLeft) {
-				if(tv != null)tv.arret();
-				tv = new ThreadVaisseau(Defender.def,"left");
-				tv.start();
-				moveLeft = true;
-			}
-			break;
-		case KeyEvent.VK_RIGHT:
-			if (!moveRight) {
-				if(tv != null)tv.arret();
-				tv = new ThreadVaisseau(Defender.def,"right");
-				tv.start();
-				moveRight = true;
-			}
-			break;
+			case KeyEvent.VK_LEFT:
+				if (!moveLeft) {
+					if(tv != null)tv.arret();
+					tv = new ThreadVaisseau(Defender.def,"left");
+					tv.start();
+					moveLeft = true;
+				}
+				break;
+			case KeyEvent.VK_RIGHT:
+				if (!moveRight) {
+					if(tv != null)tv.arret();
+					tv = new ThreadVaisseau(Defender.def,"right");
+					tv.start();
+					moveRight = true;
+				}
+				break;
 		case KeyEvent.VK_SPACE:
 			if(!fire){
 				Defender.def.fire();
@@ -299,40 +299,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					username = username.toUpperCase().substring(0, Math.min(3, username.length()));
 				}
 				break;
-			case KeyEvent.VK_RIGHT:
-				if (!moveRight) {
-					if(tv != null)tv.arret();
-					tv = new ThreadVaisseau(Defender.def,"right");
-					tv.start();
-					moveRight = true;
-				}
-				break;
-			case KeyEvent.VK_SPACE:
-				if(!fire){
-					Defender.def.fire();
-					snd = new Sound("./sound/fire.wav");
-					snd.play();
-				}
-				fire = true;
-				break;
-			case KeyEvent.VK_ENTER:
-				addScore(username, score);
-				writeScores();
-				gameOver = false;
-				gameOver2 = false;
-				menu = true;
-				break;
-			case KeyEvent.VK_BACK_SPACE:
-				if (gameOver) username = username.substring(0, Math.max(0, username.length() - 1));
-				break;
-			default:
-				if (gameOver) {
-					char c = e.getKeyChar();
-					if((c >= 97 && c <= 122) || (c >= 48 && c <= 57)) {
-						username += c;
-						username = username.toUpperCase().substring(0, Math.min(3, username.length()));
-					}
-				}
 			}
 		}
 	}

@@ -21,6 +21,7 @@ public abstract class Element {
 	private String urlImage;
 	private ImagePanel img;
 	
+	
 	/*
 	 * Retourne la position de l'élément
 	 */
