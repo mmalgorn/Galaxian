@@ -275,8 +275,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 
 	}
 
-	
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
