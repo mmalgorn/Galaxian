@@ -24,6 +24,8 @@ import java.util.TreeMap;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import v0.Element.movement;
 
@@ -52,12 +54,12 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	String username = "";
 	int cursor = 0;
 
+	//Affichage du rendu graphique du jeu
 	public void paint(Graphics g) {
 		super.paint(g);
 		if(menu) {
 			drawMenu(g);
-			if(boutonClik)
-				drawBoutonClik(g);
+			if(boutonClik)drawBoutonClik(g);
 		} else {
 			if(!gameOver)moveElements();
 			drawBackground(g);
@@ -70,6 +72,11 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				Missile m = mis.next();
 				m.drawOn(g);
 			}
+			Iterator<Laser> las = Laser.lasers.iterator();
+			while (las.hasNext()) {
+				Laser l = las.next();
+				l.drawOn(g);
+			}
 		}
 		if(gameOver2){
 			if(attente){
@@ -81,12 +88,15 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				}
 				attente = false;
 			}
+			moveLeft = false;
+			moveRight = false;
 			drawGameOver(g);
 			drawScorePanel(g);
 		}
 		if(gameOver) gameOver2 = true;
 	}
 	
+	//Renvoie vrai si l''utilisateur est sur l'écran de game over
 	public boolean getGameOver(){return this.gameOver2;}
 
 	public void start() {
@@ -109,6 +119,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		this.start(30, 30, 700, 600);
 	}
 	
+	//Renvoie un iterator sur la liste des envahisseurs
 	Iterator<Element> elementIterator() {
 		ArrayList<Element> e = new ArrayList<Element>(Invaders.invaders);
 		e.add(Defender.def);
@@ -116,6 +127,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 
+	//Créé la fenêtre du jeu
 	public void start (int x, int y, int width, int height) {
 		JFrame window = new JFrame();
 		window.setBounds(x, y, width, height);
@@ -132,8 +144,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	
+	//Affiche le menu principale
 	public void drawMenu(Graphics g){
-		imgFond.paintComponent(g);
+		drawBackground(g);
 		imgTitre.paintComponent(g, 125, 100, 450, 100);
 		imgBJ.paintComponent(g, 225, 250, 250, 75);
 		imgBQ.paintComponent(g, 225, 350, 250, 75);
@@ -166,6 +179,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		g.drawString(s, x-shift, y);
 	}
 	
+	//Affiche un bouton avec une auréole jaune au moment du clique
 	public void drawBoutonClik(Graphics g){
 		if(typeBouton.equals("jouer")){
 			imgBJC.paintComponent(g, 225, 250, 250, 75);
@@ -179,20 +193,25 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 
 	}
 	
+	//Affiche l'écran de game over
 	public void drawGameOver(Graphics g){
-		imgFond.paintComponent(g);
-		imgGameOver.paintComponent(g, 75, 50, 550, 100);
+		drawBackground(g);
+		imgGameOver.paintComponent(g, 75, 30, 550, 100);
 		imgBR.paintComponent(g, 75, 450, 250, 75);
 		imgBM.paintComponent(g, 350, 450, 250, 75);
 	}
 
+	//Affiche l'image de fond du jeu
 	public void drawBackground(Graphics g){
 		imgFond.paintComponent(g);
 	}
 
+	//Met en mouvements les éléments du jeu(missiles, ennemies et le vaisseau principale)
 	public void moveElements(){
 		moveMissiles();
+		
 		moveEnemys();
+		moveLaser();
 		DefenderEvolve();
 	}
 
@@ -203,6 +222,15 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			m.move();
 			if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
 			else m.destroy();
+		}
+	}
+	
+	public void moveLaser(){
+		for(int i = Laser.lasers.size()-1; i >= 0; i--) {
+			Laser l = Laser.lasers.get(i);
+			 l.move(moveAdv);
+			if(this.isCol(l)) l.destroy();
+			else l.destroyTemp();
 		}
 	}
 	// Deplacement des Ennemis
@@ -236,6 +264,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			if(!isOnBorder) inv.move(moveAdv);
 		}
 	}
+	
+	//Evolution du vaisseau principale en fonction du score
 	private void DefenderEvolve() {
 		if(Space.score>1000&&Defender.def.getNiveau()==1){
 			Defender.def.evolve();
@@ -246,18 +276,20 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		}
 		
 	}
+	
 	// Affichage de la vie
 	public void paintLife(Graphics g){
 		Defender.def.drawLife(g);
 		
 	}
-	public boolean moveDirLeft() { return moveLeft; }
-	public boolean moveDirRight() { return moveRight; }
 
 	@Override
+	//Fonction de gestion des évènements des appuie sur une touche du clavier
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		switch(e.getKeyCode()) {
+		
+			//Flèche gauche du clavier
 			case KeyEvent.VK_LEFT:
 				if (!moveLeft) {
 					if(tv != null)tv.arret();
@@ -266,6 +298,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					moveLeft = true;
 				}
 				break;
+				
+			//Flèche droite du clavier
 			case KeyEvent.VK_RIGHT:
 				if (!moveRight) {
 					if(tv != null)tv.arret();
@@ -274,36 +308,45 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					moveRight = true;
 				}
 				break;
-		case KeyEvent.VK_SPACE:
-			if(!fire){
-				Defender.def.fire();
-				snd = new Sound("./sound/fire.wav");
-				snd.play();
-			}
-			fire = true;
-			break;
-		case KeyEvent.VK_ENTER:
-			addScore(username, score);
-			writeScores();
-			gameOver = false;
-			menu = true;
-			break;
-		case KeyEvent.VK_BACK_SPACE:
-			if (gameOver) username = username.substring(0, Math.max(0, username.length() - 1));
-			break;
-		default:
-			if (gameOver) {
-				char c = e.getKeyChar();
-				if((c >= 97 && c <= 122) || (c >= 48 && c <= 57)) {
-					username += c;
-					username = username.toUpperCase().substring(0, Math.min(3, username.length()));
+				
+			//Barre espace du clavier
+			case KeyEvent.VK_SPACE:
+				if(!fire){
+					Defender.def.fire();
+					snd = new Sound("./sound/fire.wav");
+					snd.play();
 				}
+				fire = true;
 				break;
+				
+			//Touche entrée du clavier
+			case KeyEvent.VK_ENTER:
+				addScore(username, score);
+				writeScores();
+				gameOver = false;
+				menu = true;
+				break;
+				
+			//Touche effacer du clavier
+			case KeyEvent.VK_BACK_SPACE:
+				if (gameOver) username = username.substring(0, Math.max(0, username.length() - 1));
+				break;
+				
+			//Toute les autres touches du clavier
+			default:
+				if (gameOver) {
+					char c = e.getKeyChar();
+					if((c >= 97 && c <= 122) || (c >= 48 && c <= 57)) {
+						username += c;
+						username = username.toUpperCase().substring(0, Math.min(3, username.length()));
+					}
+					break;
+				}
 			}
-		}
 	}
 
-	public boolean isCol(Missile m) {
+	//Renvoie vrai si il y a une collision avec le missile en paramètre
+	public boolean isCol(Element m) {
 		if (m.isMissileEnnemy()){
 			if(m.collideWith(Defender.def)){
 				Defender.def.getDamage();
@@ -329,6 +372,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	@Override
+
+	//Fonction de gestion des évènements de la relache sur une touche du clavier
 	public void keyReleased(KeyEvent e) {
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
@@ -390,6 +435,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	@Override
+	//Fonction de gestion des évènements des appuies sur un clic de la souris
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if(menu){
@@ -420,6 +466,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	@Override
+	//Fonction de gestion des évènements des relaches sur un clic de la souris
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if(menu){

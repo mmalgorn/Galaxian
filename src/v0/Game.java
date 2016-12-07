@@ -26,6 +26,7 @@ public class Game {
 	
 	public static void resetGame(){
 		new Defender(new Point(350,450));
+		Space.score = 0;
 		inizialise();
 	}
 	public static void inizialise(){
