@@ -11,6 +11,7 @@ import v0.Element.movement;
 //	random color: http://stackoverflow.com/questions/4246351/creating-random-colour-in-java
 
 public class Game {
+<<<<<<< HEAD
 	static ArrayList<Element> enemys = new ArrayList<Element>();
 	static int nbEnemy = 35;
 	static int nbEnemyMax = 45;
@@ -18,14 +19,26 @@ public class Game {
 	public static void win(){
 		System.out.println("You WIN !");
 		if(nbEnemy+5 <= nbEnemyMax) nbEnemy = nbEnemy +5;
+=======
+
+	public static void main(String[] args) throws IOException {
+		Space root = new Space();
+		int i,nbEnnemy = 35;
+>>>>>>> branch 'master' of https://github.com/mmalgorn/Galaxian.git
 		
+<<<<<<< HEAD
 		
 		for(i=nbEnemy/2;i<nbEnemy;i++){
+=======
+		new Defender(new Point(350,450));
+		for(i=0;i<nbEnnemy/2;i++){
+>>>>>>> branch 'master' of https://github.com/mmalgorn/Galaxian.git
 			new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
 		}
 		for(i=0;i<nbEnemy/2;i++){
 			new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
 		}
+<<<<<<< HEAD
 		
 	}
 	public static void main(String[] args) throws IOException {
@@ -41,7 +54,10 @@ public class Game {
 		}
 		
 		
+=======
+>>>>>>> branch 'master' of https://github.com/mmalgorn/Galaxian.git
 		root.start();
+		
   		while (true) {
 			try {
 				Thread.sleep(30);
