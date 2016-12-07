@@ -56,8 +56,7 @@ public class Game {
 		for(i=0;i<nbEnemy/2;i++){
 			
 			new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
-		}
-		
+		}		
 
 		root.start();
 		

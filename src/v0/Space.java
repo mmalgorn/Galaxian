@@ -21,7 +21,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javax.jws.soap.SOAPBinding.Style;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -54,13 +53,13 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	int cursor = 0;
 
 	public void paint(Graphics g) {
-		if(!gameOver)moveElements();
 		super.paint(g);
 		if(menu) {
 			drawMenu(g);
 			if(boutonClik)
 				drawBoutonClik(g);
 		} else {
+			if(!gameOver)moveElements();
 			drawBackground(g);
 			paintLife(g);
 			Defender.def.drawOn(g);
@@ -83,8 +82,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				attente = false;
 			}
 			drawGameOver(g);
+			drawScorePanel(g);
 		}
-		if(gameOver)gameOver2 = true;
+		if(gameOver) gameOver2 = true;
 	}
 	
 	public boolean getGameOver(){return this.gameOver2;}
@@ -140,21 +140,20 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 	
 	public void drawScorePanel(Graphics g){
-		drawBackground(g);
 		g.setColor(Color.WHITE);
 		Font f = new Font("Arial", Font.BOLD, 30);
 		Font f2 = new Font("Arial", Font.PLAIN, 20);
 		g.setFont(f);
-		drawStringCenter("SCORES", 350, 50, g);
+		drawStringCenter("SCORES", 350, 150, g);
 		g.setFont(f2);
 		int i = 0;
 		for(Entry<String, Integer> e : scoreTable.entrySet()) {
-			g.drawString(e.getKey(), 150, 100+(30*i));
-			drawStringRight(e.getValue().toString(), 550, 100+(30*i), g);
+			g.drawString(e.getKey(), 150, 170+(30*i));
+			drawStringRight(e.getValue().toString(), 550, 170+(30*i), g);
 			i++;
 		}
-		g.drawString(username, 150, 100+(30*i));
-		drawStringRight(""+score, 550, 100+(30*i), g);
+		g.drawString(username, 150, 170+(30*i));
+		drawStringRight(""+score, 550, 170+(30*i), g);
 	}
 	
 	public void drawStringCenter(String s, int x, int y, Graphics g) {
@@ -259,12 +258,45 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		switch(e.getKeyCode()) {
-			case KeyEvent.VK_LEFT:
-				if (!moveLeft) {
-					if(tv != null)tv.arret();
-					tv = new ThreadVaisseau(Defender.def,"left");
-					tv.start();
-					moveLeft = true;
+		case KeyEvent.VK_LEFT:
+			if (!moveLeft) {
+				if(tv != null)tv.arret();
+				tv = new ThreadVaisseau(Defender.def,"left");
+				tv.start();
+				moveLeft = true;
+			}
+			break;
+		case KeyEvent.VK_RIGHT:
+			if (!moveRight) {
+				if(tv != null)tv.arret();
+				tv = new ThreadVaisseau(Defender.def,"right");
+				tv.start();
+				moveRight = true;
+			}
+			break;
+		case KeyEvent.VK_SPACE:
+			if(!fire){
+				Defender.def.fire();
+				snd = new Sound("./sound/fire.wav");
+				snd.play();
+			}
+			fire = true;
+			break;
+		case KeyEvent.VK_ENTER:
+			addScore(username, score);
+			writeScores();
+			gameOver = false;
+			menu = true;
+			break;
+		case KeyEvent.VK_BACK_SPACE:
+			if (gameOver) username = username.substring(0, Math.max(0, username.length() - 1));
+			break;
+		default:
+			if (gameOver) {
+				char c = e.getKeyChar();
+				if((c >= 97 && c <= 122) || (c >= 48 && c <= 57)) {
+					username += c;
+					username = username.toUpperCase().substring(0, Math.min(3, username.length()));
 				}
 				break;
 			case KeyEvent.VK_RIGHT:
@@ -301,6 +333,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 						username = username.toUpperCase().substring(0, Math.min(3, username.length()));
 					}
 				}
+			}
 		}
 	}
 
@@ -331,17 +364,22 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		if(!gameOver){
-			if(moveLeft && e.getKeyCode() == KeyEvent.VK_LEFT){
+		switch(e.getKeyCode()) {
+		case KeyEvent.VK_LEFT:
+			if(!gameOver && moveLeft) {
 				moveLeft = false;
 				if(tv.getDir().equals("left")) tv.arret();
 			}
-			if(moveRight && e.getKeyCode() == KeyEvent.VK_RIGHT){
+			break;
+		case KeyEvent.VK_RIGHT:
+			if(!gameOver && moveRight) {
 				moveRight = false;
-				if(tv.getDir().equals("right")) tv.arret();
+				if(tv.getDir().equals("right")) tv.arret();					
 			}
-			if(e.getKeyCode() == KeyEvent.VK_SPACE) fire = false; 
+			break;
+		case KeyEvent.VK_SPACE:
+			if(!gameOver) fire = false;
+			break;
 		}
 	}
 
