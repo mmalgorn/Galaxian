@@ -307,7 +307,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			//Flèche gauche du clavier
 			case KeyEvent.VK_LEFT:
 				if (!moveLeft) {
-					if(tv != null)tv.arret();
+					if(tv != null){
+						tv.arret();
+					}
 					tv = new ThreadVaisseau(Defender.def,"left");
 					tv.start();
 					moveLeft = true;
