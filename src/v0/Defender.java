@@ -33,21 +33,22 @@ public class Defender extends Element{
 		return this.life;
 	}
 	public void drawLife(Graphics g){
-	try{
-		ip = new ImagePanel(full_heart);
-		for (int i = nbHeart ; i > 0; i--){
-			if(life >= i*25){
-				ip.setImage(full_heart);
-				ip.paintComponent(g, 5+(i*21), 5, 20, 20);
-				ip.paint(g);
-			}else{
-				ip.setImage(empty_heart);
-				ip.paintComponent(g, 5+(i*21), 5, 20, 20);
-				ip.paint(g);
+		try{
+			ip = new ImagePanel(full_heart);
+			for (int i = nbHeart ; i > 0; i--){
+				if(life >= i*25){
+					ip.setImage(full_heart);
+					ip.paintComponent(g, 5+(i*21), 5, 20, 20);
+					ip.paint(g);
+				}else{
+					ip.setImage(empty_heart);
+					ip.paintComponent(g, 5+(i*21), 5, 20, 20);
+					ip.paint(g);
+				}
 			}
+		} catch(IOException e) {
+			e.printStackTrace();
 		}
-		
-	}catch(IOException e){}
 	}
 	
 	/*

@@ -64,6 +64,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			if(!gameOver)moveElements();
 			drawBackground(g);
 			paintLife(g);
+			drawScore(g);
 			Defender.def.drawOn(g);
 			Iterator<Invaders> inv = Invaders.invaders.iterator();
 			while (inv.hasNext()) inv.next().drawOn(g);
@@ -161,7 +162,13 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			i++;
 		}
 		g.drawString(username, 150, 170+(30*i));
-		drawStringRight(""+score, 550, 170+(30*i), g);
+		drawStringRight("" + score, 550, 170+(30*i), g);
+	}
+	
+	public void drawScore(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("Arial", Font.PLAIN, 25));
+		drawStringRight("" + score, 660, 25, g);
 	}
 	
 	public void drawStringCenter(String s, int x, int y, Graphics g) {
@@ -209,7 +216,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	// Deplacement des missiles a chaque tours
-	public void moveMissiles(){
+	public void moveMissiles() {
 		for(int i = Missile.missiles.size()-1; i >= 0; i--) {
 			Missile m = Missile.missiles.get(i);
 			m.move();
