@@ -52,7 +52,7 @@ public class Sound extends Thread {
     public void play(){
         clip.setFramePosition(0);  // Must always rewind!
         clip.start();
-        clip.close();
+       // clip.destroy();
     }
     public void loop(){
         clip.loop(Clip.LOOP_CONTINUOUSLY);
