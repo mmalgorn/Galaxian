@@ -39,8 +39,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	boolean menu = true;
 	boolean gameOver = false;
 	boolean gameOver2 = false;
-	boolean boutonClik = false;
 	boolean attente = true;
+	boolean boutonClik = false;
 	String typeBouton;
 	ThreadVaisseau tv;
 	movement moveAdv = movement.RIGHT;
@@ -88,6 +88,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		}
 		if(gameOver)gameOver2 = true;
 	}
+	
+	public boolean getGameOver(){return this.gameOver2;}
 
 	public void start() {
 		this.start(30, 30, 700, 600);
@@ -138,6 +140,12 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			if(typeBouton.equals("jouer")){
 				ImagePanel imgBJ = new ImagePanel("./img/boutonJouerClick.png");
 				imgBJ.paintComponent(g, 225, 250, 250, 75);
+			}else if(typeBouton.equals("rejouer")) {
+				ImagePanel imgBR = new ImagePanel("./img/boutonRejouer.png");
+				imgBR.paintComponent(g, 75, 450, 250, 75);
+			}else if(typeBouton.equals("menu")) {
+				ImagePanel imgBM = new ImagePanel("./img/boutonMenu.png");
+				imgBM.paintComponent(g, 350, 450, 250, 75);
 			}else if(typeBouton.equals("quitter")) {
 				ImagePanel imgBQ = new ImagePanel("./img/boutonQuitterClick.png");
 				imgBQ.paintComponent(g, 225, 350, 250, 75);
@@ -154,8 +162,12 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		try {
 			imgFond = new ImagePanel("./img/background.jpg");
 			ImagePanel imgGameOver = new ImagePanel("./img/gameover.png");
+			ImagePanel imgBR = new ImagePanel("./img/boutonRejouer.png");
+			ImagePanel imgBM = new ImagePanel("./img/boutonMenu.png");
 			imgFond.paintComponent(g);
-			imgGameOver.paintComponent(g, 75, 100, 550, 100);
+			imgGameOver.paintComponent(g, 75, 50, 550, 100);
+			imgBR.paintComponent(g, 75, 450, 250, 75);
+			imgBM.paintComponent(g, 350, 450, 250, 75);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -206,8 +218,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				isOnBorder = true;
 			}
 			if(inv.getY() <= 0 || (inv.getY()+inv.height) >= 450){
-				System.out.println("GAME OVER");
-				System.exit(0);
+				gameOver = true;
 			}
 		}
 		iter = Invaders.invaders.iterator();
@@ -269,7 +280,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		if (m.isMissileEnnemy()){
 			if(m.collideWith(Defender.def)){
 				Defender.def.getDamage();
-				if(Defender.def.getLife()<=0) gameOver();
+				if(Defender.def.getLife()<=0) gameOver = true;
 				return true;
 
 			}
@@ -306,11 +317,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-	}
-
-	public void gameOver(){
-		gameOver = true;
-		Defender.def.setImage("./img/explosion.png");
 	}
 
 	@Override
@@ -360,6 +366,18 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					typeBouton = "quitter";
 				}
 			}
+		}else if(gameOver2){
+			if(e.getY()>450 && e.getY()<525){
+				if(e.getX()>75 && e.getX()<325){
+					//Rejouer
+					boutonClik = true;
+					typeBouton = "rejouer";
+				}else if(e.getX()>350 && e.getX()<600){
+					//Menu
+					boutonClik = true;
+					typeBouton = "menu";
+				}
+			}
 		}
 	}
 
@@ -374,6 +392,21 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				}else if(e.getY()>350 && e.getY()<425){
 					//Quitter
 					System.exit(0);
+				}
+			}
+		}else if(gameOver2){
+			if(e.getY()>450 && e.getY()<525){
+				if(e.getX()>75 && e.getX()<325){
+					//Rejouer
+					gameOver = false;
+					gameOver2 = false;
+					attente = true;
+				}else if(e.getX()>350 && e.getX()<600){
+					//Menu
+					menu = true;
+					gameOver = false;
+					gameOver2 = false;
+					attente = true;
 				}
 			}
 		}
