@@ -30,6 +30,7 @@ public class Space extends JComponent implements KeyListener{
 	movement moveAdv = movement.RIGHT;
 	Sound snd;
 
+	static int score;
 	void addElement(Element anElement) {
 		contents.add(anElement);
 	}
@@ -39,7 +40,7 @@ public class Space extends JComponent implements KeyListener{
 	}
 
 	public void paint(Graphics g) {
-		
+
 		moveElements();
 		super.paint(g);
 		drawBackground(g);
@@ -57,7 +58,7 @@ public class Space extends JComponent implements KeyListener{
 	public void start() {
 		this.start(30, 30, 700, 600);
 	}
-	
+
 	Iterator<Element> elementIterator() {
 		ArrayList<Element> e = new ArrayList<Element>(Invaders.invaders);
 		e.add(Defender.def);
@@ -77,7 +78,7 @@ public class Space extends JComponent implements KeyListener{
 		new GestFenetre(window);
 		Universe.addSpace(this);
 	}
-	
+
 	public void drawBackground(Graphics g){
 		try {
 			ImagePanel imgp = new ImagePanel("./img/background.jpg");
@@ -92,7 +93,10 @@ public class Space extends JComponent implements KeyListener{
 	public void moveElements(){
 		moveMissiles();
 		moveEnemys();
+		DefenderEvolve();
 	}
+
+
 
 	// Deplacement des missiles a chaque tours
 	public void moveMissiles(){
@@ -134,11 +138,20 @@ public class Space extends JComponent implements KeyListener{
 			if(!isOnBorder) inv.move(moveAdv);
 		}
 	}
-
+	private void DefenderEvolve() {
+		if(Space.score>1000&&Defender.def.getNiveau()==1){
+			Defender.def.evolve();
+		}else{
+			if(Space.score>2000&&Defender.def.getNiveau()==2){
+				Defender.def.evolve();
+			}
+		}
+		
+	}
 	// Affichage de la vie
 	public void paintLife(Graphics g){
 		Defender.def.drawLife(g);
-		
+
 	}
 	public boolean moveDirLeft() { return moveLeft; }
 	public boolean moveDirRight() { return moveRight; }
@@ -215,8 +228,10 @@ public class Space extends JComponent implements KeyListener{
 	public void gameOver(){
 		System.out.println("GameOver");
 		Defender.def.setImage("./img/explosion.png");
-		
+
 	}
+
+	
 
 
 }

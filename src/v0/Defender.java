@@ -11,15 +11,17 @@ public class Defender extends Element{
 	final String empty_heart = "./img/empty_heart.png";
 	static Defender def;
 	
-	private int life = 100;
 	
+	private int life = 100;
+	private int niveau;
 	public Defender(Point p){
 		this.width = 75;
 		this.height = 75;
 		this.speed = 15;
 		this.setPosition(p);
-		this.setImage("./img/vaisseau.png");
+		this.setImage("./img/vaisseau1.png");
 		def = this;
+		this.niveau=1;
 	}
 	
 	/*
@@ -60,4 +62,17 @@ public class Defender extends Element{
 	public void getDamage() {
 		life -= 25;
 	}
+	
+	public int getNiveau() {
+		return this.niveau;
+	}
+	public void evolve(){
+		if(this.niveau<3){
+			this.niveau++;
+			this.life+=25;
+			this.setImage("./img/vaisseau"+this.niveau+".png");
+		}
+		
+	}
+
 }
