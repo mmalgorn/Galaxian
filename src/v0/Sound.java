@@ -10,7 +10,10 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
  
- 
+ /*
+  * Classe permettant d'instancier un nouveau son , afin de pouvoir l'ajouter dans notre partie
+  * trouvez sur StackOverflow : http://stackoverflow.com/questions/11919009/using-javax-sound-sampled-clip-to-play-loop-and-stop-mutiple-sounds-in-a-game
+  */
  
 public class Sound extends Thread {
 	private Clip clip;

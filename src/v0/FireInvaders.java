@@ -19,8 +19,11 @@ public class FireInvaders extends Invaders {
 		this.setImage("./img/invaders.png");
 	}
 
+	/*
+	 * Fonction de tir qui instancie un nouveau missile 
+	 * dirigé vers le bas
+	 */
 	public void fire(){
-
 		Random randomGenerator = new Random();
 		if(randomGenerator.nextInt(1000)<1){
 

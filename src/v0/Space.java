@@ -17,7 +17,6 @@ import javax.swing.JFrame;
 
 import v0.Element.movement;
 
-
 public class Space extends JComponent implements KeyListener{
 	/**
 	 * 
@@ -56,7 +55,7 @@ public class Space extends JComponent implements KeyListener{
 	public void start() {
 		this.start(30, 30, 700, 600);
 	}
-
+	
 	Iterator<Element> elementIterator() {
 		ArrayList<Element> e = new ArrayList<Element>(Invaders.invaders);
 		e.add(Defender.def);
@@ -89,22 +88,22 @@ public class Space extends JComponent implements KeyListener{
 	}
 
 	public void moveElements(){
-		Iterator<Element> iter = elementIterator();
+		moveMissiles();
+		moveEnemys();
+	}
 
+	// Deplacement des missiles a chaque tours
+	public void moveMissiles(){
 		for(int i = Missile.missiles.size()-1; i >= 0; i--) {
 			Missile m = Missile.missiles.get(i);
 			m.move();
 			if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
 			else m.destroy();
 		}
-
-		moveEnemys(Invaders.invaders.iterator());
 	}
-
-	/*
-	 * Deplacement Ennemis
-	 */
-	public void moveEnemys(Iterator<Invaders> iter){
+	// Deplacement des Ennemis
+	public void moveEnemys(){
+		Iterator<Invaders> iter = Invaders.invaders.iterator();
 		boolean isOnBorder = false;
 		while(iter.hasNext()){
 			Invaders inv = iter.next();
