@@ -17,7 +17,6 @@ import javax.swing.JFrame;
 
 import v0.Element.movement;
 
-
 public class Space extends JComponent implements KeyListener{
 	/**
 	 * 

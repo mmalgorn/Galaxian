@@ -20,18 +20,39 @@ public abstract class Element {
 	private Point position;
 	private String urlImage;
 	
+	/*
+	 * Retourne la position de l'élément
+	 */
 	public Point getPosition() { return this.position; }
 	
+	/*
+	 * Met à jour la position de l'élément
+	 */
 	public void setPosition(Point p) { this.position = p; }
 	
+	/*
+	 * Donne la position en x
+	 */
 	public double getX() { return position.getX(); }
 	
+	/*
+	 * Donne la position en y
+	 */
 	public double getY() { return position.getY(); }
 	
+	/*
+	 * Donne la largeur de l'élément
+	 */
 	public double getWidth() { return width; }
 	
+	/*
+	 * Donne la hauteur de l'élément
+	 */
 	public double getHeight() { return height; }
 	
+	/*
+	 * Déplace l'élément en fonction d'un mouvement
+	 */
 	public void move(movement m) {
 		double x = 0, y = 0;
 		switch(m){
@@ -51,12 +72,20 @@ public abstract class Element {
 		position.setLocation(position.getX() + x,position.getY() + y);
 	}
 	
+	/*
+	 * Renvoie le chemin de l'image utilisée par l'élément
+	 */
 	public String getImage() { return urlImage; }
 	
+	/*
+	 * Modifie l'image utilisée par l'élément
+	 */
 	public void setImage(String img) { urlImage = img; }
 	
-	public boolean isDefender(){ return false;}
-	
+	/*
+	 * Indique si les points de collisions de l'élément courant 
+	 * sont compris dans ceux de l'élément e
+	 */
 	public boolean collide(Element e) {
 		Point[] tmp = {
 			new Point((int) e.getX() , (int) e.getY()),
@@ -72,10 +101,16 @@ public abstract class Element {
  		return false;
 	}
 	
+	/*
+	 * Indique s'il y a collision entre l'élément courant et l'élément e
+	 */
 	public boolean collideWith(Element e) {
 		return collide(e) || e.collide(this);
 	}
 	
+	/*
+	 * Permet de d'afficher l'élément
+	 */
 	public void drawOn(Graphics g) {
 		try {
 			ImagePanel img = new ImagePanel(this.urlImage);
@@ -84,9 +119,5 @@ public abstract class Element {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	public void fire(){
-	
 	}
 }	
