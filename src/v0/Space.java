@@ -56,7 +56,7 @@ public class Space extends JComponent implements KeyListener{
 	public void start() {
 		this.start(30, 30, 700, 600);
 	}
-
+	
 	Iterator<Element> elementIterator() {
 		ArrayList<Element> e = new ArrayList<Element>(Invaders.invaders);
 		e.add(Defender.def);

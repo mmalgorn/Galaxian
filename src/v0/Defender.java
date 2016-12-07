@@ -5,7 +5,8 @@ import java.awt.Point;
  * Defender est la classe représentant le vaisseau qui sera controler par le joueur
  */
 public class Defender extends Element{
-	
+	final String full_heart = "./img/full_heart.png";
+	final String empty_heart = "./img/empty_heart.png";
 	static Defender def;
 	
 	private int life = 100;
