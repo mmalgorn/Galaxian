@@ -13,19 +13,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import v0.Element.movement;
 
@@ -64,6 +59,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			if(!gameOver)moveElements();
 			drawBackground(g);
 			paintLife(g);
+			drawScore(g);
 			Defender.def.drawOn(g);
 			Iterator<Invaders> inv = Invaders.invaders.iterator();
 			while (inv.hasNext()) inv.next().drawOn(g);
@@ -166,7 +162,13 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			i++;
 		}
 		g.drawString(username, 150, 170+(30*i));
-		drawStringRight(""+score, 550, 170+(30*i), g);
+		drawStringRight("" + score, 550, 170+(30*i), g);
+	}
+	
+	public void drawScore(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("Arial", Font.PLAIN, 25));
+		drawStringRight("" + score, 660, 25, g);
 	}
 	
 	public void drawStringCenter(String s, int x, int y, Graphics g) {
@@ -209,19 +211,31 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	//Met en mouvements les éléments du jeu(missiles, ennemies et le vaisseau principale)
 	public void moveElements(){
 		moveMissiles();
-		
+		//moveBonus();
 		moveEnemys();
 		moveLaser();
 		DefenderEvolve();
 	}
 
 	// Deplacement des missiles a chaque tours
-	public void moveMissiles(){
+	public void moveMissiles() {
 		for(int i = Missile.missiles.size()-1; i >= 0; i--) {
-			Missile m = Missile.missiles.get(i);
-			m.move();
-			if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
-			else m.destroy();
+			if(Missile.missiles.size()>0){
+				Missile m = Missile.missiles.get(i);
+				m.move();
+				if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
+				else m.destroy();
+			}
+		}
+	}
+	
+	// Deplacement des bonus a chaque tours
+	public void moveBonus(){
+		for(int i = Bonus.bonus.size()-1; i >= 0; i--) {
+			Bonus b = Bonus.bonus.get(i);
+			b.move();
+			//if((!(this.isCol(m)||(m.getY()<=0||m.getY()>=600)))) m.move();
+			//else m.destroy();
 		}
 	}
 	
