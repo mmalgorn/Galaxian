@@ -181,7 +181,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	
 	public void drawGameOver(Graphics g){
 		imgFond.paintComponent(g);
-		imgGameOver.paintComponent(g, 75, 50, 550, 100);
+		imgGameOver.paintComponent(g, 75, 30, 550, 100);
 		imgBR.paintComponent(g, 75, 450, 250, 75);
 		imgBM.paintComponent(g, 350, 450, 250, 75);
 	}
