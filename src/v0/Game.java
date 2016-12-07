@@ -15,8 +15,10 @@ public class Game {
 	static int nbEnemy = 35;
 	static int nbEnemyMax = 45;
 	static int i;
+	static Sound theme;
 	public static void win(){
 		System.out.println("You WIN !");
+		Invaders.invaders.clear();
 		if(nbEnemy+5 <= nbEnemyMax) nbEnemy = nbEnemy +5;
 		for(i=0;i<nbEnemy/2;i++){
 			new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
@@ -28,6 +30,8 @@ public class Game {
 		
 	}
 	public static void main(String[] args) throws IOException {
+		theme = new Sound("./sound/mainTheme.wav");
+		theme.loop();
 		Space root = new Space();
 		new Defender(new Point(350,450));
 		
