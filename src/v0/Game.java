@@ -12,35 +12,36 @@ import v0.Element.movement;
 
 public class Game {
 	static ArrayList<Element> enemys = new ArrayList<Element>();
-	static int nbEnemy = 35;
+	static int nbEnemy = 0 ; 
 	static int nbEnemyMax = 45;
 	static int i;
 	static Sound theme;
+	static int nbLvl = 1;
 	
 	public static void win(){
-		System.out.println("You WIN !");
-		Invaders.invaders.clear();
-		if(nbEnemy+5 <= nbEnemyMax) nbEnemy = nbEnemy +5;
-		for(i=0;i<nbEnemy/2;i++){
-			new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
-		}
-		for(i=nbEnemy/2;i<nbEnemy;i++){
-			
-			new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
-		}
-		
+		nbLvl++;
+		System.out.println("You Win !");
+		inizialise();
 	}
 	
 	public static void resetGame(){
-		Invaders.invaders.clear();
 		new Defender(new Point(350,450));
-		
-		for(i=nbEnemy/2;i<nbEnemy;i++){
+		inizialise();
+	}
+	public static void inizialise(){
+		nbEnemy = 0;
+		Invaders.invaders.clear();
+		Missile.missiles.clear();
+		for(int i = 0 ; i < (Level.levelMap.get(nbLvl).nbFire);i++ , nbEnemy++){
+			new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+		}
+		int nbEnemyTmp = nbEnemy;
+		for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbShield);i++ , nbEnemy++){
 			new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
 		}
-		for(i=0;i<nbEnemy/2;i++){
-			
-			new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+		nbEnemyTmp = nbEnemy;
+		for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbPeon);i++ , nbEnemy++){
+			new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
 		}
 	}
 	
@@ -50,13 +51,7 @@ public class Game {
 		Space root = new Space();
 		new Defender(new Point(350,450));
 		
-		for(i=nbEnemy/2;i<nbEnemy;i++){
-			new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
-		}
-		for(i=0;i<nbEnemy/2;i++){
-			
-			new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
-		}		
+		inizialise();
 
 		root.start();
 		
