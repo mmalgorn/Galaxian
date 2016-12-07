@@ -20,6 +20,7 @@ public abstract class Element {
 	private Point position;
 	private String urlImage;
 	
+	
 	/*
 	 * Retourne la position de l'élément
 	 */
