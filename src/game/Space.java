@@ -47,6 +47,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	boolean leaderboard = false;
 	boolean firstStart = true;
 	boolean wait = true;
+	boolean pause = false;
 	String typeBouton;
 	ThreadVaisseau tv;
 	movement moveAdv = movement.RIGHT;
