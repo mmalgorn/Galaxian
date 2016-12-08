@@ -173,12 +173,11 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			drawStringRight(s.getScore().toString(), 550, 170+(30*i), g);
 			i++;
 		}
-		if(scorePan) {
-			g.drawString(username, 150, 200+(30*i));
-			drawStringRight("" + score, 550, 200+(30*i), g);			
-		}
 		if(leaderboard) {
 			imgBM.paintComponent(g, 225, 450, 250, 75);
+		} else if(scorePan) {
+			g.drawString(username, 150, 200+(30*i));
+			drawStringRight("" + score, 550, 200+(30*i), g);			
 		}
 	}
 	
@@ -411,7 +410,13 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				Invaders inv = Invaders.invaders.get(i);
 				if (m.collideWith(inv)) {
 					inv.getDamage();
-					if (Invaders.invaders.size() == 0) Game.win();
+					if (Invaders.invaders.size() == 0)
+						try {
+							Game.win();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					if(m.isLaser()) isLaser=true;
 					else return true;
 				};

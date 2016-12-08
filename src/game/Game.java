@@ -28,7 +28,7 @@ public class Game {
 	static Sound theme = Sound.soundMap.get("theme");
 	static int nbLvl = 0;
 	
-	public static void win(){
+	public static void win() throws InterruptedException{
 		if(nbLvl+1 >= 15){
 			nbLvl = 0;
 			dif = dif +2;
@@ -37,6 +37,8 @@ public class Game {
 		}
 		System.out.println("You Win !");
 		inizialise();
+		
+		
 	}
 	
 	public static void resetGame(){
@@ -102,7 +104,6 @@ public class Game {
 			}
 		}
 		
-		
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -110,7 +111,6 @@ public class Game {
 		Space root = new Space();
 		new Defender(new Point(350,450));
 		inizialise();
-
 		root.start();
 		
   		while (true) {
@@ -118,6 +118,7 @@ public class Game {
 				Thread.sleep(30);
 				if(Invaders.invaders.isEmpty()) win();
 				root.repaint();
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
