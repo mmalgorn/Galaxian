@@ -101,7 +101,7 @@ public class Defender extends Element{
 
 	public void getlaser() {
 		// TODO Auto-generated method stub
-		nbLaser=2;
+		nbLaser+=2;
 		
 	}
 	
