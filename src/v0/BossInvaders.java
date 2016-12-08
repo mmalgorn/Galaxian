@@ -9,14 +9,24 @@ public class BossInvaders extends Invaders{
 
 	private int tmpLaser=0;
 
-	public BossInvaders(Point p){
+	public BossInvaders(Point p, String name){
 		this.width = 300;
 		this.height = 200;
 		this.speed = 2;
 		this.life = 5000;
 		this.damageAmount = 25;
 		this.setPosition(p);
-		this.setImage("./img/mechant27.png");
+		switch(name){
+		case "red" : 
+			this.setImage("./img/boss_invaders_red.png");
+			break;
+		case "grey" : 
+			this.setImage("./img/boss_invaders_grey.png");
+			break;
+		case "yellow" : 
+			this.setImage("./img/boss_invaders_yellow.png");
+			break;
+		}
 	}
 
 

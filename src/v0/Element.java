@@ -82,7 +82,13 @@ public abstract class Element {
 	/*
 	 * Modifie l'image utilisée par l'élément
 	 */
-	public void setImage(String img) { urlImage = img; }
+	public void setImage(String img) { urlImage = img;
+	try {
+		this.img = new ImagePanel(this.urlImage);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}}
 	
 	/*
 	 * Indique si les points de collisions de l'élément courant 
@@ -114,13 +120,7 @@ public abstract class Element {
 	 * Permet de d'afficher l'élément
 	 */
 	public void drawOn(Graphics g) {
-		try {
-			img = new ImagePanel(this.urlImage);
-			img.paintComponent(g,this.getX(),this.getY(),this.getWidth(),this.getHeight());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		img.paintComponent(g,this.getX(),this.getY(),this.getWidth(),this.getHeight());
 	}
 	public void evolve(){
 		
@@ -128,6 +128,10 @@ public abstract class Element {
 
 	public boolean isMissileEnnemy() {
 		
+		return false;
+	}
+
+	public boolean isLaser() {
 		return false;
 	}
 

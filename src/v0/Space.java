@@ -332,7 +332,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					Defender.def.fire();
 					snd = new Sound("./sound/fire.wav");
 					snd.play();
-					snd.stop();
+					snd.interrupt();
 				}
 				fire = true;
 				break;
@@ -366,6 +366,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 
 	//Renvoie vrai si il y a une collision avec le missile en paramètre
 	public boolean isCol(Element m) {
+		boolean isLaser=false;
+	
 		if (m.isMissileEnnemy()){
 			if(m.collideWith(Defender.def)){
 				Defender.def.getDamage();
@@ -383,11 +385,12 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				if (m.collideWith(inv)) {
 					inv.getDamage();
 					if (Invaders.invaders.size() == 0) Game.win();
-					return true;
+					if(m.isLaser()) isLaser=true;
+					else return true;
 				};
 			}
 		}
-		return false;
+		return isLaser;
 	}
 
 	public boolean isColBonus(Bonus m) {
