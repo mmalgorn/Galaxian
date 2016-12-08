@@ -1,6 +1,7 @@
 package defender;
 
 
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -16,6 +17,7 @@ import ressources.Sprites;
 public class Defender extends Element{
 	final ImagePanel full_heart = Sprites.spritesMap.get("full_heart");
 	final ImagePanel empty_heart = Sprites.spritesMap.get("empty_heart");
+	final ImagePanel laser = Sprites.spritesMap.get("bonus_laser");
 	public static Defender def;
 	private boolean haveLaser=false;
 	private int nbLaser = 0;
@@ -53,17 +55,22 @@ public class Defender extends Element{
 		}
 	}
 
+	
+	public void drawLaser(Graphics g){
+		Font f = new Font("Arial", Font.BOLD, 25);
+		g.setFont(f);
+		
+		laser.paintComponent(g, 625, 530, 20, 20);
+		g.drawString(Integer.toString(nbLaser), 650, 550);
+		
+	}
 	/*
 	 * Fonction de tir qui instancie un nouveau missile se dirigeant vers le haut
 	 */
 	public void fire(){
 
-
 		Point p = new Point((int)(this.getX()+this.width/2),(int)(this.getY()));
 		new Missile(p, movement.TOP, false);
-
-
-
 
 	}
 
