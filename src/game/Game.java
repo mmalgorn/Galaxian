@@ -41,7 +41,7 @@ public class Game {
 	
 	public static void resetGame(){
 		new Defender(new Point(350,450));
-		
+		Bonus.bonus.clear();
 		nbLvl = 0;
 		Space.score = 0;
 		Bonus.bonus.clear();
@@ -51,7 +51,6 @@ public class Game {
 		nbEnemy = 0;
 		Invaders.invaders.clear();
 		Missile.missiles.clear();
-		Bonus.bonus.clear();
 		Laser.lasers.clear();
 		if(nbLvl < 5){
 			if(!(Level.levelMap.get(nbLvl).boss.equals("null"))){
