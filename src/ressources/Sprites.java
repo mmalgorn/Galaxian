@@ -1,9 +1,11 @@
-package v0;
+package ressources;
 import java.io.IOException;
 import java.util.HashMap;
 
+import game.ImagePanel;
+
 public final class Sprites {
-	static HashMap<String,ImagePanel> spritesMap  = new HashMap<String,ImagePanel>();
+	public static HashMap<String,ImagePanel> spritesMap  = new HashMap<String,ImagePanel>();
 	static{
 		try{
 			// fond et menu

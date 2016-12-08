@@ -1,14 +1,15 @@
-package v0;
+package projectile;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import v0.Element.movement;
+import ressources.Element;
+import ressources.Element.movement;
 
 public class Laser extends Element {
 	
-	static List<Laser> lasers = new ArrayList<Laser>();
+	public static List<Laser> lasers = new ArrayList<Laser>();
 	
 
 	private boolean laserEnnemy;

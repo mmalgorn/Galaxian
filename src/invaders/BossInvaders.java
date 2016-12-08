@@ -1,9 +1,10 @@
-package v0;
+package invaders;
 
 import java.awt.Point;
 import java.util.Random;
 
-import v0.Element.movement;
+import projectile.Laser;
+import ressources.Element.movement;
 
 public class BossInvaders extends Invaders{
 

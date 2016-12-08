@@ -1,4 +1,4 @@
-package v0;
+package game;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -15,7 +15,7 @@ public class ImagePanel extends JPanel{
 	public ImagePanel(String path) throws IOException {
 		this.image = ImageIO.read(new File(path));
 	}
-	protected void paintComponent(Graphics g,double d,double e, double f, double h) {
+	public void paintComponent(Graphics g,double d,double e, double f, double h) {
 		super.paintComponent(g);
 		g.drawImage(image, (int)d, (int)e, (int)f, (int)h, null); 
 	}

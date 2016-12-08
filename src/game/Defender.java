@@ -1,8 +1,13 @@
-package v0;
+package game;
 
 import java.awt.Graphics;
 import java.awt.Point;
 import java.io.IOException;
+
+import projectile.Laser;
+import projectile.Missile;
+import ressources.Element;
+import ressources.Sprites;
 /*
  * Defender est la classe représentant le vaisseau controlé par le joueur
  */

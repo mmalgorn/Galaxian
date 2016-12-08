@@ -1,4 +1,4 @@
-package v0;
+package ressources;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
   */
  
 public class Sound extends Thread {
-	static HashMap<String,Sound> soundMap  = new HashMap<String,Sound>();
+	public static HashMap<String,Sound> soundMap  = new HashMap<String,Sound>();
 	static{
 		soundMap.put("fire", new Sound("./sound/fire.wav"));
 		soundMap.put("explosion", new Sound("./sound/explosion.wav"));

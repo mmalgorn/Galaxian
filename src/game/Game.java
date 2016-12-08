@@ -1,8 +1,18 @@
-package v0;
+package game;
 
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import invaders.BossInvaders;
+import invaders.FireInvaders;
+import invaders.Invaders;
+import invaders.PeonInvaders;
+import invaders.ShieldInvaders;
+import projectile.Missile;
+import ressources.Element;
+import ressources.Level;
+import ressources.Sound;
 
 // credits: 
 //	random color: http://stackoverflow.com/questions/4246351/creating-random-colour-in-java

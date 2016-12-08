@@ -1,15 +1,21 @@
-package v0;
+package invaders;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import v0.Element.movement;
+import game.BonusBouclier;
+import game.BonusCoeur;
+import game.BonusLaser;
+import game.Space;
+import ressources.Element;
+import ressources.Sound;
+import ressources.Element.movement;
 
 public abstract class Invaders extends Element {
 	
-	static List<Invaders> invaders = new ArrayList<Invaders>();
+	public static List<Invaders> invaders = new ArrayList<Invaders>();
 	protected int life;
 	protected int damageAmount;
 	private Random rand;
