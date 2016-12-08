@@ -14,7 +14,7 @@ public class BonusLaser extends Bonus{
 	}
 	
 	public void action(){
-		//Defender.def.getlaser();
+		Defender.def.getlaser();
 	}
 
 }
