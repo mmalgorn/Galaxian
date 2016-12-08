@@ -12,6 +12,8 @@ public final class Sprites {
 				spritesMap.put("background", new ImagePanel("./img/background.jpg"));
 				spritesMap.put("boutonJouer", new ImagePanel("./img/boutonJouer.png"));
 				spritesMap.put("boutonJouerClick", new ImagePanel("./img/boutonJouerClick.png"));
+				spritesMap.put("boutonScores", new ImagePanel("./img/boutonScores.png"));
+				spritesMap.put("boutonScoresClick", new ImagePanel("./img/boutonScoresClick.png"));
 				spritesMap.put("boutonMenu", new ImagePanel("./img/boutonMenu.png"));
 				spritesMap.put("boutonMenuClick", new ImagePanel("./img/boutonMenuClick.png"));
 				spritesMap.put("boutonQuitter", new ImagePanel("./img/boutonQuitter.png"));

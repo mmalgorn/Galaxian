@@ -10,6 +10,7 @@ import invaders.FireInvaders;
 import invaders.Invaders;
 import invaders.PeonInvaders;
 import invaders.ShieldInvaders;
+import projectile.Laser;
 import projectile.Missile;
 import ressources.Element;
 import ressources.Level;
@@ -43,12 +44,14 @@ public class Game {
 		
 		nbLvl = 0;
 		Space.score = 0;
+		Bonus.bonus.clear();
 		inizialise();
 	}
 	public static void inizialise(){
 		nbEnemy = 0;
 		Invaders.invaders.clear();
 		Missile.missiles.clear();
+<<<<<<< HEAD
 		Bonus.bonus.clear();
 		if(nbLvl < 5){
 			if(!(Level.levelMap.get(nbLvl).boss.equals("null"))){
@@ -65,6 +68,14 @@ public class Game {
 				for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbPeon);i++ , nbEnemy++){
 					new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50),2+dif,Invaders.team.red);
 				}
+=======
+		Laser.lasers.clear();
+		if(!(Level.levelMap.get(nbLvl).boss.equals("null"))){
+			new BossInvaders(new Point(100,100),Level.levelMap.get(nbLvl).boss);
+		}else{
+			for(int i = 0 ; i < (Level.levelMap.get(nbLvl).nbFire);i++ , nbEnemy++){
+				new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+>>>>>>> branch 'master' of https://github.com/mmalgorn/Galaxian
 			}
 		}else if (nbLvl <10){
 			if(!(Level.levelMap.get(nbLvl).boss.equals("null"))){
