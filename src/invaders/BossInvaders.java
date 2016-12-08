@@ -14,7 +14,7 @@ public class BossInvaders extends Invaders{
 		this.width = 300;
 		this.height = 200;
 		this.speed = sp;
-		this.life = 25;
+		this.life = 500;
 		this.damageAmount = 25;
 		this.setPosition(p);
 		switch(name){
