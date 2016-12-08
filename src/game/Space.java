@@ -410,7 +410,13 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				Invaders inv = Invaders.invaders.get(i);
 				if (m.collideWith(inv)) {
 					inv.getDamage();
-					if (Invaders.invaders.size() == 0) Game.win();
+					if (Invaders.invaders.size() == 0)
+						try {
+							Game.win();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					if(m.isLaser()) isLaser=true;
 					else return true;
 				};
