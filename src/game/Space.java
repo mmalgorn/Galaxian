@@ -172,12 +172,11 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			drawStringRight(s.getScore().toString(), 550, 170+(30*i), g);
 			i++;
 		}
-		if(scorePan) {
-			g.drawString(username, 150, 200+(30*i));
-			drawStringRight("" + score, 550, 200+(30*i), g);			
-		}
 		if(leaderboard) {
 			imgBM.paintComponent(g, 225, 450, 250, 75);
+		} else if(scorePan) {
+			g.drawString(username, 150, 200+(30*i));
+			drawStringRight("" + score, 550, 200+(30*i), g);			
 		}
 	}
 	
