@@ -1,13 +1,16 @@
-package v0;
+package projectile;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import ressources.Element;
+import ressources.Element.movement;
+
 public class Missile extends Element {
 	
-	static List<Missile> missiles = new ArrayList<Missile>();
+	public static List<Missile> missiles = new ArrayList<Missile>();
 	
 	private movement direction;
 	private boolean missileEnnemy;

@@ -1,14 +1,16 @@
-package v0;
+package projectile;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import v0.Element.movement;
+import defender.Defender;
+import ressources.Element;
+import ressources.Element.movement;
 
 public class Laser extends Element {
 	
-	static List<Laser> lasers = new ArrayList<Laser>();
+	public static List<Laser> lasers = new ArrayList<Laser>();
 	
 
 	private boolean laserEnnemy;
@@ -47,12 +49,9 @@ public class Laser extends Element {
 	 */
 	public boolean isMissileEnnemy() { return this.laserEnnemy; }
 	
-	public boolean isLaser() {	return true;}
-
-
+	public boolean isLaser() {		return true;}
 
 	public void move(Point position) {
 		this.setPosition(new Point((int)(position.getX()+Defender.def.width/2-5),-50));	
 	}
-
 }

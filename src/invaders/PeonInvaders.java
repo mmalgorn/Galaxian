@@ -1,4 +1,4 @@
-package v0;
+package invaders;
 
 import java.awt.Point;
 

@@ -1,4 +1,4 @@
-package v0;
+package game;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,7 +19,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import v0.Element.movement;
+import defender.Defender;
+import invaders.Invaders;
+import projectile.Laser;
+import projectile.Missile;
+import ressources.Element;
+import ressources.Sound;
+import ressources.Sprites;
+import ressources.Element.movement;
 
 
 public class Space extends JComponent implements KeyListener,MouseListener{
@@ -47,7 +54,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	Iterator<Laser> las;
 	Iterator<Bonus> bon;
 
-	static int score;
+	public static int score;
 	String username = "";
 	int cursor = 0;
 
@@ -237,7 +244,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	
 	public void moveLaser(){
 		for(int i = Laser.lasers.size()-1; i >= 0; i--) {
-			
 			Laser l = Laser.lasers.get(i);
 			if(l.isMissileEnnemy()){
 			 l.move(moveAdv);
@@ -330,7 +336,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			case KeyEvent.VK_SPACE:
 				if(!fire){
 					Defender.def.fire();
-					snd = new Sound("./sound/fire.wav");
+					snd = Sound.soundMap.get("fire");
 					snd.play();
 					snd.interrupt();
 				}

@@ -1,6 +1,8 @@
-package v0;
+package game;
 
 import java.awt.Point;
+
+import defender.Defender;
 
 public class BonusLaser extends Bonus{
 

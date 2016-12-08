@@ -1,15 +1,21 @@
-package v0;
+package defender;
+
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.io.IOException;
+
+import game.ImagePanel;
+import projectile.Laser;
+import projectile.Missile;
+import ressources.Element;
+import ressources.Sprites;
 /*
  * Defender est la classe représentant le vaisseau controlé par le joueur
  */
 public class Defender extends Element{
 	final ImagePanel full_heart = Sprites.spritesMap.get("full_heart");
 	final ImagePanel empty_heart = Sprites.spritesMap.get("empty_heart");
-	static Defender def;
+	public static Defender def;
 	private boolean haveLaser=false;
 	
 	

@@ -1,7 +1,9 @@
-package v0;
+package ressources;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.io.IOException;
+
+import game.ImagePanel;
 
 /*
  * La classe Element sera hériter par tout les vaisseaux et regroupe donc les fonctionnalité principales 
@@ -13,8 +15,8 @@ public abstract class Element {
 	
 	public enum movement { LEFT,RIGHT,TOP,BOTTOM; }
 	protected double speed;
-	protected double width;
-	protected double height;
+	public double width;
+	public double height;
 	private Point position;
 	private ImagePanel img;
 	

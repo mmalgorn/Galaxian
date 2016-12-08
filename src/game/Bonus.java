@@ -1,7 +1,9 @@
-package v0;
+package game;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ressources.Element;
 
 public abstract class Bonus extends Element{
 	
