@@ -192,7 +192,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	//Affiche un bouton avec une auréole jaune au moment du clique
 	public void drawBoutonClik(Graphics g){
 		if(typeBouton.equals("jouer")){
-			imgBJC.paintComponent(g, 225, 250, 250, 75);
+			imgBJC.paintComponent(g, 225, 200, 250, 75);
 		}else if(typeBouton.equals("rejouer")) {
 			imgBRC.paintComponent(g, 75, 450, 250, 75);
 		}else if(typeBouton.equals("scores")) {
@@ -200,7 +200,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		}else if(typeBouton.equals("menu")) {
 			imgBMC.paintComponent(g, 350, 450, 250, 75);
 		}else if(typeBouton.equals("quitter")) {
-			imgBQC.paintComponent(g, 225, 350, 250, 75);
+			imgBQC.paintComponent(g, 225, 400, 250, 75);
 		}
 
 	}
