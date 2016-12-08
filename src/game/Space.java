@@ -347,6 +347,10 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				}
 				fire = true;
 				break;
+			
+			case KeyEvent.VK_C:
+				if(!fire) Defender.def.fireLaser();
+				break;
 				
 			//Touche entrée du clavier
 			case KeyEvent.VK_ENTER:
