@@ -8,6 +8,7 @@ import game.ImagePanel;
 import projectile.Laser;
 import projectile.Missile;
 import ressources.Element;
+import ressources.Sound;
 import ressources.Sprites;
 /*
  * Defender est la classe représentant le vaisseau controlé par le joueur
@@ -18,7 +19,7 @@ public class Defender extends Element{
 	public static Defender def;
 	private boolean haveLaser=false;
 	private int nbLaser = 0;
-	
+
 	private int life = 100;
 	private int niveau;
 	private int nbHeart = 4;
@@ -33,7 +34,7 @@ public class Defender extends Element{
 		this.niveau=1;
 		def = this;
 	}
-	
+
 	/*
 	 * Retourne la vie du joueur
 	 */
@@ -51,23 +52,33 @@ public class Defender extends Element{
 			}
 		}
 	}
-	
+
 	/*
 	 * Fonction de tir qui instancie un nouveau missile se dirigeant vers le haut
 	 */
 	public void fire(){
-	
-		if(nbLaser==0){		
-			Point p = new Point((int)(this.getX()+this.width/2),(int)(this.getY()));
+
+
+		Point p = new Point((int)(this.getX()+this.width/2),(int)(this.getY()));
 		new Missile(p, movement.TOP, false);
-		}else {
+
+
+
+
+	}
+
+	public void fireLaser(){
+
+		if(nbLaser>0){
 			Point p = new Point((int)(this.getX()+this.width/2),0);
 			new Laser(p,5,false);	
 			nbLaser --;
+			Sound snd = Sound.soundMap.get("laser");
+			snd.play();
+			snd.interrupt();
 		}
-		
 	}
-	
+
 	/*
 	 * Fonction appelée lorsque le vaisseau reçoit des dégats
 	 */
@@ -96,15 +107,15 @@ public class Defender extends Element{
 			else
 				this.setImage("vaisseau"+this.niveau);
 		}
-		
+
 	}
 
 	public void getlaser() {
 		// TODO Auto-generated method stub
 		nbLaser+=2;
-		
+
 	}
-	
+
 	public void addShield(){
 		shield = true;
 		this.setImage("vaisseau"+this.niveau+"_shield");
