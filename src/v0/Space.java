@@ -97,22 +97,17 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public boolean getGameOver(){return this.gameOver2;}
 
 	public void start() {
-		try {
-			imgFond = new ImagePanel("./img/background.jpg");
-			imgTitre = new ImagePanel("./img/titre.png");
-			imgGameOver = new ImagePanel("./img/gameover.png");
-			imgBJ = new ImagePanel("./img/boutonJouer.png");
-			imgBJC = new ImagePanel("./img/boutonJouerClick.png");
-			imgBQ = new ImagePanel("./img/boutonQuitter.png");
-			imgBQC = new ImagePanel("./img/boutonQuitterClick.png");
-			imgBR = new ImagePanel("./img/boutonRejouer.png");
-			imgBRC = new ImagePanel("./img/boutonRejouerClick.png");
-			imgBM = new ImagePanel("./img/boutonMenu.png");
-			imgBMC = new ImagePanel("./img/boutonMenuClick.png");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		imgFond = Sprites.spritesMap.get("background");
+		imgTitre = Sprites.spritesMap.get("titre");
+		imgGameOver = Sprites.spritesMap.get("gameover");
+		imgBJ = Sprites.spritesMap.get("boutonJouer");
+		imgBJC = Sprites.spritesMap.get("boutonJouerClick");
+		imgBQ =Sprites.spritesMap.get("boutonQuitter");
+		imgBQC = Sprites.spritesMap.get("boutonQuitterClick");
+		imgBR = Sprites.spritesMap.get("boutonRejouer");
+		imgBRC = Sprites.spritesMap.get("/boutonRejouerClick");
+		imgBM = Sprites.spritesMap.get("boutonMenu");
+		imgBMC = Sprites.spritesMap.get("boutonMenuClick");
 		this.start(30, 30, 700, 600);
 	}
 	
@@ -128,7 +123,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void start (int x, int y, int width, int height) {
 		JFrame window = new JFrame();
 		window.setBounds(x, y, width, height);
-		window.setTitle("Galaxian : Le meilleur jeu de Space Invaders de TOUTE la galaxie !!!!!!!!!!");
+		window.setTitle("Galaxian");
 		window.setIconImage(new ImageIcon("./img/vaisseau_icon.png").getImage());
 		window.getContentPane().add(this);
 		window.setResizable(false);
@@ -265,7 +260,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			}
 			if(inv.getY() <= 0 || (inv.getY()+inv.height) >= 450){
 				gameOver = true;
-				Defender.def.setImage("./img/explosion.png");
+				Defender.def.setImage("explosion");
 			}
 		}
 		iter = Invaders.invaders.iterator();
@@ -372,7 +367,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				Defender.def.getDamage();
 				if(Defender.def.getLife()<=0){
 					gameOver = true;
-					Defender.def.setImage("./img/explosion.png");
+					Defender.def.setImage("explosion");
 				}
 				return true;
 

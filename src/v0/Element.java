@@ -3,8 +3,6 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.io.IOException;
 
-import v0.Element.movement;
-
 /*
  * La classe Element sera hériter par tout les vaisseaux et regroupe donc les fonctionnalité principales 
  * utiliser par chacun.
@@ -18,7 +16,6 @@ public abstract class Element {
 	protected double width;
 	protected double height;
 	private Point position;
-	private String urlImage;
 	private ImagePanel img;
 	
 	
@@ -77,18 +74,13 @@ public abstract class Element {
 	/*
 	 * Renvoie le chemin de l'image utilisée par l'élément
 	 */
-	public String getImage() { return urlImage; }
+	public ImagePanel getImage() { return this.img; }
 	
 	/*
 	 * Modifie l'image utilisée par l'élément
 	 */
-	public void setImage(String img) { urlImage = img;
-	try {
-		this.img = new ImagePanel(this.urlImage);
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}}
+	public void setImage(String img) {
+		this.img = Sprites.spritesMap.get(img);}
 	
 	/*
 	 * Indique si les points de collisions de l'élément courant 

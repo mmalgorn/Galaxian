@@ -10,7 +10,7 @@ public class BonusLaser extends Bonus{
 		this.speed = 2;
 		this.setPosition(p);
 		this.type = "laser";
-		this.setImage("./img/bonus_laser.png");
+		this.setImage("bonus_laser");
 	}
 	
 	public void action(){

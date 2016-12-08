@@ -10,7 +10,7 @@ public class BonusCoeur extends Bonus{
 		this.speed = 2;
 		this.setPosition(p);
 		this.type = "coeur";
-		this.setImage("./img/full_heart.png");
+		this.setImage("full_heart");
 	}
 
 	

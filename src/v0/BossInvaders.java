@@ -18,13 +18,13 @@ public class BossInvaders extends Invaders{
 		this.setPosition(p);
 		switch(name){
 		case "red" : 
-			this.setImage("./img/boss_invaders_red.png");
+			this.setImage("boss_invaders_red");
 			break;
 		case "grey" : 
-			this.setImage("./img/boss_invaders_grey.png");
+			this.setImage("boss_invaders_grey");
 			break;
 		case "yellow" : 
-			this.setImage("./img/boss_invaders_yellow.png");
+			this.setImage("boss_invaders_yellow");
 			break;
 		}
 	}

@@ -19,7 +19,7 @@ public class Laser extends Element {
 		this.height = 500;
 		this.width = 20;
 		this.speed = sp;
-		this.setImage("./img/laser.png");
+		this.setImage("laser");
 		laserEnnemy = me;
 		
 	}
