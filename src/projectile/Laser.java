@@ -12,7 +12,6 @@ public class Laser extends Element {
 	
 	public static List<Laser> lasers = new ArrayList<Laser>();
 	public int destroy=4;
-	public boolean isDest=false;
 
 	private boolean laserEnnemy;
 	public Laser(Point p,double sp,boolean me){

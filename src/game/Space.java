@@ -253,12 +253,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		for(int i = Laser.lasers.size()-1; i >= 0; i--) {
 			Laser l = Laser.lasers.get(i);
 			
-			if(l.isMissileEnnemy()){
-			 l.move(moveAdv);
-			}else  {
-				l.move(Defender.def.getPosition());
-				l.remove();
-			}
+			if(l.isMissileEnnemy())  l.move(moveAdv);
+			else l.move(Defender.def.getPosition());
+			l.remove();
 			if(this.isCol(l)) l.destroy();
 			else l.destroy();
 			
@@ -384,7 +381,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	
 		if (m.isMissileEnnemy()){
 			if(m.collideWith(Defender.def)){
-				Defender.def.getDamage();
+				if(!m.isDest) Defender.def.getDamage();
+				
+				
 				if(Defender.def.getLife()<=0){
 					gameOver = true;
 					Defender.def.setImage("explosion");
