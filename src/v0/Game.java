@@ -12,7 +12,7 @@ public class Game {
 	static int nbEnemy = 0 ; 
 	static int nbEnemyMax = 45;
 	static int i;
-	static Sound theme;
+	static Sound theme = Sound.soundMap.get("theme");
 	static int nbLvl = 0;
 	
 	public static void win(){
@@ -50,7 +50,6 @@ public class Game {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		theme = new Sound("./sound/mainTheme.wav");
 		theme.loop();
 		Space root = new Space();
 		new Defender(new Point(350,450));

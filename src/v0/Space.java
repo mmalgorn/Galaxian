@@ -325,7 +325,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			case KeyEvent.VK_SPACE:
 				if(!fire){
 					Defender.def.fire();
-					snd = new Sound("./sound/fire.wav");
+					snd = Sound.soundMap.get("fire");
 					snd.play();
 					snd.interrupt();
 				}

@@ -59,7 +59,7 @@ public abstract class Invaders extends Element {
 		else if(rand.nextInt(10)==3)new BonusCoeur(p);
 		Space.score+=100;
 		invaders.remove(this);
-		Sound snd = new Sound("./sound/explosion.wav");
+		Sound snd = Sound.soundMap.get("explosion");
 		snd.play();
 		snd.interrupt();
 		
