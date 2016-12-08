@@ -165,8 +165,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			i++;
 		}
 		if(leaderboard) {
-			g.drawString(username, 150, 190+(30*i));
-			drawStringRight("" + score, 550, 190+(30*i), g);			
+			g.drawString(username, 150, 200+(30*i));
+			drawStringRight("" + score, 550, 200+(30*i), g);			
 		}
 	}
 	
@@ -373,7 +373,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 
 	//Renvoie vrai si il y a une collision avec le missile en paramètre
 	public boolean isCol(Element m) {
-		boolean isLaser=false;
+		boolean isLaser = false;
 	
 		if (m.isMissileEnnemy()){
 			if(m.collideWith(Defender.def)){
@@ -386,9 +386,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 
 			}
 		}else{
-			Iterator<Invaders> it = Invaders.invaders.iterator();
-			while(it.hasNext()) {
-				Invaders inv = it.next();
+			for(int i = Invaders.invaders.size() - 1; i >= 0; i--) {			
+				Invaders inv = Invaders.invaders.get(i);
 				if (m.collideWith(inv)) {
 					inv.getDamage();
 					if (Invaders.invaders.size() == 0) Game.win();
