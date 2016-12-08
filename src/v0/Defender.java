@@ -11,6 +11,7 @@ public class Defender extends Element{
 	final String empty_heart = "./img/empty_heart.png";
 	static Defender def;
 	private ImagePanel ip;
+	private boolean haveLaser=false;
 	
 	
 	private int life = 100;
@@ -55,8 +56,15 @@ public class Defender extends Element{
 	 * Fonction de tir qui instancie un nouveau missile se dirigeant vers le haut
 	 */
 	public void fire(){
-		Point p = new Point((int)(this.getX()+this.width/2),(int)(this.getY()));
+	
+		if(!haveLaser){		
+			Point p = new Point((int)(this.getX()+this.width/2),(int)(this.getY()));
 		new Missile(p, movement.TOP, false);
+		}else {
+			Point p = new Point((int)(this.getX()+this.width/2),0);
+			new Laser(p,5,false);			
+		}
+		
 	}
 	
 	/*
@@ -79,6 +87,12 @@ public class Defender extends Element{
 			this.life+=25;
 			this.setImage("./img/vaisseau"+this.niveau+".png");
 		}
+		
+	}
+
+	public void getlaser() {
+		// TODO Auto-generated method stub
+		haveLaser=true;
 		
 	}
 

@@ -45,5 +45,7 @@ public class Laser extends Element {
 	 * Renvoie vrai si le missile est ennemi ou faux sinon
 	 */
 	public boolean isMissileEnnemy() { return this.laserEnnemy; }
+	
+	public boolean isLaser() {		return true;}
 
 }
