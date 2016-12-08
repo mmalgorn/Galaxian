@@ -49,9 +49,7 @@ public class Game {
 		theme.loop();
 		Space root = new Space();
 		new Defender(new Point(350,450));
-		
 		inizialise();
-
 		root.start();
 		
   		while (true) {

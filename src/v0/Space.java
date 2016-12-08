@@ -133,6 +133,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		window.getContentPane().add(this);
 		window.setResizable(false);
 		window.setVisible(true);
+		tv = new ThreadVaisseau();
 		window.addKeyListener(this);
 		window.addMouseListener(this);
 		new GestFenetre(window);
@@ -307,11 +308,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			//Flèche gauche du clavier
 			case KeyEvent.VK_LEFT:
 				if (!moveLeft) {
-					if(tv != null){
-						tv.arret();
-					}
-					tv = new ThreadVaisseau(Defender.def,"left");
-					tv.start();
+					if(tv != null)tv.arret();
+					tv.setDir("left");
+					tv.reset();
 					moveLeft = true;
 				}
 				break;
@@ -320,8 +319,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			case KeyEvent.VK_RIGHT:
 				if (!moveRight) {
 					if(tv != null)tv.arret();
-					tv = new ThreadVaisseau(Defender.def,"right");
-					tv.start();
+					tv.setDir("right");
+					tv.reset();
 					moveRight = true;
 				}
 				break;
@@ -498,6 +497,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				if(e.getY()>250 && e.getY()<325){
 					//Jouer
 					menu = false;
+					tv.start();
 				}else if(e.getY()>350 && e.getY()<425){
 					//Quitter
 					System.exit(0);

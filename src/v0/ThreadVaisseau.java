@@ -5,45 +5,54 @@ import v0.Element.movement;
 public class ThreadVaisseau extends Thread{
 	Element elem;
 	String dir;
-	boolean arretThread;
+	boolean arretThread = true;
 	
-	public ThreadVaisseau(Element e,String d){
-		this.elem = e;
-		this.dir = d;
+	public ThreadVaisseau(){
 	}
 	
 	public void arret(){
 		arretThread = true;
 	}
-	
-	public String getDir(){
-		return dir;
+
+	public void setDir(String d){dir = d;}
+	public String getDir(){return dir;}
+	public void reset(){
+		arretThread = false;
 	}
 	
 	public void run(){
-		arretThread = false;
-		if(dir.equals("left"))
-			while(!arretThread)
-				if(elem.getX()>10){
-					elem.move(movement.LEFT);
-					try {
-						Thread.sleep(40);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+		elem = Defender.def;
+		while(!isInterrupted()){
+			while(!arretThread){
+				if(dir.equals("left")){
+					if(elem.getX()>10){
+						elem.move(movement.LEFT);
+						try {
+							Thread.sleep(40);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}else if(dir.equals("right")){
+					if(elem.getX()<590){
+						elem.move(movement.RIGHT);
+						try {
+							Thread.sleep(40);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
-		if(dir.equals("right"))
-			while(!arretThread)
-				if(elem.getX()<590){
-					elem.move(movement.RIGHT);
-					try {
-						Thread.sleep(40);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+			}
+			try {
+				Thread.sleep(400);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
