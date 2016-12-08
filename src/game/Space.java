@@ -316,7 +316,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			//Flèche gauche du clavier
 			case KeyEvent.VK_LEFT:
 				if (!moveLeft) {
-					if(tv != null)tv.arret();
+					tv.arret();
 					tv.setDir("left");
 					tv.reset();
 					moveLeft = true;
@@ -414,13 +414,13 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			case KeyEvent.VK_LEFT:
 				if(!gameOver && moveLeft) {
 					moveLeft = false;
-					if(tv.getDir().equals("left")) tv.arret();
+					if(tv.getDir().equals("left"))tv.arret();
 				}
 				break;
 			case KeyEvent.VK_RIGHT:
 				if(!gameOver && moveRight) {
 					moveRight = false;
-					if(tv.getDir().equals("right")) tv.arret();					
+					if(tv.getDir().equals("right"))tv.arret();					
 				}
 				break;
 			case KeyEvent.VK_SPACE:
@@ -490,6 +490,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				if(e.getY()>250 && e.getY()<325){
 					//Jouer
 					menu = false;
+					moveLeft = false;
+					moveRight = false;
+					tv.arret();
 					if(firstStart){
 						tv.start();
 						firstStart = false;
@@ -506,6 +509,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					gameOver = false;
 					gameOver2 = false;
 					attente = true;
+					moveLeft = false;
+					moveRight = false;
+					tv.arret();
 					Game.resetGame();
 				}else if(e.getX()>350 && e.getX()<600){
 					//Menu
