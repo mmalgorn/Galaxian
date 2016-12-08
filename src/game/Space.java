@@ -46,11 +46,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	boolean scorePan = false;
 	boolean leaderboard = false;
 	boolean firstStart = true;
-<<<<<<< HEAD
 	boolean wait = true;
-=======
-	boolean pause = false;
->>>>>>> branch 'master' of https://github.com/mmalgorn/Galaxian
 	String typeBouton;
 	ThreadVaisseau tv;
 	movement moveAdv = movement.RIGHT;
@@ -360,7 +356,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				
 			//Barre espace du clavier
 			case KeyEvent.VK_SPACE:
-				if(!fire && !pause){
+				if(!fire){
 					Defender.def.fire();
 					snd = Sound.soundMap.get("fire");
 					snd.play();
