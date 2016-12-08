@@ -46,6 +46,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	boolean scorePan = false;
 	boolean leaderboard = false;
 	boolean firstStart = true;
+	boolean pause = false;
 	String typeBouton;
 	ThreadVaisseau tv;
 	movement moveAdv = movement.RIGHT;
@@ -71,7 +72,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			drawScorePanel(g);
 			if(boutonClik)drawBoutonClik(g);
 		} else {
-			if(!gameOver)moveElements();
+			if(!gameOver && !pause)moveElements();
 			drawBackground(g);
 			paintLife(g);
 			drawScore(g);
@@ -89,7 +90,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		if(gameOver2){
 			if(attente){
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -103,6 +104,15 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			drawScorePanel(g);
 		}
 		if(gameOver) gameOver2 = true;
+		if(pause){
+			drawPause(g);
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	//Renvoie vrai si l''utilisateur est sur l'écran de game over
@@ -179,6 +189,12 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			g.drawString(username, 150, 200+(30*i));
 			drawStringRight("" + score, 550, 200+(30*i), g);			
 		}
+	}
+	
+	public void drawPause(Graphics g){
+		Font f = new Font("Arial", Font.BOLD, 60);
+		g.setFont(f);
+		drawStringCenter("PAUSE", 350, 350, g);
 	}
 	
 	public void drawScore(Graphics g) {
@@ -319,7 +335,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		
 			//Flèche gauche du clavier
 			case KeyEvent.VK_LEFT:
-				if (!moveLeft) {
+				if (!moveLeft && !pause) {
 					tv.arret();
 					tv.setDir("left");
 					tv.reset();
@@ -329,7 +345,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				
 			//Flèche droite du clavier
 			case KeyEvent.VK_RIGHT:
-				if (!moveRight) {
+				if (!moveRight && !pause) {
 					if(tv != null)tv.arret();
 					tv.setDir("right");
 					tv.reset();
@@ -339,7 +355,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				
 			//Barre espace du clavier
 			case KeyEvent.VK_SPACE:
-				if(!fire){
+				if(!fire && !pause){
 					Defender.def.fire();
 					snd = Sound.soundMap.get("fire");
 					snd.play();
@@ -349,12 +365,12 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				break;
 			
 			case KeyEvent.VK_C:
-				if(!fire) Defender.def.fireLaser();
+				if(!fire && !pause) Defender.def.fireLaser();
 				break;
 				
 			//Touche entrée du clavier
 			case KeyEvent.VK_ENTER:
-				if(scorePan) {
+				if(scorePan && !pause) {
 					new Score(score, username);
 					writeScores();
 					scorePan = false;					
@@ -363,12 +379,22 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				
 			//Touche effacer du clavier
 			case KeyEvent.VK_BACK_SPACE:
-				if (scorePan) username = username.substring(0, Math.max(0, username.length() - 1));
+				if (scorePan && !pause) username = username.substring(0, Math.max(0, username.length() - 1));
+				break;
+				
+			case KeyEvent.VK_ESCAPE:
+				if(pause){
+					pause = false;
+					tv.reset();
+				}else{
+					pause = true;
+					tv.arret();
+				}
 				break;
 				
 			//Toute les autres touches du clavier
 			default:
-				if (scorePan) {
+				if (scorePan && !pause) {
 					char c = e.getKeyChar();
 					if((c >= 97 && c <= 122) || (c >= 48 && c <= 57)) {
 						username += c;
