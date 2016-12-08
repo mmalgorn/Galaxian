@@ -3,6 +3,7 @@ package invaders;
 import java.awt.Point;
 import java.util.Random;
 
+import defender.Defender;
 import projectile.Laser;
 import projectile.Missile;
 
@@ -49,6 +50,10 @@ public class BossInvaders extends Invaders{
 	}
 
 
+	public void destroy(){
+		super.destroy();
+		Defender.def.evolve();
+	}
 
 
 

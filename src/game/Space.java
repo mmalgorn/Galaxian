@@ -234,7 +234,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		moveBonus();
 		moveEnemys();
 		moveLaser();
-		DefenderEvolve();
 	}
 
 	// Deplacement des missiles a chaque tours
@@ -304,16 +303,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 	
 	//Evolution du vaisseau principale en fonction du score
-	private void DefenderEvolve() {
-		if(Space.score>1000&&Defender.def.getNiveau()==1){
-			Defender.def.evolve();
-		}else{
-			if(Space.score>2000&&Defender.def.getNiveau()==2){
-				Defender.def.evolve();
-			}
-		}
-		
-	}
+	
 	
 	// Affichage de la vie
 	public void paintLife(Graphics g){
