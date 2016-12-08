@@ -247,14 +247,16 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void moveLaser(){
 		for(int i = Laser.lasers.size()-1; i >= 0; i--) {
 			Laser l = Laser.lasers.get(i);
+			
 			if(l.isMissileEnnemy()){
 			 l.move(moveAdv);
 			}else  {
 				l.move(Defender.def.getPosition());
+				l.remove();
 			}
 			if(this.isCol(l)) l.destroy();
-			else l.destroyTemp();
-		
+			else l.destroy();
+			
 		}
 	}
 	// Deplacement des Ennemis

@@ -11,10 +11,10 @@ import ressources.Element.movement;
 public class Laser extends Element {
 	
 	public static List<Laser> lasers = new ArrayList<Laser>();
-	
+	public int destroy=4;
+	public boolean isDest=false;
 
 	private boolean laserEnnemy;
-	private int temp=10;
 	public Laser(Point p,double sp,boolean me){
 		lasers.add(this);
 		this.setPosition(p);
@@ -34,15 +34,16 @@ public class Laser extends Element {
 	 * suppression dans la liste missiles
 	 */
 	public void destroy() {
-		lasers.remove(this);
+		isDest=true;
+	}
+	
+	
+	public void remove(){
+		if (isDest) destroy--;
+		if (destroy==0)	lasers.remove(this);
 		
 	}
 	
-	public void destroyTemp() {
-		
-		if(temp==0)	lasers.remove(this);
-		else temp--;
-	}
 	
 	/*
 	 * Renvoie vrai si le missile est ennemi ou faux sinon
