@@ -20,10 +20,10 @@ public class ThreadVaisseau extends Thread{
 	public String getDir(){return dir;}
 	public void reset(){
 		arretThread = false;
+		elem = Defender.def;
 	}
 	
 	public void run(){
-		elem = Defender.def;
 		while(!isInterrupted()){
 			while(!arretThread){
 				if(dir.equals("left")){

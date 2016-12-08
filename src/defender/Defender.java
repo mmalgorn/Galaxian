@@ -22,10 +22,12 @@ public class Defender extends Element{
 	private int life = 100;
 	private int niveau;
 	private int nbHeart = 4;
+	private boolean shield;
 	public Defender(Point p){
 		this.width = 75;
 		this.height = 75;
 		this.speed = 15;
+		this.shield = false;
 		this.setPosition(p);
 		this.setImage("vaisseau1");
 		this.niveau=1;
@@ -70,7 +72,12 @@ public class Defender extends Element{
 	 * Fonction appelée lorsque le vaisseau reçoit des dégats
 	 */
 	public void getDamage() {
-		life -= 25;
+		if(shield){
+			shield = false;
+			this.setImage("vaisseau"+this.niveau);
+		}else{
+			life -= 25;
+		}
 	}
 	public void heal() {
 		if(life<=(nbHeart-1)*25)life += 25;
@@ -84,7 +91,10 @@ public class Defender extends Element{
 			this.niveau++;
 			this.nbHeart++;
 			this.life+=25;
-			this.setImage("vaisseau"+this.niveau);
+			if(shield)
+				this.setImage("vaisseau"+this.niveau+"_shield");
+			else
+				this.setImage("vaisseau"+this.niveau);
 		}
 		
 	}
@@ -93,6 +103,11 @@ public class Defender extends Element{
 		// TODO Auto-generated method stub
 		nbLaser+=2;
 		
+	}
+	
+	public void addShield(){
+		shield = true;
+		this.setImage("vaisseau"+this.niveau+"_shield");
 	}
 
 }
