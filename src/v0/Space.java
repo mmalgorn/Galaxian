@@ -14,9 +14,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -30,7 +27,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	static Map<String, Integer> scoreTable = new TreeMap<String, Integer>();
 	ImagePanel imgFond,imgTitre,imgGameOver,imgBJ,imgBJC,imgBQ,imgBQC,imgBR,imgBRC,imgBM,imgBMC;
 	boolean moveLeft = false;
 	boolean moveRight = false;
@@ -40,6 +36,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	boolean gameOver2 = false;
 	boolean attente = true;
 	boolean boutonClik = false;
+	boolean leaderboard = false;
 	String typeBouton;
 	ThreadVaisseau tv;
 	movement moveAdv = movement.RIGHT;
@@ -84,6 +81,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					e.printStackTrace();
 				}
 				attente = false;
+				leaderboard = true;
 			}
 			moveLeft = false;
 			moveRight = false;
@@ -157,13 +155,15 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		drawStringCenter("SCORES", 350, 150, g);
 		g.setFont(f2);
 		int i = 0;
-		for(Entry<String, Integer> e : scoreTable.entrySet()) {
-			g.drawString(e.getKey(), 150, 170+(30*i));
-			drawStringRight(e.getValue().toString(), 550, 170+(30*i), g);
+		for(Score s : Score.scoreTable) {
+			g.drawString(s.getUsername(), 150, 170+(30*i));
+			drawStringRight(s.getScore().toString(), 550, 170+(30*i), g);
 			i++;
 		}
-		g.drawString(username, 150, 170+(30*i));
-		drawStringRight("" + score, 550, 170+(30*i), g);
+		if(leaderboard) {
+			g.drawString(username, 150, 190+(30*i));
+			drawStringRight("" + score, 550, 190+(30*i), g);			
+		}
 	}
 	
 	public void drawScore(Graphics g) {
@@ -339,20 +339,21 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				
 			//Touche entrée du clavier
 			case KeyEvent.VK_ENTER:
-				addScore(username, score);
-				writeScores();
-				gameOver = false;
-				menu = true;
+				if(leaderboard) {
+					new Score(score, username);
+					writeScores();
+					leaderboard = false;					
+				}
 				break;
 				
 			//Touche effacer du clavier
 			case KeyEvent.VK_BACK_SPACE:
-				if (gameOver) username = username.substring(0, Math.max(0, username.length() - 1));
+				if (leaderboard) username = username.substring(0, Math.max(0, username.length() - 1));
 				break;
 				
 			//Toute les autres touches du clavier
 			default:
-				if (gameOver) {
+				if (leaderboard) {
 					char c = e.getKeyChar();
 					if((c >= 97 && c <= 122) || (c >= 48 && c <= 57)) {
 						username += c;
@@ -442,25 +443,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
-	
-	public static void addScore(String username, int score) {
-		if (scoreTable.size() < 10) {
-			scoreTable.put(username, score);
-			return;
-		}
-		int min = Integer.MAX_VALUE;
-		Entry<String, Integer> minEntry = null;
-		for(Entry<String, Integer> s : scoreTable.entrySet()) {
-			if(s.getValue() < min) {
-				min = s.getValue();
-				minEntry = s;
-			}
-		}
-		if (score > min) {
-			scoreTable.remove(minEntry);
-			scoreTable.put(username, score);
-		}
-	}
 
 	@Override
 	//Fonction de gestion des évènements des appuies sur un clic de la souris
@@ -532,7 +514,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		try {
 			FileOutputStream fOut = new FileOutputStream("./data/scores.dat");
 			ObjectOutputStream oOs = new ObjectOutputStream(fOut);
-			oOs.writeObject(scoreTable);
+			oOs.writeObject(Score.scoreTable);
 			oOs.close();			
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -543,7 +525,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		try {
 			FileInputStream fIn = new FileInputStream("./data/scores.dat");
 		    ObjectInputStream oIs = new ObjectInputStream(fIn);
-		    scoreTable = (TreeMap<String, Integer>) oIs.readObject();
+		    Score.scoreTable = (ArrayList<Score>) oIs.readObject();
 		    oIs.close();
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
