@@ -13,7 +13,7 @@ import game.ImagePanel;
  */
 public abstract class Element {
 
-	public enum movement { LEFT,RIGHT,TOP,BOTTOM; }
+	public enum movement { LEFT,RIGHT,TOP,BOTTOM,TOPLEFT,TOPRIGHT; }
 	protected double speed;
 	public double width;
 	public double height;
@@ -68,6 +68,14 @@ public abstract class Element {
 			break;
 		case BOTTOM:
 			y = speed;
+			break;
+		case TOPLEFT:
+			x = (-speed);
+			y = (-speed);
+			break;
+		case TOPRIGHT:
+			x = speed;
+			y = (-speed);
 			break;
 		}
 		position.setLocation(position.getX() + x,position.getY() + y);

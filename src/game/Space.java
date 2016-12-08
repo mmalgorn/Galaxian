@@ -46,6 +46,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	boolean scorePan = false;
 	boolean leaderboard = false;
 	boolean firstStart = true;
+	boolean wait = true;
 	String typeBouton;
 	ThreadVaisseau tv;
 	movement moveAdv = movement.RIGHT;
@@ -63,6 +64,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	//Affichage du rendu graphique du jeu
 	public void paint(Graphics g) {
 		super.paint(g);
+		
 		if(menu) {
 			drawMenu(g);
 			if(boutonClik)drawBoutonClik(g);
