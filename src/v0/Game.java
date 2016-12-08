@@ -31,17 +31,22 @@ public class Game {
 		nbEnemy = 0;
 		Invaders.invaders.clear();
 		Missile.missiles.clear();
-		for(int i = 0 ; i < (Level.levelMap.get(nbLvl).nbFire);i++ , nbEnemy++){
-			new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+		if(!(Level.levelMap.get(nbLvl).boss.equals("null"))){
+			new BossInvaders(new Point(100,100),Level.levelMap.get(nbLvl).boss);
+		}else{
+			for(int i = 0 ; i < (Level.levelMap.get(nbLvl).nbFire);i++ , nbEnemy++){
+				new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+			}
+			int nbEnemyTmp = nbEnemy;
+			for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbShield);i++ , nbEnemy++){
+				new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+			}
+			nbEnemyTmp = nbEnemy;
+			for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbPeon);i++ , nbEnemy++){
+				new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+			}
 		}
-		int nbEnemyTmp = nbEnemy;
-		for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbShield);i++ , nbEnemy++){
-			new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
-		}
-		nbEnemyTmp = nbEnemy;
-		for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbPeon);i++ , nbEnemy++){
-			new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
-		}
+		
 	}
 	
 	public static void main(String[] args) throws IOException {
