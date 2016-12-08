@@ -1,8 +1,19 @@
-package v0;
+package game;
 
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import defender.Defender;
+import invaders.BossInvaders;
+import invaders.FireInvaders;
+import invaders.Invaders;
+import invaders.PeonInvaders;
+import invaders.ShieldInvaders;
+import projectile.Missile;
+import ressources.Element;
+import ressources.Level;
+import ressources.Sound;
 
 // credits: 
 //	random color: http://stackoverflow.com/questions/4246351/creating-random-colour-in-java
@@ -12,7 +23,7 @@ public class Game {
 	static int nbEnemy = 0 ; 
 	static int nbEnemyMax = 45;
 	static int i;
-	static Sound theme;
+	static Sound theme = Sound.soundMap.get("theme");
 	static int nbLvl = 0;
 	
 	public static void win(){
@@ -31,25 +42,31 @@ public class Game {
 		nbEnemy = 0;
 		Invaders.invaders.clear();
 		Missile.missiles.clear();
-		for(int i = 0 ; i < (Level.levelMap.get(nbLvl).nbFire);i++ , nbEnemy++){
-			new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+		if(!(Level.levelMap.get(nbLvl).boss.equals("null"))){
+			new BossInvaders(new Point(100,100),Level.levelMap.get(nbLvl).boss);
+		}else{
+			for(int i = 0 ; i < (Level.levelMap.get(nbLvl).nbFire);i++ , nbEnemy++){
+				new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+			}
+			int nbEnemyTmp = nbEnemy;
+			for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbShield);i++ , nbEnemy++){
+				new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+			}
+			nbEnemyTmp = nbEnemy;
+			for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbPeon);i++ , nbEnemy++){
+				new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+			}
 		}
-		int nbEnemyTmp = nbEnemy;
-		for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbShield);i++ , nbEnemy++){
-			new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
-		}
-		nbEnemyTmp = nbEnemy;
-		for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbPeon);i++ , nbEnemy++){
-			new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
-		}
+		
 	}
 	
 	public static void main(String[] args) throws IOException {
-		theme = new Sound("./sound/mainTheme.wav");
 		theme.loop();
 		Space root = new Space();
 		new Defender(new Point(350,450));
+		
 		inizialise();
+
 		root.start();
 		
   		while (true) {

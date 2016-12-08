@@ -1,8 +1,8 @@
-package v0;
+package invaders;
 
 import java.awt.Point;
 
-import v0.Element.movement;
+import ressources.Element.movement;
 /*
  * Vaisseau invaders avec deux fois plus de vie
  */
@@ -14,7 +14,7 @@ public class ShieldInvaders extends Invaders {
 		this.speed = 2;
 		this.life = 100;
 		this.setPosition(p);
-		this.setImage("./img/shield_invaders.png");
+		this.setImage("shield_invaders");
 	}
 	
 	/*
@@ -22,6 +22,6 @@ public class ShieldInvaders extends Invaders {
 	 */
 	public void getDamage() {
 		super.getDamage();
-		if (life <= 50)	this.setImage("./img/peon_invaders.png");
+		if (life <= 50)	this.setImage("peon_invaders");
 	}
 }

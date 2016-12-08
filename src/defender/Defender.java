@@ -1,16 +1,22 @@
-package v0;
+package defender;
+
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.io.IOException;
+
+import game.ImagePanel;
+import projectile.Laser;
+import projectile.Missile;
+import ressources.Element;
+import ressources.Sprites;
 /*
  * Defender est la classe représentant le vaisseau controlé par le joueur
  */
 public class Defender extends Element{
-	final String full_heart = "./img/full_heart.png";
-	final String empty_heart = "./img/empty_heart.png";
-	static Defender def;
-	private ImagePanel ip;
+	final ImagePanel full_heart = Sprites.spritesMap.get("full_heart");
+	final ImagePanel empty_heart = Sprites.spritesMap.get("empty_heart");
+	public static Defender def;
+	private boolean haveLaser=false;
 	
 	
 	private int life = 100;
@@ -21,7 +27,7 @@ public class Defender extends Element{
 		this.height = 75;
 		this.speed = 15;
 		this.setPosition(p);
-		this.setImage("./img/vaisseau1.png");
+		this.setImage("vaisseau1");
 		this.niveau=1;
 		def = this;
 	}
@@ -33,21 +39,14 @@ public class Defender extends Element{
 		return this.life;
 	}
 	public void drawLife(Graphics g){
-		try{
-			ip = new ImagePanel(full_heart);
-			for (int i = nbHeart ; i > 0; i--){
-				if(life >= i*25){
-					ip.setImage(full_heart);
-					ip.paintComponent(g, 5+(i*21), 5, 20, 20);
-					ip.paint(g);
-				}else{
-					ip.setImage(empty_heart);
-					ip.paintComponent(g, 5+(i*21), 5, 20, 20);
-					ip.paint(g);
-				}
+		for (int i = nbHeart ; i > 0; i--){
+			if(life >= i*25){
+				full_heart.paintComponent(g, 5+(i*21), 5, 20, 20);
+				full_heart.paint(g);
+			}else{
+				empty_heart.paintComponent(g, 5+(i*21), 5, 20, 20);
+				empty_heart.paint(g);
 			}
-		} catch(IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
@@ -55,8 +54,15 @@ public class Defender extends Element{
 	 * Fonction de tir qui instancie un nouveau missile se dirigeant vers le haut
 	 */
 	public void fire(){
-		Point p = new Point((int)(this.getX()+this.width/2),(int)(this.getY()));
+	
+		if(!haveLaser){		
+			Point p = new Point((int)(this.getX()+this.width/2),(int)(this.getY()));
 		new Missile(p, movement.TOP, false);
+		}else {
+			Point p = new Point((int)(this.getX()+this.width/2),0);
+			new Laser(p,5,false);			
+		}
+		
 	}
 	
 	/*
@@ -77,8 +83,14 @@ public class Defender extends Element{
 			this.niveau++;
 			this.nbHeart++;
 			this.life+=25;
-			this.setImage("./img/vaisseau"+this.niveau+".png");
+			this.setImage("vaisseau"+this.niveau);
 		}
+		
+	}
+
+	public void getlaser() {
+		// TODO Auto-generated method stub
+		haveLaser=true;
 		
 	}
 

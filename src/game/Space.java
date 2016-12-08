@@ -1,4 +1,4 @@
-package v0;
+package game;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,20 +9,24 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import v0.Element.movement;
+import defender.Defender;
+import invaders.Invaders;
+import projectile.Laser;
+import projectile.Missile;
+import ressources.Element;
+import ressources.Element.movement;
+import game.ThreadVaisseau;
+import ressources.Sound;
+import ressources.Sprites;
 
 
 public class Space extends JComponent implements KeyListener,MouseListener{
@@ -30,7 +34,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	static Map<String, Integer> scoreTable = new TreeMap<String, Integer>();
 	ImagePanel imgFond,imgTitre,imgGameOver,imgBJ,imgBJC,imgBQ,imgBQC,imgBR,imgBRC,imgBM,imgBMC;
 	boolean moveLeft = false;
 	boolean moveRight = false;
@@ -40,6 +43,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	boolean gameOver2 = false;
 	boolean attente = true;
 	boolean boutonClik = false;
+	boolean leaderboard = false;
+	boolean firstStart = true;
 	String typeBouton;
 	ThreadVaisseau tv;
 	movement moveAdv = movement.RIGHT;
@@ -50,7 +55,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	Iterator<Laser> las;
 	Iterator<Bonus> bon;
 
-	static int score;
+	public static int score;
 	String username = "";
 	int cursor = 0;
 
@@ -84,6 +89,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					e.printStackTrace();
 				}
 				attente = false;
+				leaderboard = true;
 			}
 			moveLeft = false;
 			moveRight = false;
@@ -97,22 +103,17 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public boolean getGameOver(){return this.gameOver2;}
 
 	public void start() {
-		try {
-			imgFond = new ImagePanel("./img/background.jpg");
-			imgTitre = new ImagePanel("./img/titre.png");
-			imgGameOver = new ImagePanel("./img/gameover.png");
-			imgBJ = new ImagePanel("./img/boutonJouer.png");
-			imgBJC = new ImagePanel("./img/boutonJouerClick.png");
-			imgBQ = new ImagePanel("./img/boutonQuitter.png");
-			imgBQC = new ImagePanel("./img/boutonQuitterClick.png");
-			imgBR = new ImagePanel("./img/boutonRejouer.png");
-			imgBRC = new ImagePanel("./img/boutonRejouerClick.png");
-			imgBM = new ImagePanel("./img/boutonMenu.png");
-			imgBMC = new ImagePanel("./img/boutonMenuClick.png");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		imgFond = Sprites.spritesMap.get("background");
+		imgTitre = Sprites.spritesMap.get("titre");
+		imgGameOver = Sprites.spritesMap.get("gameOver");
+		imgBJ = Sprites.spritesMap.get("boutonJouer");
+		imgBJC = Sprites.spritesMap.get("boutonJouerClick");
+		imgBQ =Sprites.spritesMap.get("boutonQuitter");
+		imgBQC = Sprites.spritesMap.get("boutonQuitterClick");
+		imgBR = Sprites.spritesMap.get("boutonRejouer");
+		imgBRC = Sprites.spritesMap.get("/boutonRejouerClick");
+		imgBM = Sprites.spritesMap.get("boutonMenu");
+		imgBMC = Sprites.spritesMap.get("boutonMenuClick");
 		this.start(30, 30, 700, 600);
 	}
 	
@@ -126,14 +127,14 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 
 	//Créé la fenêtre du jeu
 	public void start (int x, int y, int width, int height) {
+		tv = new ThreadVaisseau();
 		JFrame window = new JFrame();
 		window.setBounds(x, y, width, height);
-		window.setTitle("Galaxian : Le meilleur jeu de Space Invaders de TOUTE la galaxie !!!!!!!!!!");
+		window.setTitle("Galaxian");
 		window.setIconImage(new ImageIcon("./img/vaisseau_icon.png").getImage());
 		window.getContentPane().add(this);
 		window.setResizable(false);
 		window.setVisible(true);
-		tv = new ThreadVaisseau();
 		window.addKeyListener(this);
 		window.addMouseListener(this);
 		new GestFenetre(window);
@@ -158,13 +159,15 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		drawStringCenter("SCORES", 350, 150, g);
 		g.setFont(f2);
 		int i = 0;
-		for(Entry<String, Integer> e : scoreTable.entrySet()) {
-			g.drawString(e.getKey(), 150, 170+(30*i));
-			drawStringRight(e.getValue().toString(), 550, 170+(30*i), g);
+		for(Score s : Score.scoreTable) {
+			g.drawString(s.getUsername(), 150, 170+(30*i));
+			drawStringRight(s.getScore().toString(), 550, 170+(30*i), g);
 			i++;
 		}
-		g.drawString(username, 150, 170+(30*i));
-		drawStringRight("" + score, 550, 170+(30*i), g);
+		if(leaderboard) {
+			g.drawString(username, 150, 190+(30*i));
+			drawStringRight("" + score, 550, 190+(30*i), g);			
+		}
 	}
 	
 	public void drawScore(Graphics g) {
@@ -266,7 +269,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			}
 			if(inv.getY() <= 0 || (inv.getY()+inv.height) >= 450){
 				gameOver = true;
-				Defender.def.setImage("./img/explosion.png");
+				Defender.def.setImage("explosion");
 			}
 		}
 		iter = Invaders.invaders.iterator();
@@ -329,28 +332,30 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			case KeyEvent.VK_SPACE:
 				if(!fire){
 					Defender.def.fire();
-					snd = new Sound("./sound/fire.wav");
+					snd = Sound.soundMap.get("fire");
 					snd.play();
+					snd.interrupt();
 				}
 				fire = true;
 				break;
 				
 			//Touche entrée du clavier
 			case KeyEvent.VK_ENTER:
-				addScore(username, score);
-				writeScores();
-				gameOver = false;
-				menu = true;
+				if(leaderboard) {
+					new Score(score, username);
+					writeScores();
+					leaderboard = false;					
+				}
 				break;
 				
 			//Touche effacer du clavier
 			case KeyEvent.VK_BACK_SPACE:
-				if (gameOver) username = username.substring(0, Math.max(0, username.length() - 1));
+				if (leaderboard) username = username.substring(0, Math.max(0, username.length() - 1));
 				break;
 				
 			//Toute les autres touches du clavier
 			default:
-				if (gameOver) {
+				if (leaderboard) {
 					char c = e.getKeyChar();
 					if((c >= 97 && c <= 122) || (c >= 48 && c <= 57)) {
 						username += c;
@@ -363,12 +368,14 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 
 	//Renvoie vrai si il y a une collision avec le missile en paramètre
 	public boolean isCol(Element m) {
+		boolean isLaser=false;
+	
 		if (m.isMissileEnnemy()){
 			if(m.collideWith(Defender.def)){
 				Defender.def.getDamage();
 				if(Defender.def.getLife()<=0){
 					gameOver = true;
-					Defender.def.setImage("./img/explosion.png");
+					Defender.def.setImage("explosion");
 				}
 				return true;
 
@@ -380,11 +387,12 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				if (m.collideWith(inv)) {
 					inv.getDamage();
 					if (Invaders.invaders.size() == 0) Game.win();
-					return true;
+					if(m.isLaser()) isLaser=true;
+					else return true;
 				};
 			}
 		}
-		return false;
+		return isLaser;
 	}
 
 	public boolean isColBonus(Bonus m) {
@@ -399,21 +407,21 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	//Fonction de gestion des évènements de la relache sur une touche du clavier
 	public void keyReleased(KeyEvent e) {
 		switch(e.getKeyCode()) {
-		case KeyEvent.VK_LEFT:
-			if(!gameOver && moveLeft) {
-				moveLeft = false;
-				if(tv.getDir().equals("left")) tv.arret();
-			}
-			break;
-		case KeyEvent.VK_RIGHT:
-			if(!gameOver && moveRight) {
-				moveRight = false;
-				if(tv.getDir().equals("right")) tv.arret();					
-			}
-			break;
-		case KeyEvent.VK_SPACE:
-			if(!gameOver) fire = false;
-			break;
+			case KeyEvent.VK_LEFT:
+				if(!gameOver && moveLeft) {
+					moveLeft = false;
+					if(tv.getDir().equals("left")) tv.arret();
+				}
+				break;
+			case KeyEvent.VK_RIGHT:
+				if(!gameOver && moveRight) {
+					moveRight = false;
+					if(tv.getDir().equals("right")) tv.arret();					
+				}
+				break;
+			case KeyEvent.VK_SPACE:
+				if(!gameOver) fire = false;
+				break;
 		}
 	}
 
@@ -436,25 +444,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	public static void addScore(String username, int score) {
-		if (scoreTable.size() < 10) {
-			scoreTable.put(username, score);
-			return;
-		}
-		int min = Integer.MAX_VALUE;
-		Entry<String, Integer> minEntry = null;
-		for(Entry<String, Integer> s : scoreTable.entrySet()) {
-			if(s.getValue() < min) {
-				min = s.getValue();
-				minEntry = s;
-			}
-		}
-		if (score > min) {
-			scoreTable.remove(minEntry);
-			scoreTable.put(username, score);
-		}
 	}
 
 	@Override
@@ -497,7 +486,10 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				if(e.getY()>250 && e.getY()<325){
 					//Jouer
 					menu = false;
-					tv.start();
+					if(firstStart){
+						tv.start();
+						firstStart = false;
+					}
 				}else if(e.getY()>350 && e.getY()<425){
 					//Quitter
 					System.exit(0);
@@ -528,7 +520,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		try {
 			FileOutputStream fOut = new FileOutputStream("./data/scores.dat");
 			ObjectOutputStream oOs = new ObjectOutputStream(fOut);
-			oOs.writeObject(scoreTable);
+			oOs.writeObject(Score.scoreTable);
 			oOs.close();			
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -539,7 +531,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		try {
 			FileInputStream fIn = new FileInputStream("./data/scores.dat");
 		    ObjectInputStream oIs = new ObjectInputStream(fIn);
-		    scoreTable = (TreeMap<String, Integer>) oIs.readObject();
+		    Score.scoreTable = (ArrayList<Score>) oIs.readObject();
 		    oIs.close();
 		} catch(Exception e) {
 			System.out.println(e.getMessage());

@@ -1,6 +1,8 @@
-package v0;
+package game;
 
 import java.awt.Point;
+
+import defender.Defender;
 
 public class BonusCoeur extends Bonus{
 
@@ -10,7 +12,7 @@ public class BonusCoeur extends Bonus{
 		this.speed = 2;
 		this.setPosition(p);
 		this.type = "coeur";
-		this.setImage("./img/full_heart.png");
+		this.setImage("full_heart");
 	}
 
 	

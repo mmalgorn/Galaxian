@@ -1,4 +1,4 @@
-package v0;
+package invaders;
 
 import java.awt.Point;
 
@@ -9,7 +9,7 @@ public class PeonInvaders extends Invaders {
 		this.speed = 2;
 		this.life = 25;
 		this.setPosition(p);
-		this.setImage("./img/peon_invaders.png");
+		this.setImage("peon_invaders");
 	}
 	
 	/*

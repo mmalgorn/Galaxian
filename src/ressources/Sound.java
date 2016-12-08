@@ -1,8 +1,9 @@
-package v0;
+package ressources;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.HashMap;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -16,6 +17,12 @@ import javax.sound.sampled.UnsupportedAudioFileException;
   */
  
 public class Sound extends Thread {
+	public static HashMap<String,Sound> soundMap  = new HashMap<String,Sound>();
+	static{
+		soundMap.put("fire", new Sound("./sound/fire.wav"));
+		soundMap.put("explosion", new Sound("./sound/explosion.wav"));
+		soundMap.put("theme", new Sound("./sound/mainTheme.wav"));
+	}
 	private Clip clip;
     public Sound(String fileName) {
         try {
@@ -52,6 +59,7 @@ public class Sound extends Thread {
     public void play(){
         clip.setFramePosition(0);  // Must always rewind!
         clip.start();
+       // clip.destroy();
     }
     public void loop(){
         clip.loop(Clip.LOOP_CONTINUOUSLY);

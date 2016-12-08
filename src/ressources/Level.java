@@ -1,4 +1,4 @@
-package v0;
+package ressources;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,10 +18,10 @@ import org.xml.sax.SAXException;
 
 public class Level {
 	static int nbLvl;
-	int nbFire;
-	int nbShield;
-	int nbPeon;
-	String boss;
+	public int nbFire;
+	public int nbShield;
+	public int nbPeon;
+	public String boss;
 	FileInputStream fi;
 	static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	static DocumentBuilder builder;

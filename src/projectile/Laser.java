@@ -1,14 +1,15 @@
-package v0;
+package projectile;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import v0.Element.movement;
+import ressources.Element;
+import ressources.Element.movement;
 
 public class Laser extends Element {
 	
-	static List<Laser> lasers = new ArrayList<Laser>();
+	public static List<Laser> lasers = new ArrayList<Laser>();
 	
 
 	private boolean laserEnnemy;
@@ -19,7 +20,7 @@ public class Laser extends Element {
 		this.height = 500;
 		this.width = 20;
 		this.speed = sp;
-		this.setImage("./img/laser.png");
+		this.setImage("laser");
 		laserEnnemy = me;
 		
 	}
@@ -45,5 +46,7 @@ public class Laser extends Element {
 	 * Renvoie vrai si le missile est ennemi ou faux sinon
 	 */
 	public boolean isMissileEnnemy() { return this.laserEnnemy; }
+	
+	public boolean isLaser() {		return true;}
 
 }

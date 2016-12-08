@@ -1,15 +1,21 @@
-package v0;
+package invaders;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import v0.Element.movement;
+import game.BonusBouclier;
+import game.BonusCoeur;
+import game.BonusLaser;
+import game.Space;
+import ressources.Element;
+import ressources.Sound;
+import ressources.Element.movement;
 
 public abstract class Invaders extends Element {
 	
-	static List<Invaders> invaders = new ArrayList<Invaders>();
+	public static List<Invaders> invaders = new ArrayList<Invaders>();
 	protected int life;
 	protected int damageAmount;
 	private Random rand;
@@ -54,13 +60,14 @@ public abstract class Invaders extends Element {
 	public void destroy() {
 		rand = new Random();
 		Point p = new Point((int)this.getX(),(int)this.getY());
-		if(rand.nextInt(100)==1)new BonusBouclier(p);
-		else if(rand.nextInt(100)==2)new BonusLaser(p);
-		else if(rand.nextInt(100)==3)new BonusCoeur(p);
+		if(rand.nextInt(10)==1)new BonusBouclier(p);
+		else if(rand.nextInt(10)==2)new BonusLaser(p);
+		else if(rand.nextInt(10)==3)new BonusCoeur(p);
 		Space.score+=100;
 		invaders.remove(this);
-		Sound snd = new Sound("./sound/explosion.wav");
+		Sound snd = Sound.soundMap.get("explosion");
 		snd.play();
+		snd.interrupt();
 		
 	}
 	

@@ -1,6 +1,8 @@
-package v0;
+package game;
 
-import v0.Element.movement;
+import defender.Defender;
+import ressources.Element;
+import ressources.Element.movement;
 
 public class ThreadVaisseau extends Thread{
 	Element elem;
@@ -56,3 +58,4 @@ public class ThreadVaisseau extends Thread{
 	}
 
 }
+

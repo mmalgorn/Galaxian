@@ -1,9 +1,10 @@
-package v0;
+package invaders;
 
 import java.awt.Point;
 import java.util.Random;
 
-import v0.Element.movement;
+import projectile.Missile;
+import ressources.Element.movement;
 /*
  * Vaisseau Invaders pouvant tirer
  */
@@ -18,7 +19,7 @@ public class FireInvaders extends Invaders {
 		this.life = 50;
 		this.damageAmount = 25;
 		this.setPosition(p);
-		this.setImage("./img/fire_invaders.png");
+		this.setImage("fire_invaders");
 	}
 
 	/*

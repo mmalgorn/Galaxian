@@ -1,13 +1,16 @@
-package v0;
+package projectile;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import ressources.Element;
+import ressources.Element.movement;
+
 public class Missile extends Element {
 	
-	static List<Missile> missiles = new ArrayList<Missile>();
+	public static List<Missile> missiles = new ArrayList<Missile>();
 	
 	private movement direction;
 	private boolean missileEnnemy;
@@ -19,8 +22,8 @@ public class Missile extends Element {
 		this.height = 30;
 		this.width = 15;
 		this.speed = 8;
-		if(me) this.setImage("./img/missile2.png");
-		else this.setImage("./img/missile.png");
+		if(me) this.setImage("missile");
+		else this.setImage("missile_defender");
 		missileEnnemy = me;
 		this.move();
 	}

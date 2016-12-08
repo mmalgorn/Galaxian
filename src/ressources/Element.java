@@ -1,9 +1,9 @@
-package v0;
+package ressources;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.io.IOException;
 
-import v0.Element.movement;
+import game.ImagePanel;
 
 /*
  * La classe Element sera hériter par tout les vaisseaux et regroupe donc les fonctionnalité principales 
@@ -15,10 +15,9 @@ public abstract class Element {
 	
 	public enum movement { LEFT,RIGHT,TOP,BOTTOM; }
 	protected double speed;
-	protected double width;
-	protected double height;
+	public double width;
+	public double height;
 	private Point position;
-	private String urlImage;
 	private ImagePanel img;
 	
 	
@@ -77,12 +76,13 @@ public abstract class Element {
 	/*
 	 * Renvoie le chemin de l'image utilisée par l'élément
 	 */
-	public String getImage() { return urlImage; }
+	public ImagePanel getImage() { return this.img; }
 	
 	/*
 	 * Modifie l'image utilisée par l'élément
 	 */
-	public void setImage(String img) { urlImage = img; }
+	public void setImage(String img) {
+		this.img = Sprites.spritesMap.get(img);}
 	
 	/*
 	 * Indique si les points de collisions de l'élément courant 
@@ -114,13 +114,7 @@ public abstract class Element {
 	 * Permet de d'afficher l'élément
 	 */
 	public void drawOn(Graphics g) {
-		try {
-			img = new ImagePanel(this.urlImage);
-			img.paintComponent(g,this.getX(),this.getY(),this.getWidth(),this.getHeight());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		img.paintComponent(g,this.getX(),this.getY(),this.getWidth(),this.getHeight());
 	}
 	public void evolve(){
 		
@@ -128,6 +122,10 @@ public abstract class Element {
 
 	public boolean isMissileEnnemy() {
 		
+		return false;
+	}
+
+	public boolean isLaser() {
 		return false;
 	}
 

@@ -1,22 +1,33 @@
-package v0;
+package invaders;
 
 import java.awt.Point;
 import java.util.Random;
 
-import v0.Element.movement;
+import projectile.Laser;
+import ressources.Element.movement;
 
 public class BossInvaders extends Invaders{
 
 	private int tmpLaser=0;
 
-	public BossInvaders(Point p){
+	public BossInvaders(Point p, String name){
 		this.width = 300;
 		this.height = 200;
 		this.speed = 2;
 		this.life = 5000;
 		this.damageAmount = 25;
 		this.setPosition(p);
-		this.setImage("./img/mechant27.png");
+		switch(name){
+		case "red" : 
+			this.setImage("boss_invaders_red");
+			break;
+		case "grey" : 
+			this.setImage("boss_invaders_grey");
+			break;
+		case "yellow" : 
+			this.setImage("boss_invaders_yellow");
+			break;
+		}
 	}
 
 
