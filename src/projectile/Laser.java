@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import defender.Defender;
 import ressources.Element;
 import ressources.Element.movement;
 
@@ -20,7 +21,8 @@ public class Laser extends Element {
 		this.height = 500;
 		this.width = 20;
 		this.speed = sp;
-		this.setImage("laser");
+		if(me) this.setImage("laser");
+		else this.setImage("laser_defender");
 		laserEnnemy = me;
 		
 	}
@@ -49,4 +51,7 @@ public class Laser extends Element {
 	
 	public boolean isLaser() {		return true;}
 
+	public void move(Point position) {
+		this.setPosition(new Point((int)(position.getX()+Defender.def.width/2-5),-50));	
+	}
 }

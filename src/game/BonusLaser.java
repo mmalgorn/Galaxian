@@ -2,6 +2,8 @@ package game;
 
 import java.awt.Point;
 
+import defender.Defender;
+
 public class BonusLaser extends Bonus{
 
 	public BonusLaser(Point p) {
@@ -14,7 +16,7 @@ public class BonusLaser extends Bonus{
 	}
 	
 	public void action(){
-		//Defender.def.getlaser();
+		Defender.def.getlaser();
 	}
 
 }
