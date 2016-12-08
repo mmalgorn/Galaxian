@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -24,9 +23,10 @@ import invaders.Invaders;
 import projectile.Laser;
 import projectile.Missile;
 import ressources.Element;
+import ressources.Element.movement;
+import game.ThreadVaisseau;
 import ressources.Sound;
 import ressources.Sprites;
-import ressources.Element.movement;
 
 
 public class Space extends JComponent implements KeyListener,MouseListener{
@@ -44,6 +44,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	boolean attente = true;
 	boolean boutonClik = false;
 	boolean leaderboard = false;
+	boolean firstStart = true;
 	String typeBouton;
 	ThreadVaisseau tv;
 	movement moveAdv = movement.RIGHT;
@@ -126,6 +127,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 
 	//Créé la fenêtre du jeu
 	public void start (int x, int y, int width, int height) {
+		tv = new ThreadVaisseau();
 		JFrame window = new JFrame();
 		window.setBounds(x, y, width, height);
 		window.setTitle("Galaxian");
@@ -314,11 +316,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			//Flèche gauche du clavier
 			case KeyEvent.VK_LEFT:
 				if (!moveLeft) {
-					if(tv != null){
-						tv.arret();
-					}
-					tv = new ThreadVaisseau(Defender.def,"left");
-					tv.start();
+					if(tv != null)tv.arret();
+					tv.setDir("left");
+					tv.reset();
 					moveLeft = true;
 				}
 				break;
@@ -327,8 +327,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			case KeyEvent.VK_RIGHT:
 				if (!moveRight) {
 					if(tv != null)tv.arret();
-					tv = new ThreadVaisseau(Defender.def,"right");
-					tv.start();
+					tv.setDir("right");
+					tv.reset();
 					moveRight = true;
 				}
 				break;
@@ -411,21 +411,21 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	//Fonction de gestion des évènements de la relache sur une touche du clavier
 	public void keyReleased(KeyEvent e) {
 		switch(e.getKeyCode()) {
-		case KeyEvent.VK_LEFT:
-			if(!gameOver && moveLeft) {
-				moveLeft = false;
-				if(tv.getDir().equals("left")) tv.arret();
-			}
-			break;
-		case KeyEvent.VK_RIGHT:
-			if(!gameOver && moveRight) {
-				moveRight = false;
-				if(tv.getDir().equals("right")) tv.arret();					
-			}
-			break;
-		case KeyEvent.VK_SPACE:
-			if(!gameOver) fire = false;
-			break;
+			case KeyEvent.VK_LEFT:
+				if(!gameOver && moveLeft) {
+					moveLeft = false;
+					if(tv.getDir().equals("left")) tv.arret();
+				}
+				break;
+			case KeyEvent.VK_RIGHT:
+				if(!gameOver && moveRight) {
+					moveRight = false;
+					if(tv.getDir().equals("right")) tv.arret();					
+				}
+				break;
+			case KeyEvent.VK_SPACE:
+				if(!gameOver) fire = false;
+				break;
 		}
 	}
 
@@ -490,6 +490,10 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				if(e.getY()>250 && e.getY()<325){
 					//Jouer
 					menu = false;
+					if(firstStart){
+						tv.start();
+						firstStart = false;
+					}
 				}else if(e.getY()>350 && e.getY()<425){
 					//Quitter
 					System.exit(0);
