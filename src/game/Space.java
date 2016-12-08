@@ -43,6 +43,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	boolean gameOver2 = false;
 	boolean attente = true;
 	boolean boutonClik = false;
+	boolean scorePan = false;
 	boolean leaderboard = false;
 	boolean firstStart = true;
 	String typeBouton;
@@ -64,6 +65,10 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		super.paint(g);
 		if(menu) {
 			drawMenu(g);
+			if(boutonClik)drawBoutonClik(g);
+		} else if(leaderboard) {
+			drawBackground(g);
+			drawScorePanel(g);
 			if(boutonClik)drawBoutonClik(g);
 		} else {
 			if(!gameOver)moveElements();
@@ -89,7 +94,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					e.printStackTrace();
 				}
 				attente = false;
-				leaderboard = true;
+				scorePan = true;
 			}
 			moveLeft = false;
 			moveRight = false;
@@ -167,9 +172,12 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			drawStringRight(s.getScore().toString(), 550, 170+(30*i), g);
 			i++;
 		}
-		if(leaderboard) {
+		if(scorePan) {
 			g.drawString(username, 150, 200+(30*i));
 			drawStringRight("" + score, 550, 200+(30*i), g);			
+		}
+		if(leaderboard) {
+			imgBM.paintComponent(g, 225, 450, 250, 75);
 		}
 	}
 	
@@ -201,6 +209,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			imgBMC.paintComponent(g, 350, 450, 250, 75);
 		}else if(typeBouton.equals("quitter")) {
 			imgBQC.paintComponent(g, 225, 400, 250, 75);
+		}else if(typeBouton.equals("menu_leaderboard")) {
+			imgBMC.paintComponent(g, 225, 450, 250, 75);
 		}
 
 	}
@@ -354,21 +364,21 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				
 			//Touche entrée du clavier
 			case KeyEvent.VK_ENTER:
-				if(leaderboard) {
+				if(scorePan) {
 					new Score(score, username);
 					writeScores();
-					leaderboard = false;					
+					scorePan = false;					
 				}
 				break;
 				
 			//Touche effacer du clavier
 			case KeyEvent.VK_BACK_SPACE:
-				if (leaderboard) username = username.substring(0, Math.max(0, username.length() - 1));
+				if (scorePan) username = username.substring(0, Math.max(0, username.length() - 1));
 				break;
 				
 			//Toute les autres touches du clavier
 			default:
-				if (leaderboard) {
+				if (scorePan) {
 					char c = e.getKeyChar();
 					if((c >= 97 && c <= 122) || (c >= 48 && c <= 57)) {
 						username += c;
@@ -492,6 +502,12 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					typeBouton = "menu";
 				}
 			}
+		} else if(leaderboard) {
+			if((e.getY() > 450 && e.getY() < 525) && (e.getX() > 225 && e.getX() < 475)){
+				//Menu
+				boutonClik = true;
+				typeBouton = "menu_leaderboard";
+			}
 		}
 	}
 
@@ -513,13 +529,20 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					}
 				}else if(e.getY()>300 && e.getY()<375){
 					//Scores
-					
+					menu = false;
+					leaderboard = true;
 				}else if(e.getY()>400 && e.getY()<475){
 					//Quitter
 					System.exit(0);
 				}
 			}
-		}else if(gameOver2){
+		} else if (leaderboard) {
+			if((e.getY() > 450 && e.getY() < 525) && (e.getX() > 225 && e.getX() < 475)){
+				//Menu
+				menu = true;
+				leaderboard = false;
+			}
+		} else if (gameOver2){
 			if(e.getY()>450 && e.getY()<525){
 				if(e.getX()>75 && e.getX()<325){
 					//Rejouer
