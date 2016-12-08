@@ -40,9 +40,15 @@ public final class Sprites {
 				spritesMap.put("vaisseau2_shield", new ImagePanel("./img/vaisseau2_shield.png"));
 				spritesMap.put("vaisseau3_shield", new ImagePanel("./img/vaisseau3_shield.png"));
 			//Invaders
-				spritesMap.put("fire_invaders", new ImagePanel("./img/fire_invaders.png"));
-				spritesMap.put("shield_invaders", new ImagePanel("./img/shield_invaders.png"));
-				spritesMap.put("peon_invaders", new ImagePanel("./img/peon_invaders.png"));
+				spritesMap.put("red_fire_invaders", new ImagePanel("./img/red_fire_invaders.png"));
+				spritesMap.put("red_shield_invaders", new ImagePanel("./img/red_shield_invaders.png"));
+				spritesMap.put("red_peon_invaders", new ImagePanel("./img/red_peon_invaders.png"));
+				spritesMap.put("yellow_fire_invaders", new ImagePanel("./img/yellow_fire_invaders.png"));
+				spritesMap.put("yellow_shield_invaders", new ImagePanel("./img/yellow_shield_invaders.png"));
+				spritesMap.put("yellow_peon_invaders", new ImagePanel("./img/yellow_peon_invaders.png"));
+				spritesMap.put("grey_fire_invaders", new ImagePanel("./img/grey_fire_invaders.png"));
+				spritesMap.put("grey_shield_invaders", new ImagePanel("./img/grey_shield_invaders.png"));
+				spritesMap.put("grey_peon_invaders", new ImagePanel("./img/grey_peon_invaders.png"));
 			//Boss
 				spritesMap.put("boss_invaders_red", new ImagePanel("./img/boss_invaders_red.png"));
 				spritesMap.put("boss_invaders_grey", new ImagePanel("./img/boss_invaders_grey.png"));

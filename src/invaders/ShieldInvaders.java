@@ -8,13 +8,24 @@ import ressources.Element.movement;
  */
 public class ShieldInvaders extends Invaders {
 	
-	public ShieldInvaders(Point p){
+	public ShieldInvaders(Point p, int sp, Invaders.team team){
 		this.width = 50;
 		this.height = 50;
-		this.speed = 2;
+		this.speed = sp;
 		this.life = 100;
+		this.tm = team;
 		this.setPosition(p);
-		this.setImage("shield_invaders");
+		switch(team){
+			case red :
+				this.setImage("red_shield_invaders");
+				break;
+			case grey :
+				this.setImage("grey_shield_invaders");
+				break;
+			case yellow :
+				this.setImage("yellow_shield_invaders");
+				break;
+		}
 	}
 	
 	/*
@@ -22,6 +33,18 @@ public class ShieldInvaders extends Invaders {
 	 */
 	public void getDamage() {
 		super.getDamage();
-		if (life <= 50)	this.setImage("peon_invaders");
+		if (life <= 50){
+			switch(this.tm){
+				case red :
+					this.setImage("red_peon_invaders");
+					break;
+				case grey :
+					this.setImage("grey_peon_invaders");
+					break;
+				case yellow :
+					this.setImage("yellow_peon_invaders");
+					break;
+			}
+		}
 	}
 }

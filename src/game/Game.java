@@ -24,17 +24,24 @@ public class Game {
 	static int nbEnemy = 0 ; 
 	static int nbEnemyMax = 45;
 	static int i;
+	static int dif = 0;
 	static Sound theme = Sound.soundMap.get("theme");
 	static int nbLvl = 0;
 	
 	public static void win(){
-		nbLvl++;
+		if(nbLvl+1 >= 15){
+			nbLvl = 0;
+			dif = dif +2;
+		}else{
+			nbLvl++;
+		}
 		System.out.println("You Win !");
 		inizialise();
 	}
 	
 	public static void resetGame(){
 		new Defender(new Point(350,450));
+		Bonus.bonus.clear();
 		nbLvl = 0;
 		Space.score = 0;
 		Bonus.bonus.clear();
@@ -45,21 +52,56 @@ public class Game {
 		Invaders.invaders.clear();
 		Missile.missiles.clear();
 		Laser.lasers.clear();
-		if(!(Level.levelMap.get(nbLvl).boss.equals("null"))){
-			new BossInvaders(new Point(100,100),Level.levelMap.get(nbLvl).boss);
-		}else{
-			for(int i = 0 ; i < (Level.levelMap.get(nbLvl).nbFire);i++ , nbEnemy++){
-				new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+		if(nbLvl < 5){
+			if(!(Level.levelMap.get(nbLvl).boss.equals("null"))){
+				new BossInvaders(new Point(100,100),Level.levelMap.get(nbLvl).boss,2+dif);
+			}else{
+				for(int i = 0 ; i < (Level.levelMap.get(nbLvl).nbFire);i++ , nbEnemy++){
+					new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50),2+dif,Invaders.team.red);
+				}
+				int nbEnemyTmp = nbEnemy;
+				for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbShield);i++ , nbEnemy++){
+					new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50),2+dif,Invaders.team.red);
+				}
+				nbEnemyTmp = nbEnemy;
+				for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbPeon);i++ , nbEnemy++){
+					new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50),2+dif,Invaders.team.red);
+				}		
 			}
-			int nbEnemyTmp = nbEnemy;
-			for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbShield);i++ , nbEnemy++){
-				new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+		}else if (nbLvl <10){
+			if(!(Level.levelMap.get(nbLvl).boss.equals("null"))){
+				new BossInvaders(new Point(100,100),Level.levelMap.get(nbLvl).boss,4+dif);
+			}else{
+				for(int i = 0 ; i < (Level.levelMap.get(nbLvl).nbFire);i++ , nbEnemy++){
+					new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50),4+dif,Invaders.team.yellow);
+				}
+				int nbEnemyTmp = nbEnemy;
+				for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbShield);i++ , nbEnemy++){
+					new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50),4+dif,Invaders.team.yellow);
+				}
+				nbEnemyTmp = nbEnemy;
+				for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbPeon);i++ , nbEnemy++){
+					new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50),4+dif,Invaders.team.yellow);
+				}
 			}
-			nbEnemyTmp = nbEnemy;
-			for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbPeon);i++ , nbEnemy++){
-				new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50));
+		}else if (nbLvl < 15){
+			if(!(Level.levelMap.get(nbLvl).boss.equals("null"))){
+				new BossInvaders(new Point(100,100),Level.levelMap.get(nbLvl).boss,6+dif);
+			}else{
+				for(int i = 0 ; i < (Level.levelMap.get(nbLvl).nbFire);i++ , nbEnemy++){
+					new FireInvaders(new Point(100+((i%12)*50),100+(i/12) * 50),6+dif,Invaders.team.grey);
+				}
+				int nbEnemyTmp = nbEnemy;
+				for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbShield);i++ , nbEnemy++){
+					new ShieldInvaders(new Point(100+((i%12)*50),100+(i/12) * 50),6+dif,Invaders.team.grey);
+				}
+				nbEnemyTmp = nbEnemy;
+				for(int i = nbEnemyTmp ; i < nbEnemyTmp+(Level.levelMap.get(nbLvl).nbPeon);i++ , nbEnemy++){
+					new PeonInvaders(new Point(100+((i%12)*50),100+(i/12) * 50),6+dif,Invaders.team.grey);
+				}
 			}
 		}
+		
 		
 	}
 	
@@ -67,7 +109,6 @@ public class Game {
 		theme.loop();
 		Space root = new Space();
 		new Defender(new Point(350,450));
-		
 		inizialise();
 
 		root.start();

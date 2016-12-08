@@ -15,9 +15,13 @@ import ressources.Element.movement;
 
 public abstract class Invaders extends Element {
 	
+	public enum team{
+		red,grey,yellow;
+	}
 	public static List<Invaders> invaders = new ArrayList<Invaders>();
 	protected int life;
 	protected int damageAmount;
+	protected team tm;
 	private Random rand;
 	
 	public Invaders() {

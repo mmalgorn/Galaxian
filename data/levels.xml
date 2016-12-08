@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <Levels>
-	<Level FireInvaders="0" ShieldInvaders="0" PeonInvaders="24" Boss="null" Index="0"></Level>
-	<Level Boss="null" FireInvaders="12" PeonInvaders="12"
-		ShieldInvaders="0" Index="1">
-	</Level>
-	<Level Boss="null" FireInvaders="12" PeonInvaders="12"
-		ShieldInvaders="12" Index="2">
-	</Level>
-	<Level Boss="null" FireInvaders="24" PeonInvaders="12" ShieldInvaders="12"
-		Index="3">
-	</Level>
-	<Level Boss="red" Index="4" FireInvaders="0" PeonInvaders="0"
-		ShieldInvaders="0">
-	</Level>
+	<Level Index="0" Boss="null" FireInvaders="0" ShieldInvaders="0" PeonInvaders="24"></Level>
+	<Level Index="1" Boss="null" FireInvaders="12" ShieldInvaders="0" PeonInvaders="12"></Level>
+	<Level Index="2" Boss="null" FireInvaders="12" ShieldInvaders="12" PeonInvaders="12"></Level>
+	<Level Index="3" Boss="null" FireInvaders="24" ShieldInvaders="12" PeonInvaders="12"></Level>
+	<Level Index="4" Boss="red" FireInvaders="0" ShieldInvaders="0" PeonInvaders="0"></Level>
+	<Level Index="5" Boss="null" FireInvaders="0" ShieldInvaders="0" PeonInvaders="24"></Level>
+	<Level Index="6" Boss="null" FireInvaders="12" ShieldInvaders="0" PeonInvaders="12"></Level>
+	<Level Index="7" Boss="null" FireInvaders="12" ShieldInvaders="12" PeonInvaders="12"></Level>
+	<Level Index="8" Boss="null" FireInvaders="24" ShieldInvaders="12" PeonInvaders="12"></Level>
+	<Level Index="9" Boss="yellow" FireInvaders="0" ShieldInvaders="0" PeonInvaders="0"></Level>
+	<Level Index="10" Boss="null" FireInvaders="0" ShieldInvaders="0" PeonInvaders="12"></Level>
+	<Level Index="11" Boss="null" FireInvaders="12" ShieldInvaders="0" PeonInvaders="12"></Level>
+	<Level Index="12" Boss="null" FireInvaders="12" ShieldInvaders="12" PeonInvaders="12"></Level>
+	<Level Index="13" Boss="null" FireInvaders="24" ShieldInvaders="12" PeonInvaders="12"></Level>
+	<Level Index="14" Boss="grey" FireInvaders="0" ShieldInvaders="0" PeonInvaders="0"></Level>
 </Levels>

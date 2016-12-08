@@ -19,7 +19,7 @@ public abstract class Element {
 	public double height;
 	private Point position;
 	private ImagePanel img;
-
+	public boolean isDest=false;
 
 	/*
 	 * Retourne la position de l'élément
