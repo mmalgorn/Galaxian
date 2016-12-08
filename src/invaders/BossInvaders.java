@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.util.Random;
 
 import projectile.Laser;
-import ressources.Element.movement;
+import projectile.Missile;
 
 public class BossInvaders extends Invaders{
 
@@ -36,7 +36,7 @@ public class BossInvaders extends Invaders{
 		if(randomGenerator.nextInt(20)<1){
 
 			Point p = new Point((int)this.getX()+randomGenerator.nextInt(300),(int)(this.getY()+randomGenerator.nextInt(200)));
-			//Missile m = new Missile(p,movement.BOTTOM,true);
+			Missile m = new Missile(p,movement.BOTTOM,true);
 		}
 		if(tmpLaser==0){
 			if(randomGenerator.nextInt(30)<1){
