@@ -2,6 +2,8 @@ package game;
 
 import java.awt.Point;
 
+import defender.Defender;
+
 public class BonusBouclier extends Bonus{
 
 	public BonusBouclier(Point p) {
@@ -15,7 +17,7 @@ public class BonusBouclier extends Bonus{
 
 	
 	public void action(){
-		
+		Defender.def.addShield();
 	}
 
 }

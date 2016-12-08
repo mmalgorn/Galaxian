@@ -42,6 +42,7 @@ public class Game {
 		nbEnemy = 0;
 		Invaders.invaders.clear();
 		Missile.missiles.clear();
+		Bonus.bonus.clear();
 		if(!(Level.levelMap.get(nbLvl).boss.equals("null"))){
 			new BossInvaders(new Point(100,100),Level.levelMap.get(nbLvl).boss);
 		}else{
