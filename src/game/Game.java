@@ -36,13 +36,13 @@ public class Game {
 		new Defender(new Point(350,450));
 		nbLvl = 0;
 		Space.score = 0;
+		Bonus.bonus.clear();
 		inizialise();
 	}
 	public static void inizialise(){
 		nbEnemy = 0;
 		Invaders.invaders.clear();
 		Missile.missiles.clear();
-		Bonus.bonus.clear();
 		if(!(Level.levelMap.get(nbLvl).boss.equals("null"))){
 			new BossInvaders(new Point(100,100),Level.levelMap.get(nbLvl).boss);
 		}else{

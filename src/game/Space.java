@@ -34,7 +34,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	ImagePanel imgFond,imgTitre,imgGameOver,imgBJ,imgBJC,imgBQ,imgBQC,imgBR,imgBRC,imgBM,imgBMC;
+	ImagePanel imgFond,imgTitre,imgGameOver,imgBJ,imgBJC,imgBS,imgBSC,imgBQ,imgBQC,imgBR,imgBRC,imgBM,imgBMC;
 	boolean moveLeft = false;
 	boolean moveRight = false;
 	boolean fire = false;
@@ -108,6 +108,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		imgGameOver = Sprites.spritesMap.get("gameOver");
 		imgBJ = Sprites.spritesMap.get("boutonJouer");
 		imgBJC = Sprites.spritesMap.get("boutonJouerClick");
+		imgBS = Sprites.spritesMap.get("boutonScores");
+		imgBSC = Sprites.spritesMap.get("boutonScoresClick");
 		imgBQ =Sprites.spritesMap.get("boutonQuitter");
 		imgBQC = Sprites.spritesMap.get("boutonQuitterClick");
 		imgBR = Sprites.spritesMap.get("boutonRejouer");
@@ -147,8 +149,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void drawMenu(Graphics g){
 		drawBackground(g);
 		imgTitre.paintComponent(g, 125, 100, 450, 100);
-		imgBJ.paintComponent(g, 225, 250, 250, 75);
-		imgBQ.paintComponent(g, 225, 350, 250, 75);
+		imgBJ.paintComponent(g, 225, 200, 250, 75);
+		imgBS.paintComponent(g,225,300,250,75);
+		imgBQ.paintComponent(g, 225, 400, 250, 75);
 	}
 	
 	public void drawScorePanel(Graphics g){
@@ -192,6 +195,8 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			imgBJC.paintComponent(g, 225, 250, 250, 75);
 		}else if(typeBouton.equals("rejouer")) {
 			imgBRC.paintComponent(g, 75, 450, 250, 75);
+		}else if(typeBouton.equals("scores")) {
+			imgBSC.paintComponent(g,225,300,250,75);
 		}else if(typeBouton.equals("menu")) {
 			imgBMC.paintComponent(g, 350, 450, 250, 75);
 		}else if(typeBouton.equals("quitter")) {
@@ -456,11 +461,15 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		// TODO Auto-generated method stub
 		if(menu){
 			if(e.getX()>225 && e.getX()<425){
-				if(e.getY()>250 && e.getY()<325){
+				if(e.getY()>200 && e.getY()<275){
 					//Jouer
 					boutonClik = true;
 					typeBouton = "jouer";
-				}else if(e.getY()>350 && e.getY()<425){
+				}else if(e.getY()>300 && e.getY()<375){
+					//Scores
+					boutonClik = true;
+					typeBouton = "scores";
+				}else if(e.getY()>400 && e.getY()<475){
 					//Quitter
 					boutonClik = true;
 					typeBouton = "quitter";
@@ -487,7 +496,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		// TODO Auto-generated method stub
 		if(menu){
 			if(e.getX()>225 && e.getX()<425){
-				if(e.getY()>250 && e.getY()<325){
+				if(e.getY()>200 && e.getY()<275){
 					//Jouer
 					menu = false;
 					moveLeft = false;
@@ -497,7 +506,10 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 						tv.start();
 						firstStart = false;
 					}
-				}else if(e.getY()>350 && e.getY()<425){
+				}else if(e.getY()>300 && e.getY()<375){
+					//Scores
+					
+				}else if(e.getY()>400 && e.getY()<475){
 					//Quitter
 					System.exit(0);
 				}
