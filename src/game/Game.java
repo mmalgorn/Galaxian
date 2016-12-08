@@ -10,6 +10,7 @@ import invaders.FireInvaders;
 import invaders.Invaders;
 import invaders.PeonInvaders;
 import invaders.ShieldInvaders;
+import projectile.Laser;
 import projectile.Missile;
 import ressources.Element;
 import ressources.Level;
@@ -43,6 +44,7 @@ public class Game {
 		nbEnemy = 0;
 		Invaders.invaders.clear();
 		Missile.missiles.clear();
+		Laser.lasers.clear();
 		if(!(Level.levelMap.get(nbLvl).boss.equals("null"))){
 			new BossInvaders(new Point(100,100),Level.levelMap.get(nbLvl).boss);
 		}else{
