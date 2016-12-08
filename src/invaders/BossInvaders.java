@@ -10,11 +10,11 @@ public class BossInvaders extends Invaders{
 
 	private int tmpLaser=0;
 
-	public BossInvaders(Point p, String name){
+	public BossInvaders(Point p, String name,int sp){
 		this.width = 300;
 		this.height = 200;
-		this.speed = 2;
-		this.life = 5000;
+		this.speed = sp;
+		this.life = 25;
 		this.damageAmount = 25;
 		this.setPosition(p);
 		switch(name){

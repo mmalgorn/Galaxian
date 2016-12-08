@@ -12,14 +12,26 @@ public class FireInvaders extends Invaders {
 	
 	private Random randomGenerator;
 	
-	public FireInvaders(Point p){
+	public FireInvaders(Point p , int sp, Invaders.team team){
 		this.width = 50;
 		this.height = 50;
-		this.speed = 2;
+		this.speed = sp;
 		this.life = 50;
 		this.damageAmount = 25;
+		this.tm = team;
 		this.setPosition(p);
-		this.setImage("fire_invaders");
+		switch(team){
+			case red :
+				this.setImage("red_fire_invaders");
+				break;
+			case grey :
+				this.setImage("grey_fire_invaders");
+				break;
+			case yellow :
+				this.setImage("yellow_fire_invaders");
+				break;
+		}
+		
 	}
 
 	/*

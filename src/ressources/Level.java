@@ -42,7 +42,6 @@ public class Level {
 					int nbShield = Integer.parseInt(el.getAttribute("ShieldInvaders"));
 					int nbPeon = Integer.parseInt(el.getAttribute("PeonInvaders"));
 					String boss = el.getAttribute("Boss");
-					
 					levelMap.put(Integer.parseInt(el.getAttribute("Index")),new Level(nbFire, nbShield, nbPeon, boss));
 				}
 				

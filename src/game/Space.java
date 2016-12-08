@@ -72,7 +72,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			drawScore(g);
 			Defender.def.drawOn(g);
 			inv = Invaders.invaders.iterator();
-			while (inv.hasNext()) inv.next().drawOn(g);
+			while (inv.hasNext())inv.next().drawOn(g);
 			mis = Missile.missiles.iterator();
 			while (mis.hasNext())mis.next().drawOn(g);
 			las = Laser.lasers.iterator();
