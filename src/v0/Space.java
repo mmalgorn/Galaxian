@@ -97,7 +97,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void start() {
 		imgFond = Sprites.spritesMap.get("background");
 		imgTitre = Sprites.spritesMap.get("titre");
-		imgGameOver = Sprites.spritesMap.get("gameover");
+		imgGameOver = Sprites.spritesMap.get("gameOver");
 		imgBJ = Sprites.spritesMap.get("boutonJouer");
 		imgBJC = Sprites.spritesMap.get("boutonJouerClick");
 		imgBQ =Sprites.spritesMap.get("boutonQuitter");
