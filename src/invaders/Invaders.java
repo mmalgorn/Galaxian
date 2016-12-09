@@ -67,7 +67,7 @@ public abstract class Invaders extends Element {
 		rand = new Random();
 		int randInt = rand.nextInt(20);
 		Point p = new Point((int) this.getX(), (int) this.getY());
-		if (rand.nextInt(30) == 1) new BonusBlast(p);
+		if (rand.nextInt(3) == 50) new BonusBlast(p);
 		else if (randInt == 1) new BonusBouclier(p);
 		else if (randInt == 2) new BonusLaser(p);
 		else if (randInt == 3) new BonusCoeur(p);

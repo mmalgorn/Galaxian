@@ -136,6 +136,7 @@ public class Space extends JComponent implements KeyListener, MouseListener {
 			drawScore(g);
 			Defender.def.drawLaser(g);
 			Defender.def.drawFireRate(g);
+			Defender.def.drawBlast(g);
 			Defender.def.drawOn(g);
 			Defender.def.inv();
 			inv = Invaders.invaders.iterator();

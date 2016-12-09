@@ -21,6 +21,7 @@ public class Defender extends Element {
 	final ImagePanel empty_heart = Sprites.spritesMap.get("empty_heart");
 	final ImagePanel laser = Sprites.spritesMap.get("bonus_laser");
 	final ImagePanel fireRate = Sprites.spritesMap.get("bonus_fire_rate");
+	final ImagePanel blast = Sprites.spritesMap.get("blast");
 	public static Defender def;
 	private int nbFireRate = 0;
 	private int nbLaser = 0;
@@ -84,6 +85,15 @@ public class Defender extends Element {
 
 		fireRate.paintComponent(g, 565, 530, 20, 20);
 		g.drawString(Integer.toString(nbFireRate), 590, 550);
+
+	}
+	
+	public void drawBlast(Graphics g) {
+		Font f = new Font("Arial", Font.BOLD, 25);
+		g.setFont(f);
+
+		blast.paintComponent(g, 505, 530, 20, 10);
+		g.drawString(Integer.toString(nbFireRate), 530, 550);
 
 	}
 
