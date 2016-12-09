@@ -458,11 +458,13 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				break;
 				
 			case KeyEvent.VK_ESCAPE:
-				if(pause){
-					pause = false;
-				}else{
-					pause = true;
-					tv.arret();
+				if(state == State.inGame && !gameOver && !gameOver2){
+					if(pause){
+						pause = false;
+					}else{
+						pause = true;
+						tv.arret();
+					}
 				}
 				break;
 				
