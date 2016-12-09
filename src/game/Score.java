@@ -1,6 +1,8 @@
 package game;
 
+import java.io.EOFException;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -40,8 +42,10 @@ public class Score implements Serializable{
 		    ObjectInputStream oIs = new ObjectInputStream(fIn);
 		    Score.scoreTable = (ArrayList<Score>) oIs.readObject();
 		    oIs.close();
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
+		} catch(EOFException e) {
+			System.out.println("scores.dat is empty");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
