@@ -40,12 +40,10 @@ public class BossInvaders extends Invaders{
 			Missile m = new Missile(p,movement.BOTTOM,true);
 		}
 		if(tmpLaser==0){
-			if(randomGenerator.nextInt(30)<1){
-
 				Point p2 = new Point((int)(this.getX()+width/2-9),(int)(this.getY()+height-50));
 				Laser l = new Laser(p2,this.speed,true);
 				tmpLaser=30;
-			}
+			
 		}else tmpLaser--;
 	}
 
