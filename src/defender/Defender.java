@@ -151,7 +151,6 @@ public class Defender extends Element {
 	}
 
 	public void getlaser() {
-		// TODO Auto-generated method stub
 		nbLaser = Math.min(99, nbLaser + 2);
 
 	}
