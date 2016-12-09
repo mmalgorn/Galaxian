@@ -59,7 +59,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	Iterator<Bonus> bon;
 
 	public static int score;
-	String username = "";
+	public static String username = "";
 	int cursor = 0;
 
 	
@@ -106,7 +106,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		new GestFenetre(window);
 		Universe.addSpace(this);
 		Score.readScores();
-		username = "";
 	}
 
 	/*

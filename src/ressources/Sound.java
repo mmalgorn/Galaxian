@@ -8,6 +8,7 @@ import java.util.HashMap;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
  
@@ -23,6 +24,7 @@ public class Sound extends Thread {
 		soundMap.put("explosion", new Sound("./sound/explosion.wav"));
 		soundMap.put("theme", new Sound("./sound/mainTheme.wav"));
 		soundMap.put("laser", new Sound("./sound/laser.wav"));
+		soundMap.put("boss", new Sound("./sound/boss.wav"));
 	}
 	private Clip clip;
     public Sound(String fileName) {
@@ -56,6 +58,10 @@ public class Sound extends Thread {
         }
 
     // play, stop, loop the sound clip
+    }
+    public void gainControl(float f) {
+    	FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+    	fc.setValue(f);
     }
     public void play(){
         clip.setFramePosition(0);  // Must always rewind!
