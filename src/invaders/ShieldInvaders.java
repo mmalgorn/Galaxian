@@ -1,8 +1,6 @@
 package invaders;
 
 import java.awt.Point;
-
-import ressources.Element.movement;
 /*
  * Vaisseau invaders avec deux fois plus de vie
  */

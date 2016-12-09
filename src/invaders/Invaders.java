@@ -12,7 +12,6 @@ import game.BonusLaser;
 import game.Space;
 import ressources.Element;
 import ressources.Sound;
-import ressources.Element.movement;
 
 public abstract class Invaders extends Element {
 	
