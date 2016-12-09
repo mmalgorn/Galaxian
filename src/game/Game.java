@@ -25,7 +25,7 @@ public class Game {
 	static int nbEnemyMax = 45;
 	static int i;
 	static int dif = 0;
-	static Sound theme = Sound.soundMap.get("theme");
+	public static Sound theme = Sound.soundMap.get("theme");
 	static int nbLvl = 0;
 	
 	public static void win() throws InterruptedException{

@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.Random;
 
 import defender.Defender;
+import game.Game;
 import projectile.Laser;
 import projectile.Missile;
 import ressources.Sound;
@@ -37,6 +38,11 @@ public class BossInvaders extends Invaders{
 			this.setImage("boss_invaders_yellow");
 			break;
 		}
+		Game.theme.stop();
+		Sound snd = Sound.soundMap.get("boss");
+		snd.play();
+		Game.theme.loop();
+	
 	}
 
 
