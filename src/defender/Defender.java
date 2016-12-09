@@ -104,14 +104,14 @@ public class Defender extends Element {
 
 	public void fireLaser(){
 
-		if(nbLaser>0){
+		//if(nbLaser>0){
 			Point p = new Point((int)(this.getX()+this.width/2),0);
 			new Laser(p,5,false);	
 			nbLaser --;
 			Sound snd = Sound.soundMap.get("laser");
 			snd.play();
 			snd.interrupt();
-		}
+	//	}
 	}
 
 	/*
