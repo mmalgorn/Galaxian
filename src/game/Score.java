@@ -1,5 +1,9 @@
 package game;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +21,28 @@ public class Score implements Serializable{
 				return s2.getScore().compareTo(s1.getScore());
 			}
 		});
+	}
+	
+	public static void writeScores() {
+		try {
+			FileOutputStream fOut = new FileOutputStream("./data/scores.dat");
+			ObjectOutputStream oOs = new ObjectOutputStream(fOut);
+			oOs.writeObject(Score.scoreTable);
+			oOs.close();			
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public static void readScores() {
+		try {
+			FileInputStream fIn = new FileInputStream("./data/scores.dat");
+		    ObjectInputStream oIs = new ObjectInputStream(fIn);
+		    Score.scoreTable = (ArrayList<Score>) oIs.readObject();
+		    oIs.close();
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	private Integer score;

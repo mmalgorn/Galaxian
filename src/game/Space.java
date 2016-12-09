@@ -47,6 +47,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	boolean leaderboard = false;
 	boolean firstStart = true;
 	boolean wait = true;
+	boolean pause = false;
 	String typeBouton;
 	ThreadVaisseau tv;
 	movement moveAdv = movement.RIGHT;
@@ -158,7 +159,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		window.addMouseListener(this);
 		new GestFenetre(window);
 		Universe.addSpace(this);
-		readScores();
+		Score.readScores();
 	}
 
 	
@@ -187,8 +188,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		if(leaderboard) {
 			imgBM.paintComponent(g, 225, 450, 250, 75);
 		} else if(scorePan) {
-			g.drawString(username, 150, 200+(30*i));
-			drawStringRight("" + score, 550, 200+(30*i), g);			
+			g.setFont(new Font("Arial", Font.BOLD, 20));
+			g.drawString(username, 150, 170+(30*i));
+			drawStringRight("" + score, 550, 170+(30*i), g);			
 		}
 	}
 	
@@ -373,7 +375,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			case KeyEvent.VK_ENTER:
 				if(scorePan && !pause) {
 					new Score(score, username);
-					writeScores();
+					Score.writeScores();
 					scorePan = false;					
 				}
 				break;
@@ -473,25 +475,16 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-	}
+	public void keyTyped(KeyEvent e) {}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
+	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent e) {}
 
 	@Override
 	//Fonction de gestion des évènements des appuies sur un clic de la souris
@@ -587,27 +580,5 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			}
 		}
 		boutonClik = false;
-	}
-
-	public static void writeScores() {
-		try {
-			FileOutputStream fOut = new FileOutputStream("./data/scores.dat");
-			ObjectOutputStream oOs = new ObjectOutputStream(fOut);
-			oOs.writeObject(Score.scoreTable);
-			oOs.close();			
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
-	
-	public static void readScores() {
-		try {
-			FileInputStream fIn = new FileInputStream("./data/scores.dat");
-		    ObjectInputStream oIs = new ObjectInputStream(fIn);
-		    Score.scoreTable = (ArrayList<Score>) oIs.readObject();
-		    oIs.close();
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
 	}
 }
