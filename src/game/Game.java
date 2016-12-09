@@ -37,8 +37,6 @@ public class Game {
 		}
 		System.out.println("You Win !");
 		inizialise();
-		
-		
 	}
 	
 	public static void resetGame(){

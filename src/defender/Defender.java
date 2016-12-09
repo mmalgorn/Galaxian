@@ -19,7 +19,8 @@ public class Defender extends Element{
 	final ImagePanel empty_heart = Sprites.spritesMap.get("empty_heart");
 	final ImagePanel laser = Sprites.spritesMap.get("bonus_laser");
 	public static Defender def;
-	private boolean haveLaser=false;
+	private boolean haveLaser = false;
+	private int fireRate = 0;
 	private int nbLaser = 0;
 	private int inv=0;
 	private int life = 100;
@@ -69,9 +70,15 @@ public class Defender extends Element{
 	 */
 	public void fire(){
 
+		if(fireRate > 0) {
+			Point p1 = new Point((int)(this.getX()),(int)(this.getY()));
+			Point p2 = new Point((int)(this.getX()+this.width),(int)(this.getY()));
+			new Missile(p1, movement.TOPLEFT, false);
+			new Missile(p2, movement.TOPRIGHT, false);
+			fireRate--;
+		}
 		Point p = new Point((int)(this.getX()+this.width/2),(int)(this.getY()));
 		new Missile(p, movement.TOP, false);
-
 	}
 
 	public void fireLaser(){
@@ -124,6 +131,10 @@ public class Defender extends Element{
 		// TODO Auto-generated method stub
 		nbLaser+=2;
 
+	}
+	
+	public void addFireRate(int amount) {
+		fireRate += amount;
 	}
 
 	public void addShield(){

@@ -7,6 +7,7 @@ import java.util.Random;
 
 import game.BonusBouclier;
 import game.BonusCoeur;
+import game.BonusFireRate;
 import game.BonusLaser;
 import game.Space;
 import ressources.Element;
@@ -67,6 +68,7 @@ public abstract class Invaders extends Element {
 		if(rand.nextInt(10)==1)new BonusBouclier(p);
 		else if(rand.nextInt(10)==2)new BonusLaser(p);
 		else if(rand.nextInt(10)==3)new BonusCoeur(p);
+		else if(rand.nextInt(10)==3)new BonusFireRate(p);
 		Space.score+=100;
 		invaders.remove(this);
 		Sound snd = Sound.soundMap.get("explosion");

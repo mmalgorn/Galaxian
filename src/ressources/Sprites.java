@@ -27,6 +27,7 @@ public final class Sprites {
 				spritesMap.put("full_heart", new ImagePanel("./img/full_heart.png"));
 				spritesMap.put("bonus_bouclier", new ImagePanel("./img/bonus_bouclier.png"));
 				spritesMap.put("bonus_laser", new ImagePanel("./img/bonus_laser.png"));
+				spritesMap.put("bonus_fire_rate", new ImagePanel("./img/bonus_fire_rate.png"));
 			// projectiles
 				spritesMap.put("missile_defender", new ImagePanel("./img/missile_defender.png"));
 				spritesMap.put("missile", new ImagePanel("./img/missile.png"));
