@@ -28,11 +28,12 @@ import game.ThreadVaisseau;
 import ressources.Sound;
 import ressources.Sprites;
 
-
+/*
+ * La classe "Space" nous permet de dessiner et deplacer chaques elements.
+ *  De plus elle permet de gérer les actions sur les touches du clavier et les actions de la souris.
+ */
 public class Space extends JComponent implements KeyListener,MouseListener{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	ImagePanel imgFond,imgTitre,imgGameOver,imgBJ,imgBJC,imgBS,imgBSC,imgBQ,imgBQC,imgBR,imgBRC,imgBM,imgBMC;
 	boolean moveLeft = false;
@@ -62,62 +63,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	String username = "";
 	int cursor = 0;
 
-	//Affichage du rendu graphique du jeu
-	public void paint(Graphics g) {
-		super.paint(g);
-		
-		if(menu) {
-			drawMenu(g);
-			if(boutonClik)drawBoutonClik(g);
-		} else if(leaderboard) {
-			drawBackground(g);
-			drawScorePanel(g);
-			if(boutonClik)drawBoutonClik(g);
-		} else {
-			if(!gameOver && !pause)moveElements();
-			drawBackground(g);
-			paintLife(g);
-			drawScore(g);
-			Defender.def.drawLaser(g);
-			Defender.def.drawFireRate(g);
-			Defender.def.drawOn(g);
-			Defender.def.inv();
-			inv = Invaders.invaders.iterator();
-			while (inv.hasNext())inv.next().drawOn(g);
-			mis = Missile.missiles.iterator();
-			while (mis.hasNext())mis.next().drawOn(g);
-			las = Laser.lasers.iterator();
-			while (las.hasNext())las.next().drawOn(g);
-			bon = Bonus.bonus.iterator();
-			while (bon.hasNext())bon.next().drawOn(g);
-		}
-		if(gameOver2){
-			if(attente){
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				attente = false;
-				scorePan = true;
-			}
-			moveLeft = false;
-			moveRight = false;
-			drawGameOver(g);
-			drawScorePanel(g);
-		}
-		if(gameOver) gameOver2 = true;
-		if(pause){
-			drawPause(g);
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+	
 	
 	//Renvoie vrai si l''utilisateur est sur l'écran de game over
 	public boolean getGameOver(){return this.gameOver2;}
@@ -146,7 +92,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		return e.iterator();
 	}
 
-
 	//Créé la fenêtre du jeu
 	public void start (int x, int y, int width, int height) {
 		tv = new ThreadVaisseau();
@@ -164,7 +109,66 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		Score.readScores();
 	}
 
+	/*
+	 * Fonctions dessinant chacuns de nos Elements
+	 */
 	
+	//Affichage du rendu graphique du jeu
+		public void paint(Graphics g) {
+			super.paint(g);
+			
+			if(menu) {
+				drawMenu(g);
+				if(boutonClik)drawBoutonClik(g);
+			} else if(leaderboard) {
+				drawBackground(g);
+				drawScorePanel(g);
+				if(boutonClik)drawBoutonClik(g);
+			} else {
+				if(!gameOver && !pause)moveElements();
+				drawBackground(g);
+				paintLife(g);
+				drawScore(g);
+				Defender.def.drawLaser(g);
+				Defender.def.drawFireRate(g);
+				Defender.def.drawOn(g);
+				Defender.def.inv();
+				inv = Invaders.invaders.iterator();
+				while (inv.hasNext())inv.next().drawOn(g);
+				mis = Missile.missiles.iterator();
+				while (mis.hasNext())mis.next().drawOn(g);
+				las = Laser.lasers.iterator();
+				while (las.hasNext())las.next().drawOn(g);
+				bon = Bonus.bonus.iterator();
+				while (bon.hasNext())bon.next().drawOn(g);
+			}
+			if(gameOver2){
+				if(attente){
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					attente = false;
+					scorePan = true;
+				}
+				moveLeft = false;
+				moveRight = false;
+				drawGameOver(g);
+				drawScorePanel(g);
+			}
+			if(gameOver) gameOver2 = true;
+			if(pause){
+				drawPause(g);
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	//Affiche le menu principale
 	public void drawMenu(Graphics g){
 		drawBackground(g);
@@ -248,7 +252,17 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void drawBackground(Graphics g){
 		imgFond.paintComponent(g);
 	}
-
+	
+	// Affichage de la vie
+	public void paintLife(Graphics g){
+		Defender.def.drawLife(g);
+		
+	}
+	
+	/*
+	 * Fonctions gérant les mouvements de nos Elements
+	 */
+	
 	//Met en mouvements les éléments du jeu(missiles, ennemies et le vaisseau principale)
 	public void moveElements(){
 		moveMissiles();
@@ -322,16 +336,60 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			if(!isOnBorder) inv.move(moveAdv);
 		}
 	}
+
+	/*
+	 * Fonctions permettant de détécter des collisions entre les elements
+	 */
 	
-	//Evolution du vaisseau principale en fonction du score
+	//Renvoie vrai si il y a une collision avec le missile en paramètre
+	public boolean isCol(Element m) {
+		boolean isLaser = false;
 	
-	
-	// Affichage de la vie
-	public void paintLife(Graphics g){
-		Defender.def.drawLife(g);
-		
+		if (m.isMissileEnnemy()){
+			if(m.collideWith(Defender.def)){
+				if(!m.isDest) Defender.def.getDamage();
+				
+				
+				if(Defender.def.getLife()<=0){
+					gameOver = true;
+					Defender.def.setImage("explosion");
+				}
+				return true;
+
+			}
+		}else{
+			for(int i = Invaders.invaders.size() - 1; i >= 0; i--) {			
+				Invaders inv = Invaders.invaders.get(i);
+				if (m.collideWith(inv)) {
+					inv.getDamage();
+					if (Invaders.invaders.size() == 0)
+						try {
+							Game.win();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					if(m.isLaser()) isLaser=true;
+					else return true;
+				};
+			}
+		}
+		return isLaser;
 	}
 
+	// Renvoie vrai si il y a une collision entre un bonus et le Defender
+	public boolean isColBonus(Bonus m) {
+		if(m.collideWith(Defender.def)){
+			m.action();
+			return true;
+		}
+		return false;
+	}
+	
+	/*
+	 * Fonctions permettant de gérer les actions sur les touches de clavier et la souris
+	*/
+	
 	@Override
 	//Fonction de gestion des évènements des appuie sur une touche du clavier
 	public void keyPressed(KeyEvent e) {
@@ -408,50 +466,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				}
 			}
 	}
-
-	//Renvoie vrai si il y a une collision avec le missile en paramètre
-	public boolean isCol(Element m) {
-		boolean isLaser = false;
 	
-		if (m.isMissileEnnemy()){
-			if(m.collideWith(Defender.def)){
-				if(!m.isDest) Defender.def.getDamage();
-				
-				
-				if(Defender.def.getLife()<=0){
-					gameOver = true;
-					Defender.def.setImage("explosion");
-				}
-				return true;
-
-			}
-		}else{
-			for(int i = Invaders.invaders.size() - 1; i >= 0; i--) {			
-				Invaders inv = Invaders.invaders.get(i);
-				if (m.collideWith(inv)) {
-					inv.getDamage();
-					if (Invaders.invaders.size() == 0)
-						try {
-							Game.win();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					if(m.isLaser()) isLaser=true;
-					else return true;
-				};
-			}
-		}
-		return isLaser;
-	}
-
-	public boolean isColBonus(Bonus m) {
-		if(m.collideWith(Defender.def)){
-			m.action();
-			return true;
-		}
-		return false;
-	}
 	
 	@Override
 	//Fonction de gestion des évènements de la relache sur une touche du clavier
@@ -475,6 +490,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		}
 	}
 
+	
 	@Override
 	public void keyTyped(KeyEvent e) {}
 
