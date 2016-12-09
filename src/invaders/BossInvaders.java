@@ -6,6 +6,14 @@ import java.util.Random;
 import defender.Defender;
 import projectile.Laser;
 import projectile.Missile;
+import ressources.Sound;
+
+import java.awt.Point;
+import java.util.Random;
+
+import defender.Defender;
+import projectile.Laser;
+import projectile.Missile;
 
 public class BossInvaders extends Invaders{
 
