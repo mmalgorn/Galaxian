@@ -4,7 +4,7 @@ import java.awt.Point;
 
 import defender.Defender;
 
-public class BonusBouclier extends Bonus{
+public class BonusBouclier extends Bonus {
 
 	public BonusBouclier(Point p) {
 		this.width = 30;
@@ -15,8 +15,8 @@ public class BonusBouclier extends Bonus{
 		this.setImage("bonus_bouclier");
 	}
 
-	
-	public void action(){
+	@Override
+	public void action() {
 		Defender.def.addShield();
 	}
 

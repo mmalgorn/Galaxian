@@ -4,7 +4,7 @@ import java.awt.Point;
 
 import defender.Defender;
 
-public class BonusCoeur extends Bonus{
+public class BonusCoeur extends Bonus {
 
 	public BonusCoeur(Point p) {
 		this.width = 30;
@@ -15,8 +15,8 @@ public class BonusCoeur extends Bonus{
 		this.setImage("full_heart");
 	}
 
-	
-	public void action(){
+	@Override
+	public void action() {
 		Defender.def.heal();
 	}
 

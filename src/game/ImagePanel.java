@@ -8,22 +8,26 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class ImagePanel extends JPanel{
-	
+public class ImagePanel extends JPanel {
+
 	private BufferedImage image;
-	
+
 	public ImagePanel(String path) throws IOException {
 		this.image = ImageIO.read(new File(path));
 	}
-	public void paintComponent(Graphics g,double d,double e, double f, double h) {
+
+	public void paintComponent(Graphics g, double d, double e, double f, double h) {
 		super.paintComponent(g);
-		g.drawImage(image, (int)d, (int)e, (int)f, (int)h, null); 
+		g.drawImage(image, (int) d, (int) e, (int) f, (int) h, null);
 	}
+
+	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(image,0,0,null); 
+		g.drawImage(image, 0, 0, null);
 	}
-	protected void setImage(String path) throws IOException{
+
+	protected void setImage(String path) throws IOException {
 		this.image = ImageIO.read(new File(path));
 	}
 }
