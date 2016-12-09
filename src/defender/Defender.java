@@ -23,7 +23,7 @@ public class Defender extends Element{
 	private boolean haveLaser = false;
 	private int nbFireRate = 0;
 	private int nbLaser = 0;
-
+	private int inv=0;
 	private int life = 100;
 	private int niveau;
 	private int nbHeart = 4;
@@ -57,14 +57,14 @@ public class Defender extends Element{
 		}
 	}
 
-	
+
 	public void drawLaser(Graphics g){
 		Font f = new Font("Arial", Font.BOLD, 25);
 		g.setFont(f);
-		
+
 		laser.paintComponent(g, 625, 530, 20, 20);
 		g.drawString(Integer.toString(nbLaser), 650, 550);
-		
+
 	}
 	
 	
@@ -110,12 +110,15 @@ public class Defender extends Element{
 	 * Fonction appelée lorsque le vaisseau reçoit des dégats
 	 */
 	public void getDamage() {
-		if(shield){
-			shield = false;
-			this.setImage("vaisseau"+this.niveau);
-		}else{
-			life -= 25;
-		}
+		if(inv==0){
+			inv=10;
+			if(shield){
+				shield = false;
+				this.setImage("vaisseau"+this.niveau);
+			}else{
+				life -= 25;
+			}
+			}
 	}
 	public void heal() {
 		if(life<=(nbHeart-1)*25)life += 25;
@@ -150,6 +153,11 @@ public class Defender extends Element{
 	public void addShield(){
 		shield = true;
 		this.setImage("vaisseau"+this.niveau+"_shield");
+	}
+
+	public void inv() {
+		// TODO Auto-generated method stub
+		if(inv>0) inv --;
 	}
 
 }
