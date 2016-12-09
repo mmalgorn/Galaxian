@@ -65,10 +65,10 @@ public abstract class Invaders extends Element {
 	public void destroy() {
 		rand = new Random();
 		Point p = new Point((int)this.getX(),(int)this.getY());
-		if(rand.nextInt(10)==1)new BonusBouclier(p);
-		else if(rand.nextInt(10)==2)new BonusLaser(p);
-		else if(rand.nextInt(10)==3)new BonusCoeur(p);
-		else if(rand.nextInt(10)==3)new BonusFireRate(p);
+		if(rand.nextInt(20)==1)new BonusBouclier(p);
+		else if(rand.nextInt(20)==2)new BonusLaser(p);
+		else if(rand.nextInt(20)==3)new BonusCoeur(p);
+		else if(rand.nextInt(20)==4)new BonusFireRate(p);
 		Space.score+=100;
 		invaders.remove(this);
 		Sound snd = Sound.soundMap.get("explosion");
