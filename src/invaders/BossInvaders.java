@@ -47,11 +47,11 @@ public class BossInvaders extends Invaders {
 
 			Point p = new Point((int) this.getX() + randomGenerator.nextInt(300),
 					(int) (this.getY() + randomGenerator.nextInt(200)));
-			Missile m = new Missile(p, movement.BOTTOM, true);
+			new Missile(p, movement.BOTTOM, true);
 		}
 		if (tmpLaser == 0) {
 			Point p2 = new Point((int) (this.getX() + width / 2 - 9), (int) (this.getY() + height - 50));
-			Laser l = new Laser(p2, this.speed, true);
+			new Laser(p2, this.speed, true);
 			tmpLaser = 30;
 
 		} else tmpLaser--;

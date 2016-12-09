@@ -43,7 +43,7 @@ public class FireInvaders extends Invaders {
 		if (randomGenerator.nextInt(300) < 1) {
 
 			Point p = new Point((int) this.getX(), (int) (this.getY() + (this.height / 2)));
-			Missile m = new Missile(p, movement.BOTTOM, true);
+			new Missile(p, movement.BOTTOM, true);
 		}
 	}
 

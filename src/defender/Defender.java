@@ -21,7 +21,6 @@ public class Defender extends Element {
 	final ImagePanel laser = Sprites.spritesMap.get("bonus_laser");
 	final ImagePanel fireRate = Sprites.spritesMap.get("bonus_fire_rate");
 	public static Defender def;
-	private boolean haveLaser = false;
 	private int nbFireRate = 0;
 	private int nbLaser = 0;
 	private int inv = 0;
