@@ -14,7 +14,8 @@ import ressources.Sprites;
 /*
  * Defender est la classe représentant le vaisseau controlé par le joueur
  */
-public class Defender extends Element{
+public class Defender extends Element {
+	
 	final ImagePanel full_heart = Sprites.spritesMap.get("full_heart");
 	final ImagePanel empty_heart = Sprites.spritesMap.get("empty_heart");
 	final ImagePanel laser = Sprites.spritesMap.get("bonus_laser");
