@@ -117,61 +117,65 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	 */
 	
 	//Affichage du rendu graphique du jeu
-		public void paint(Graphics g) {
-			super.paint(g);
+	public void paint(Graphics g) {
+		super.paint(g);
 			
-			if(menu) {
-				drawMenu(g);
-				if(boutonClik)drawBoutonClik(g);
-			} else if(leaderboard) {
-				drawBackground(g);
-				drawScorePanel(g);
-				if(boutonClik)drawBoutonClik(g);
-			} else {
-				if(!gameOver && !pause)moveElements();
-				drawBackground(g);
-				paintLife(g);
-				drawScore(g);
-				Defender.def.drawLaser(g);
-				Defender.def.drawFireRate(g);
-				Defender.def.drawOn(g);
-				Defender.def.inv();
-				inv = Invaders.invaders.iterator();
-				while (inv.hasNext())inv.next().drawOn(g);
-				mis = Missile.missiles.iterator();
-				while (mis.hasNext())mis.next().drawOn(g);
-				las = Laser.lasers.iterator();
-				while (las.hasNext())las.next().drawOn(g);
-				bon = Bonus.bonus.iterator();
-				while (bon.hasNext())bon.next().drawOn(g);
-			}
-			if(gameOver2){
-				if(attente){
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					attente = false;
-					scorePan = true;
-				}
-				moveLeft = false;
-				moveRight = false;
-				drawGameOver(g);
-				drawScorePanel(g);
-			}
-			if(gameOver) gameOver2 = true;
-			if(pause){
-				drawPause(g);
+		switch(state) {
+		case menu:
+			drawMenu(g);
+			if(boutonClik)drawBoutonClik(g);
+			break;
+		case leaderboard:
+			drawBackground(g);
+			drawScorePanel(g);
+			if(boutonClik)drawBoutonClik(g);
+			break;
+		case inGame:
+			if(!gameOver && !pause)moveElements();
+			drawBackground(g);
+			paintLife(g);
+			drawScore(g);
+			Defender.def.drawLaser(g);
+			Defender.def.drawFireRate(g);
+			Defender.def.drawOn(g);
+			Defender.def.inv();
+			inv = Invaders.invaders.iterator();
+			while (inv.hasNext())inv.next().drawOn(g);
+			mis = Missile.missiles.iterator();
+			while (mis.hasNext())mis.next().drawOn(g);
+			las = Laser.lasers.iterator();
+			while (las.hasNext())las.next().drawOn(g);
+			bon = Bonus.bonus.iterator();
+			while (bon.hasNext())bon.next().drawOn(g);
+			break;
+		}
+		if(gameOver2){
+			if(attente){
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				attente = false;
+				scorePan = true;
+			}
+			moveLeft = false;
+			moveRight = false;
+			drawGameOver(g);
+			drawScorePanel(g);
+		}
+		if(gameOver) gameOver2 = true;
+		if(pause){
+			drawPause(g);
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
+	}
 	//Affiche le menu principale
 	public void drawMenu(Graphics g){
 		drawBackground(g);
