@@ -28,7 +28,10 @@ import game.ThreadVaisseau;
 import ressources.Sound;
 import ressources.Sprites;
 
-
+/*
+ * La classe "Space" nous permet de dessiner et deplacer chaques elements.
+ *  De plus elle permet de gï¿½rer les actions sur les touches du clavier et les actions de la souris.
+ */
 public class Space extends JComponent implements KeyListener,MouseListener{
 	
 	public enum State {
@@ -63,67 +66,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	String username = "";
 	int cursor = 0;
 
-	//Affichage du rendu graphique du jeu
-	public void paint(Graphics g) {
-		super.paint(g);
-		
-		switch(state) {
-		case menu:
-			drawMenu(g);
-			if(boutonClik)drawBoutonClik(g);
-			break;
-		case leaderboard:
-			drawBackground(g);
-			drawScorePanel(g);
-			if(boutonClik)drawBoutonClik(g);
-			break;
-		case inGame:
-			if(!gameOver && !pause)moveElements();
-			drawBackground(g);
-			paintLife(g);
-			drawScore(g);
-			Defender.def.drawLaser(g);
-			Defender.def.drawOn(g);
-			Defender.def.inv();
-			inv = Invaders.invaders.iterator();
-			while (inv.hasNext())inv.next().drawOn(g);
-			mis = Missile.missiles.iterator();
-			while (mis.hasNext())mis.next().drawOn(g);
-			las = Laser.lasers.iterator();
-			while (las.hasNext())las.next().drawOn(g);
-			bon = Bonus.bonus.iterator();
-			while (bon.hasNext())bon.next().drawOn(g);
-			break;
-		}
-		if(gameOver2){
-			if(attente){
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				attente = false;
-				scorePan = true;
-			}
-			moveLeft = false;
-			moveRight = false;
-			drawGameOver(g);
-			drawScorePanel(g);
-		}
-		if(gameOver) gameOver2 = true;
-		if(pause){
-			drawPause(g);
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
 	
-	//Renvoie vrai si l''utilisateur est sur l'écran de game over
+	
+	//Renvoie vrai si l''utilisateur est sur l'ï¿½cran de game over
 	public boolean getGameOver(){return this.gameOver2;}
 
 	public void start() {
@@ -150,8 +95,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		return e.iterator();
 	}
 
-
-	//Créé la fenêtre du jeu
+	//Crï¿½ï¿½ la fenï¿½tre du jeu
 	public void start (int x, int y, int width, int height) {
 		tv = new ThreadVaisseau();
 		JFrame window = new JFrame();
@@ -168,7 +112,66 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		Score.readScores();
 	}
 
+	/*
+	 * Fonctions dessinant chacuns de nos Elements
+	 */
 	
+	//Affichage du rendu graphique du jeu
+		public void paint(Graphics g) {
+			super.paint(g);
+			
+			if(menu) {
+				drawMenu(g);
+				if(boutonClik)drawBoutonClik(g);
+			} else if(leaderboard) {
+				drawBackground(g);
+				drawScorePanel(g);
+				if(boutonClik)drawBoutonClik(g);
+			} else {
+				if(!gameOver && !pause)moveElements();
+				drawBackground(g);
+				paintLife(g);
+				drawScore(g);
+				Defender.def.drawLaser(g);
+				Defender.def.drawFireRate(g);
+				Defender.def.drawOn(g);
+				Defender.def.inv();
+				inv = Invaders.invaders.iterator();
+				while (inv.hasNext())inv.next().drawOn(g);
+				mis = Missile.missiles.iterator();
+				while (mis.hasNext())mis.next().drawOn(g);
+				las = Laser.lasers.iterator();
+				while (las.hasNext())las.next().drawOn(g);
+				bon = Bonus.bonus.iterator();
+				while (bon.hasNext())bon.next().drawOn(g);
+			}
+			if(gameOver2){
+				if(attente){
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					attente = false;
+					scorePan = true;
+				}
+				moveLeft = false;
+				moveRight = false;
+				drawGameOver(g);
+				drawScorePanel(g);
+			}
+			if(gameOver) gameOver2 = true;
+			if(pause){
+				drawPause(g);
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	//Affiche le menu principale
 	public void drawMenu(Graphics g){
 		drawBackground(g);
@@ -222,7 +225,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		g.drawString(s, x-shift, y);
 	}
 	
-	//Affiche un bouton avec une auréole jaune au moment du clique
+	//Affiche un bouton avec une aurï¿½ole jaune au moment du clique
 	public void drawBoutonClik(Graphics g){
 		if(typeBouton.equals("jouer")){
 			imgBJC.paintComponent(g, 225, 200, 250, 75);
@@ -240,7 +243,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 
 	}
 	
-	//Affiche l'écran de game over
+	//Affiche l'ï¿½cran de game over
 	public void drawGameOver(Graphics g){
 		drawBackground(g);
 		imgGameOver.paintComponent(g, 75, 30, 550, 100);
@@ -252,8 +255,18 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void drawBackground(Graphics g) {
 		imgFond.paintComponent(g);
 	}
-
-	//Met en mouvements les éléments du jeu(missiles, ennemies et le vaisseau principale)
+	
+	// Affichage de la vie
+	public void paintLife(Graphics g){
+		Defender.def.drawLife(g);
+		
+	}
+	
+	/*
+	 * Fonctions gï¿½rant les mouvements de nos Elements
+	 */
+	
+	//Met en mouvements les ï¿½lï¿½ments du jeu(missiles, ennemies et le vaisseau principale)
 	public void moveElements() {
 		moveMissiles();
 		moveBonus();
@@ -327,91 +340,12 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			if(!isOnBorder) inv.move(moveAdv);
 		}
 	}
+
+	/*
+	 * Fonctions permettant de dï¿½tï¿½cter des collisions entre les elements
+	 */
 	
-	// Affichage de la vie
-	public void paintLife(Graphics g) {
-		Defender.def.drawLife(g);
-		
-	}
-
-	@Override
-	//Fonction de gestion des évènements des appuie sur une touche du clavier
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		switch(e.getKeyCode()) {
-		
-			//Flèche gauche du clavier
-			case KeyEvent.VK_LEFT:
-				if (!moveLeft && !pause) {
-					tv.arret();
-					tv.setDir("left");
-					tv.reset();
-					moveLeft = true;
-				}
-				break;
-				
-			//Flèche droite du clavier
-			case KeyEvent.VK_RIGHT:
-				if (!moveRight && !pause) {
-					tv.arret();
-					tv.setDir("right");
-					tv.reset();
-					moveRight = true;
-				}
-				break;
-				
-			//Barre espace du clavier
-			case KeyEvent.VK_SPACE:
-				if(!fire && !pause){
-					Defender.def.fire();
-					snd = Sound.soundMap.get("fire");
-					snd.play();
-					snd.interrupt();
-				}
-				fire = true;
-				break;
-			
-			case KeyEvent.VK_C:
-				if(!fire && !pause) Defender.def.fireLaser();
-				break;
-				
-			//Touche entrée du clavier
-			case KeyEvent.VK_ENTER:
-				if(scorePan && !pause) {
-					new Score(score, username);
-					Score.writeScores();
-					scorePan = false;					
-				}
-				break;
-				
-			//Touche effacer du clavier
-			case KeyEvent.VK_BACK_SPACE:
-				if (scorePan && !pause) username = username.substring(0, Math.max(0, username.length() - 1));
-				break;
-				
-			case KeyEvent.VK_ESCAPE:
-				if(pause){
-					pause = false;
-				}else{
-					pause = true;
-					tv.arret();
-				}
-				break;
-				
-			//Toute les autres touches du clavier
-			default:
-				if (scorePan && !pause) {
-					char c = e.getKeyChar();
-					if((c >= 97 && c <= 122) || (c >= 48 && c <= 57)) {
-						username += c;
-						username = username.toUpperCase().substring(0, Math.min(3, username.length()));
-					}
-					break;
-				}
-			}
-	}
-
-	//Renvoie vrai si il y a une collision avec le missile en paramètre
+	//Renvoie vrai si il y a une collision avec le missile en paramï¿½tre
 	public boolean isCol(Element m) {
 		boolean isLaser = false;
 	
@@ -447,6 +381,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		return isLaser;
 	}
 
+	// Renvoie vrai si il y a une collision entre un bonus et le Defender
 	public boolean isColBonus(Bonus m) {
 		if(m.collideWith(Defender.def)){
 			m.action();
@@ -455,8 +390,90 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		return false;
 	}
 	
+	/*
+	 * Fonctions permettant de gï¿½rer les actions sur les touches de clavier et la souris
+	*/
+	
 	@Override
-	//Fonction de gestion des évènements de la relache sur une touche du clavier
+	//Fonction de gestion des ï¿½vï¿½nements des appuie sur une touche du clavier
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		switch(e.getKeyCode()) {
+		
+			//Flï¿½che gauche du clavier
+			case KeyEvent.VK_LEFT:
+				if (!moveLeft && !pause) {
+					tv.arret();
+					tv.setDir("left");
+					tv.reset();
+					moveLeft = true;
+				}
+				break;
+				
+			//Flï¿½che droite du clavier
+			case KeyEvent.VK_RIGHT:
+				if (!moveRight && !pause) {
+					tv.arret();
+					tv.setDir("right");
+					tv.reset();
+					moveRight = true;
+				}
+				break;
+				
+			//Barre espace du clavier
+			case KeyEvent.VK_SPACE:
+				if(!fire && !pause){
+					Defender.def.fire();
+					snd = Sound.soundMap.get("fire");
+					snd.play();
+					snd.interrupt();
+				}
+				fire = true;
+				break;
+			
+			case KeyEvent.VK_C:
+				if(!fire && !pause) Defender.def.fireLaser();
+				break;
+				
+			//Touche entrï¿½e du clavier
+			case KeyEvent.VK_ENTER:
+				if(scorePan && !pause) {
+					new Score(score, username);
+					Score.writeScores();
+					scorePan = false;					
+				}
+				break;
+				
+			//Touche effacer du clavier
+			case KeyEvent.VK_BACK_SPACE:
+				if (scorePan && !pause) username = username.substring(0, Math.max(0, username.length() - 1));
+				break;
+				
+			case KeyEvent.VK_ESCAPE:
+				if(pause){
+					pause = false;
+				}else{
+					pause = true;
+					tv.arret();
+				}
+				break;
+				
+			//Toute les autres touches du clavier
+			default:
+				if (scorePan && !pause) {
+					char c = e.getKeyChar();
+					if((c >= 97 && c <= 122) || (c >= 48 && c <= 57)) {
+						username += c;
+						username = username.toUpperCase().substring(0, Math.min(3, username.length()));
+					}
+					break;
+				}
+			}
+	}
+	
+	
+	@Override
+	//Fonction de gestion des ï¿½vï¿½nements de la relache sur une touche du clavier
 	public void keyReleased(KeyEvent e) {
 		switch(e.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
@@ -477,6 +494,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		}
 	}
 
+	
 	@Override
 	public void keyTyped(KeyEvent e) {}
 
@@ -490,7 +508,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void mouseExited(MouseEvent e) {}
 
 	@Override
-	//Fonction de gestion des évènements des appuies sur un clic de la souris
+	//Fonction de gestion des ï¿½vï¿½nements des appuies sur un clic de la souris
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if(state == State.menu){
@@ -531,7 +549,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	@Override
-	//Fonction de gestion des évènements des relaches sur un clic de la souris
+	//Fonction de gestion des ï¿½vï¿½nements des relaches sur un clic de la souris
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if(state == State.menu){
