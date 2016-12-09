@@ -80,6 +80,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			drawScore(g);
 			Defender.def.drawLaser(g);
 			Defender.def.drawOn(g);
+			Defender.def.inv();
 			inv = Invaders.invaders.iterator();
 			while (inv.hasNext())inv.next().drawOn(g);
 			mis = Missile.missiles.iterator();
@@ -349,7 +350,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			//Flèche droite du clavier
 			case KeyEvent.VK_RIGHT:
 				if (!moveRight && !pause) {
-					if(tv != null)tv.arret();
+					tv.arret();
 					tv.setDir("right");
 					tv.reset();
 					moveRight = true;
@@ -358,7 +359,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				
 			//Barre espace du clavier
 			case KeyEvent.VK_SPACE:
-				if(!fire){
+				if(!fire && !pause){
 					Defender.def.fire();
 					snd = Sound.soundMap.get("fire");
 					snd.play();
@@ -388,7 +389,6 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			case KeyEvent.VK_ESCAPE:
 				if(pause){
 					pause = false;
-					tv.reset();
 				}else{
 					pause = true;
 					tv.arret();
