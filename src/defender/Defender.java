@@ -80,8 +80,8 @@ public class Defender extends Element{
 		Font f = new Font("Arial", Font.BOLD, 25);
 		g.setFont(f);
 		
-		fireRate.paintComponent(g, 575, 530, 20, 20);
-		g.drawString(Integer.toString(nbFireRate), 600, 550);
+		fireRate.paintComponent(g, 565, 530, 20, 20);
+		g.drawString(Integer.toString(nbFireRate), 590, 550);
 		
 	}
 	
@@ -151,12 +151,12 @@ public class Defender extends Element{
 
 	public void getlaser() {
 		// TODO Auto-generated method stub
-		nbLaser+=2;
+		nbLaser = Math.min(99, nbLaser + 2);
 
 	}
 	
 	public void addFireRate(int amount) {
-		nbFireRate += amount;
+		nbFireRate = Math.min(99, nbFireRate+amount);
 	}
 
 	public void addShield(){
