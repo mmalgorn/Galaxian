@@ -18,9 +18,10 @@ public class Defender extends Element{
 	final ImagePanel full_heart = Sprites.spritesMap.get("full_heart");
 	final ImagePanel empty_heart = Sprites.spritesMap.get("empty_heart");
 	final ImagePanel laser = Sprites.spritesMap.get("bonus_laser");
+	final ImagePanel fireRate = Sprites.spritesMap.get("bonus_fire_rate");
 	public static Defender def;
 	private boolean haveLaser = false;
-	private int fireRate = 0;
+	private int nbFireRate = 0;
 	private int nbLaser = 0;
 
 	private int life = 100;
@@ -65,17 +66,29 @@ public class Defender extends Element{
 		g.drawString(Integer.toString(nbLaser), 650, 550);
 		
 	}
+	
+	
+	public void drawFireRate(Graphics g){
+		Font f = new Font("Arial", Font.BOLD, 25);
+		g.setFont(f);
+		
+		fireRate.paintComponent(g, 575, 530, 20, 20);
+		g.drawString(Integer.toString(nbFireRate), 600, 550);
+		
+	}
+	
+	
 	/*
 	 * Fonction de tir qui instancie un nouveau missile se dirigeant vers le haut
 	 */
 	public void fire(){
 
-		if(fireRate > 0) {
+		if(nbFireRate > 0) {
 			Point p1 = new Point((int)(this.getX()),(int)(this.getY()));
 			Point p2 = new Point((int)(this.getX()+this.width),(int)(this.getY()));
 			new Missile(p1, movement.TOPLEFT, false);
 			new Missile(p2, movement.TOPRIGHT, false);
-			fireRate--;
+			nbFireRate--;
 		}
 		Point p = new Point((int)(this.getX()+this.width/2),(int)(this.getY()));
 		new Missile(p, movement.TOP, false);
@@ -131,7 +144,7 @@ public class Defender extends Element{
 	}
 	
 	public void addFireRate(int amount) {
-		fireRate += amount;
+		nbFireRate += amount;
 	}
 
 	public void addShield(){
