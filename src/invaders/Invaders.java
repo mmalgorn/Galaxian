@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import game.BonusBlast;
 import game.BonusBouclier;
 import game.BonusCoeur;
 import game.BonusFireRate;
@@ -66,7 +67,8 @@ public abstract class Invaders extends Element {
 		rand = new Random();
 		int randInt = rand.nextInt(20);
 		Point p = new Point((int) this.getX(), (int) this.getY());
-		if (randInt == 1) new BonusBouclier(p);
+		if (rand.nextInt(30) == 1) new BonusBlast(p);
+		else if (randInt == 1) new BonusBouclier(p);
 		else if (randInt == 2) new BonusLaser(p);
 		else if (randInt == 3) new BonusCoeur(p);
 		else if (randInt == 4) new BonusFireRate(p);

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 import game.ImagePanel;
+import projectile.Blast;
 import projectile.Laser;
 import projectile.Missile;
 import ressources.Element;
@@ -27,6 +28,7 @@ public class Defender extends Element {
 	private int life = 100;
 	private int niveau;
 	private int nbHeart = 4;
+	private int nbBlast = 0;
 	private boolean shield;
 
 	public Defender(Point p) {
@@ -101,6 +103,14 @@ public class Defender extends Element {
 		Point p = new Point((int) (this.getX() + this.width / 2), (int) (this.getY()));
 		new Missile(p, movement.TOP, false);
 	}
+	
+	public void blast() {
+		if (nbBlast > 0) {
+			Point p = new Point((int) (this.getX() + this.width / 2), (int) (this.getY()));
+			new Blast(p, movement.TOP);			
+			nbBlast--;
+		}
+	}
 
 	public void fireLaser() {
 		if (nbLaser > 0) {
@@ -156,6 +166,10 @@ public class Defender extends Element {
 
 	public void addFireRate(int amount) {
 		nbFireRate = Math.min(99, nbFireRate + amount);
+	}
+	
+	public void addBlast(int amount) {
+		nbBlast = Math.min(99, nbBlast + amount);
 	}
 
 	public void addShield() {

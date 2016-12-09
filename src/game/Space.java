@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 
 import defender.Defender;
 import invaders.Invaders;
+import projectile.Blast;
 import projectile.Laser;
 import projectile.Missile;
 import ressources.Element;
@@ -57,6 +58,7 @@ public class Space extends JComponent implements KeyListener, MouseListener {
 	Iterator<Missile> mis;
 	Iterator<Laser> las;
 	Iterator<Bonus> bon;
+	Iterator<Blast> bla;
 
 	public static int score;
 	public static String username = "";
@@ -148,6 +150,9 @@ public class Space extends JComponent implements KeyListener, MouseListener {
 			bon = Bonus.bonus.iterator();
 			while (bon.hasNext())
 				bon.next().drawOn(g);
+			bla = Blast.blasts.iterator();
+			while (bla.hasNext())
+				bla.next().drawOn(g);
 			break;
 		}
 		if (gameOver2) {
@@ -297,6 +302,14 @@ public class Space extends JComponent implements KeyListener, MouseListener {
 				else m.destroy();
 			}
 		}
+		for (int i= Blast.blasts.size() - 1; i >= 0; i--) {
+			if (Blast.blasts.size() > 0) {
+				Blast b = Blast.blasts.get(i);
+				isCol(b);
+				if (!(b.getY() <= 0 || b.getY() >= 600)) b.move();
+				else b.destroy();
+			}
+		}
 	}
 
 	// Deplacement des bonus a chaque tours
@@ -372,6 +385,11 @@ public class Space extends JComponent implements KeyListener, MouseListener {
 				}
 				return true;
 
+			}
+		} else if(m instanceof Blast) {
+			for (int j = Invaders.invaders.size() - 1; j >= 0; j--) {
+				Invaders inv = Invaders.invaders.get(j);
+				if(m.collideWith(inv)) inv.getDamage();
 			}
 		} else {
 			for (int i = Invaders.invaders.size() - 1; i >= 0; i--) {
@@ -471,6 +489,11 @@ public class Space extends JComponent implements KeyListener, MouseListener {
 					pause = true;
 					tv.arret();
 				}
+			}
+			break;
+		case KeyEvent.VK_V:
+			if (!pause && state == State.inGame) {
+				Defender.def.blast();
 			}
 			break;
 

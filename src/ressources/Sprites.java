@@ -34,6 +34,7 @@ public final class Sprites {
 			spritesMap.put("missile", new ImagePanel("./img/missile.png"));
 			spritesMap.put("laser_defender", new ImagePanel("./img/laser_defender.png"));
 			spritesMap.put("laser", new ImagePanel("./img/laser.png"));
+			spritesMap.put("blast", new ImagePanel("./img/blast_defender.png"));
 			// Defender
 			spritesMap.put("vaisseau1", new ImagePanel("./img/vaisseau1.png"));
 			spritesMap.put("vaisseau2", new ImagePanel("./img/vaisseau2.png"));
