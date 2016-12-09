@@ -210,7 +210,15 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void drawPause(Graphics g){
 		Font f = new Font("Arial", Font.BOLD, 60);
 		g.setFont(f);
-		drawStringCenter("PAUSE", 350, 350, g);
+		drawStringCenter("PAUSE", 350, 250, g);
+		f = new Font("Arial",Font.ITALIC,30);
+		g.setFont(f);
+		char larrow = 	37;
+		char rarrow = 39;
+		drawStringCenter("Move : LEFT and RIGHT",350,310,g );
+		drawStringCenter("fire : SPACE ",350,350,g );
+		drawStringCenter("Laser :  C",350,390,g );
+		
 	}
 	
 	public void drawScore(Graphics g) {
