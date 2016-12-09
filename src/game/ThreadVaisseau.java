@@ -5,7 +5,6 @@ import ressources.Element;
 import ressources.Element.movement;
 
 public class ThreadVaisseau extends Thread{
-	Element elem;
 	String dir;
 	boolean arretThread = true;
 	
@@ -16,35 +15,31 @@ public class ThreadVaisseau extends Thread{
 		arretThread = true;
 	}
 
-	public void setDir(String d){dir = d;}
-	public String getDir(){return dir;}
+	public void setDir(String d) { dir = d; }
+	public String getDir() { return dir; }
+	
 	public void reset(){
 		arretThread = false;
-		elem = Defender.def;
 	}
 	
 	public void run(){
 		while(!isInterrupted()){
 			while(!arretThread){
 				if(dir.equals("left")){
-					if(elem.getX()>10){
-						elem.move(movement.LEFT);
-						try {
-							Thread.sleep(40);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+					Defender.def.moveLeft();
+					try {
+						Thread.sleep(40);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}else if(dir.equals("right")){
-					if(elem.getX()<590){
-						elem.move(movement.RIGHT);
-						try {
-							Thread.sleep(40);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+					Defender.def.moveRight();
+					try {
+						Thread.sleep(40);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 			}

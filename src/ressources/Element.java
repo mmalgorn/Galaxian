@@ -17,7 +17,7 @@ public abstract class Element {
 	protected double speed;
 	public double width;
 	public double height;
-	private Point position;
+	protected Point position;
 	private ImagePanel img;
 	public boolean isDest=false;
 
