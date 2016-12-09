@@ -14,7 +14,8 @@ import ressources.Sprites;
 /*
  * Defender est la classe représentant le vaisseau controlé par le joueur
  */
-public class Defender extends Element{
+public class Defender extends Element {
+	
 	final ImagePanel full_heart = Sprites.spritesMap.get("full_heart");
 	final ImagePanel empty_heart = Sprites.spritesMap.get("empty_heart");
 	final ImagePanel laser = Sprites.spritesMap.get("bonus_laser");
@@ -28,6 +29,7 @@ public class Defender extends Element{
 	private int niveau;
 	private int nbHeart = 4;
 	private boolean shield;
+	
 	public Defender(Point p){
 		this.width = 75;
 		this.height = 75;
@@ -45,6 +47,15 @@ public class Defender extends Element{
 	public int getLife(){
 		return this.life;
 	}
+	
+	public void moveLeft() {
+		if(position.getX() > 10) move(movement.LEFT);
+	}
+	
+	public void moveRight() {
+		if(position.getX() < 590) move(movement.RIGHT);
+	}
+	
 	public void drawLife(Graphics g){
 		for (int i = nbHeart ; i > 0; i--){
 			if(life >= i*25){
@@ -57,7 +68,6 @@ public class Defender extends Element{
 		}
 	}
 
-
 	public void drawLaser(Graphics g){
 		Font f = new Font("Arial", Font.BOLD, 25);
 		g.setFont(f);
@@ -65,18 +75,16 @@ public class Defender extends Element{
 		laser.paintComponent(g, 625, 530, 20, 20);
 		g.drawString(Integer.toString(nbLaser), 650, 550);
 
-	}
-	
+	}	
 	
 	public void drawFireRate(Graphics g){
 		Font f = new Font("Arial", Font.BOLD, 25);
 		g.setFont(f);
 		
-		fireRate.paintComponent(g, 575, 530, 20, 20);
-		g.drawString(Integer.toString(nbFireRate), 600, 550);
+		fireRate.paintComponent(g, 565, 530, 20, 20);
+		g.drawString(Integer.toString(nbFireRate), 590, 550);
 		
 	}
-	
 	
 	/*
 	 * Fonction de tir qui instancie un nouveau missile se dirigeant vers le haut
@@ -120,6 +128,7 @@ public class Defender extends Element{
 			}
 			}
 	}
+	
 	public void heal() {
 		if(life<=(nbHeart-1)*25)life += 25;
 		else if(life<nbHeart*25)life = nbHeart*25;
@@ -127,6 +136,7 @@ public class Defender extends Element{
 	public int getNiveau() {
 		return this.niveau;
 	}
+	
 	public void evolve(){
 		if(this.niveau<3){
 			this.niveau++;
@@ -142,12 +152,12 @@ public class Defender extends Element{
 
 	public void getlaser() {
 		// TODO Auto-generated method stub
-		nbLaser+=2;
+		nbLaser = Math.min(99, nbLaser + 2);
 
 	}
 	
 	public void addFireRate(int amount) {
-		nbFireRate += amount;
+		nbFireRate = Math.min(99, nbFireRate+amount);
 	}
 
 	public void addShield(){

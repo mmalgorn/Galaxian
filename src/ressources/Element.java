@@ -1,7 +1,6 @@
 package ressources;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.io.IOException;
 
 import game.ImagePanel;
 
@@ -17,7 +16,7 @@ public abstract class Element {
 	protected double speed;
 	public double width;
 	public double height;
-	private Point position;
+	protected Point position;
 	private ImagePanel img;
 	public boolean isDest=false;
 

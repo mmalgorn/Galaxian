@@ -16,7 +16,7 @@ public class BossInvaders extends Invaders{
 		this.width = 300;
 		this.height = 200;
 		this.speed = sp;
-		this.life = 500;
+		this.life = 1500;
 		this.damageAmount = 25;
 		this.setPosition(p);
 		switch(name){
@@ -37,7 +37,7 @@ public class BossInvaders extends Invaders{
 
 	public void fire(){
 		Random randomGenerator = new Random();
-		if(randomGenerator.nextInt(20)<1){
+		if(randomGenerator.nextInt(30)<1){
 
 			Point p = new Point((int)this.getX()+randomGenerator.nextInt(300),(int)(this.getY()+randomGenerator.nextInt(200)));
 			Missile m = new Missile(p,movement.BOTTOM,true);

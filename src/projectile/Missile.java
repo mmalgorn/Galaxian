@@ -2,11 +2,9 @@ package projectile;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import ressources.Element;
-import ressources.Element.movement;
 
 public class Missile extends Element {
 	
@@ -21,9 +19,13 @@ public class Missile extends Element {
 		this.setPosition(p);
 		this.height = 30;
 		this.width = 15;
-		this.speed = 8;
-		if(me) this.setImage("missile");
-		else this.setImage("missile_defender");
+		if(me){
+			this.setImage("missile");
+			this.speed = 6;
+		}else{
+			this.setImage("missile_defender");
+			this.speed = 8;
+		}
 		missileEnnemy = me;
 		this.move();
 	}

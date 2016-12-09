@@ -6,7 +6,6 @@ import java.util.List;
 
 import defender.Defender;
 import ressources.Element;
-import ressources.Element.movement;
 
 public class Laser extends Element {
 	

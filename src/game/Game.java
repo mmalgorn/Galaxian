@@ -46,7 +46,9 @@ public class Game {
 		Space.score = 0;
 		Bonus.bonus.clear();
 		inizialise();
+		Space.username = "";
 	}
+	
 	public static void inizialise(){
 		nbEnemy = 0;
 		Invaders.invaders.clear();

@@ -7,10 +7,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -30,22 +26,25 @@ import ressources.Sprites;
 
 /*
  * La classe "Space" nous permet de dessiner et deplacer chaques elements.
- *  De plus elle permet de gérer les actions sur les touches du clavier et les actions de la souris.
+ *  De plus elle permet de gï¿½rer les actions sur les touches du clavier et les actions de la souris.
  */
 public class Space extends JComponent implements KeyListener,MouseListener{
+	
+	public enum State {
+		menu,inGame,leaderboard;
+	}
 	
 	private static final long serialVersionUID = 1L;
 	ImagePanel imgFond,imgTitre,imgGameOver,imgBJ,imgBJC,imgBS,imgBSC,imgBQ,imgBQC,imgBR,imgBRC,imgBM,imgBMC;
 	boolean moveLeft = false;
 	boolean moveRight = false;
 	boolean fire = false;
-	boolean menu = true;
+	State state = State.menu;
 	boolean gameOver = false;
 	boolean gameOver2 = false;
 	boolean attente = true;
 	boolean boutonClik = false;
 	boolean scorePan = false;
-	boolean leaderboard = false;
 	boolean firstStart = true;
 	boolean wait = true;
 	boolean pause = false;
@@ -60,12 +59,12 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	Iterator<Bonus> bon;
 
 	public static int score;
-	String username = "";
+	public static String username = "";
 	int cursor = 0;
 
 	
 	
-	//Renvoie vrai si l''utilisateur est sur l'écran de game over
+	//Renvoie vrai si l''utilisateur est sur l'ï¿½cran de game over
 	public boolean getGameOver(){return this.gameOver2;}
 
 	public void start() {
@@ -92,7 +91,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		return e.iterator();
 	}
 
-	//Créé la fenêtre du jeu
+	//Crï¿½ï¿½ la fenï¿½tre du jeu
 	public void start (int x, int y, int width, int height) {
 		tv = new ThreadVaisseau();
 		JFrame window = new JFrame();
@@ -114,61 +113,65 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	 */
 	
 	//Affichage du rendu graphique du jeu
-		public void paint(Graphics g) {
-			super.paint(g);
+	public void paint(Graphics g) {
+		super.paint(g);
 			
-			if(menu) {
-				drawMenu(g);
-				if(boutonClik)drawBoutonClik(g);
-			} else if(leaderboard) {
-				drawBackground(g);
-				drawScorePanel(g);
-				if(boutonClik)drawBoutonClik(g);
-			} else {
-				if(!gameOver && !pause)moveElements();
-				drawBackground(g);
-				paintLife(g);
-				drawScore(g);
-				Defender.def.drawLaser(g);
-				Defender.def.drawFireRate(g);
-				Defender.def.drawOn(g);
-				Defender.def.inv();
-				inv = Invaders.invaders.iterator();
-				while (inv.hasNext())inv.next().drawOn(g);
-				mis = Missile.missiles.iterator();
-				while (mis.hasNext())mis.next().drawOn(g);
-				las = Laser.lasers.iterator();
-				while (las.hasNext())las.next().drawOn(g);
-				bon = Bonus.bonus.iterator();
-				while (bon.hasNext())bon.next().drawOn(g);
-			}
-			if(gameOver2){
-				if(attente){
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					attente = false;
-					scorePan = true;
-				}
-				moveLeft = false;
-				moveRight = false;
-				drawGameOver(g);
-				drawScorePanel(g);
-			}
-			if(gameOver) gameOver2 = true;
-			if(pause){
-				drawPause(g);
+		switch(state) {
+		case menu:
+			drawMenu(g);
+			if(boutonClik)drawBoutonClik(g);
+			break;
+		case leaderboard:
+			drawBackground(g);
+			drawScorePanel(g);
+			if(boutonClik)drawBoutonClik(g);
+			break;
+		case inGame:
+			if(!gameOver && !pause)moveElements();
+			drawBackground(g);
+			paintLife(g);
+			drawScore(g);
+			Defender.def.drawLaser(g);
+			Defender.def.drawFireRate(g);
+			Defender.def.drawOn(g);
+			Defender.def.inv();
+			inv = Invaders.invaders.iterator();
+			while (inv.hasNext())inv.next().drawOn(g);
+			mis = Missile.missiles.iterator();
+			while (mis.hasNext())mis.next().drawOn(g);
+			las = Laser.lasers.iterator();
+			while (las.hasNext())las.next().drawOn(g);
+			bon = Bonus.bonus.iterator();
+			while (bon.hasNext())bon.next().drawOn(g);
+			break;
+		}
+		if(gameOver2){
+			if(attente){
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				attente = false;
+				scorePan = true;
+			}
+			moveLeft = false;
+			moveRight = false;
+			drawGameOver(g);
+			drawScorePanel(g);
+		}
+		if(gameOver) gameOver2 = true;
+		if(pause){
+			drawPause(g);
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
+	}
 	//Affiche le menu principale
 	public void drawMenu(Graphics g){
 		drawBackground(g);
@@ -191,7 +194,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			drawStringRight(s.getScore().toString(), 550, 170+(30*i), g);
 			i++;
 		}
-		if(leaderboard) {
+		if(state == State.leaderboard) {
 			imgBM.paintComponent(g, 225, 450, 250, 75);
 		} else if(scorePan) {
 			g.setFont(new Font("Arial", Font.BOLD, 20));
@@ -203,7 +206,15 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void drawPause(Graphics g){
 		Font f = new Font("Arial", Font.BOLD, 60);
 		g.setFont(f);
-		drawStringCenter("PAUSE", 350, 350, g);
+		drawStringCenter("PAUSE", 350, 250, g);
+		f = new Font("Arial",Font.ITALIC,30);
+		g.setFont(f);
+		char larrow = 	37;
+		char rarrow = 39;
+		drawStringCenter("Move : LEFT and RIGHT",350,310,g );
+		drawStringCenter("fire : SPACE ",350,350,g );
+		drawStringCenter("Laser :  C",350,390,g );
+		
 	}
 	
 	public void drawScore(Graphics g) {
@@ -222,7 +233,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		g.drawString(s, x-shift, y);
 	}
 	
-	//Affiche un bouton avec une auréole jaune au moment du clique
+	//Affiche un bouton avec une aurï¿½ole jaune au moment du clique
 	public void drawBoutonClik(Graphics g){
 		if(typeBouton.equals("jouer")){
 			imgBJC.paintComponent(g, 225, 200, 250, 75);
@@ -240,7 +251,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 
 	}
 	
-	//Affiche l'écran de game over
+	//Affiche l'ï¿½cran de game over
 	public void drawGameOver(Graphics g){
 		drawBackground(g);
 		imgGameOver.paintComponent(g, 75, 30, 550, 100);
@@ -249,7 +260,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	//Affiche l'image de fond du jeu
-	public void drawBackground(Graphics g){
+	public void drawBackground(Graphics g) {
 		imgFond.paintComponent(g);
 	}
 	
@@ -260,11 +271,11 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 	
 	/*
-	 * Fonctions gérant les mouvements de nos Elements
+	 * Fonctions gï¿½rant les mouvements de nos Elements
 	 */
 	
-	//Met en mouvements les éléments du jeu(missiles, ennemies et le vaisseau principale)
-	public void moveElements(){
+	//Met en mouvements les ï¿½lï¿½ments du jeu(missiles, ennemies et le vaisseau principale)
+	public void moveElements() {
 		moveMissiles();
 		moveBonus();
 		moveEnemys();
@@ -284,7 +295,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 	
 	// Deplacement des bonus a chaque tours
-	public void moveBonus(){
+	public void moveBonus() {
 		for(int i = Bonus.bonus.size()-1; i >= 0; i--) {
 			Bonus b = Bonus.bonus.get(i);
 			b.move();
@@ -293,7 +304,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		}
 	}
 	
-	public void moveLaser(){
+	public void moveLaser() {
 		for(int i = Laser.lasers.size()-1; i >= 0; i--) {
 			Laser l = Laser.lasers.get(i);
 			
@@ -305,8 +316,9 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 			
 		}
 	}
+	
 	// Deplacement des Ennemis
-	public void moveEnemys(){
+	public void moveEnemys() {
 		Iterator<Invaders> iter = Invaders.invaders.iterator();
 		boolean isOnBorder = false;
 		while(iter.hasNext()){
@@ -338,10 +350,10 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	/*
-	 * Fonctions permettant de détécter des collisions entre les elements
+	 * Fonctions permettant de dï¿½tï¿½cter des collisions entre les elements
 	 */
 	
-	//Renvoie vrai si il y a une collision avec le missile en paramètre
+	//Renvoie vrai si il y a une collision avec le missile en paramï¿½tre
 	public boolean isCol(Element m) {
 		boolean isLaser = false;
 	
@@ -387,16 +399,16 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 	
 	/*
-	 * Fonctions permettant de gérer les actions sur les touches de clavier et la souris
+	 * Fonctions permettant de gï¿½rer les actions sur les touches de clavier et la souris
 	*/
 	
 	@Override
-	//Fonction de gestion des évènements des appuie sur une touche du clavier
+	//Fonction de gestion des ï¿½vï¿½nements des appuie sur une touche du clavier
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		switch(e.getKeyCode()) {
 		
-			//Flèche gauche du clavier
+			//Flï¿½che gauche du clavier
 			case KeyEvent.VK_LEFT:
 				if (!moveLeft && !pause) {
 					tv.arret();
@@ -406,7 +418,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				}
 				break;
 				
-			//Flèche droite du clavier
+			//Flï¿½che droite du clavier
 			case KeyEvent.VK_RIGHT:
 				if (!moveRight && !pause) {
 					tv.arret();
@@ -431,7 +443,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				if(!fire && !pause) Defender.def.fireLaser();
 				break;
 				
-			//Touche entrée du clavier
+			//Touche entrï¿½e du clavier
 			case KeyEvent.VK_ENTER:
 				if(scorePan && !pause) {
 					new Score(score, username);
@@ -446,11 +458,13 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 				break;
 				
 			case KeyEvent.VK_ESCAPE:
-				if(pause){
-					pause = false;
-				}else{
-					pause = true;
-					tv.arret();
+				if(state == State.inGame && !gameOver && !gameOver2){
+					if(pause){
+						pause = false;
+					}else{
+						pause = true;
+						tv.arret();
+					}
 				}
 				break;
 				
@@ -469,7 +483,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	
 	
 	@Override
-	//Fonction de gestion des évènements de la relache sur une touche du clavier
+	//Fonction de gestion des ï¿½vï¿½nements de la relache sur une touche du clavier
 	public void keyReleased(KeyEvent e) {
 		switch(e.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
@@ -504,10 +518,10 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	public void mouseExited(MouseEvent e) {}
 
 	@Override
-	//Fonction de gestion des évènements des appuies sur un clic de la souris
+	//Fonction de gestion des ï¿½vï¿½nements des appuies sur un clic de la souris
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if(menu){
+		if(state == State.menu){
 			if(e.getX()>225 && e.getX()<425){
 				if(e.getY()>200 && e.getY()<275){
 					//Jouer
@@ -535,7 +549,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					typeBouton = "menu";
 				}
 			}
-		} else if(leaderboard) {
+		} else if(state == State.leaderboard) {
 			if((e.getY() > 450 && e.getY() < 525) && (e.getX() > 225 && e.getX() < 475)){
 				//Menu
 				boutonClik = true;
@@ -545,14 +559,14 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 	}
 
 	@Override
-	//Fonction de gestion des évènements des relaches sur un clic de la souris
+	//Fonction de gestion des ï¿½vï¿½nements des relaches sur un clic de la souris
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if(menu){
+		if(state == State.menu){
 			if(e.getX()>225 && e.getX()<425){
 				if(e.getY()>200 && e.getY()<275){
 					//Jouer
-					menu = false;
+					state = State.inGame;
 					moveLeft = false;
 					moveRight = false;
 					tv.arret();
@@ -562,18 +576,16 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					}
 				}else if(e.getY()>300 && e.getY()<375){
 					//Scores
-					menu = false;
-					leaderboard = true;
+					state = State.leaderboard;
 				}else if(e.getY()>400 && e.getY()<475){
 					//Quitter
 					System.exit(0);
 				}
 			}
-		} else if (leaderboard) {
+		} else if (state == State.leaderboard) {
 			if((e.getY() > 450 && e.getY() < 525) && (e.getX() > 225 && e.getX() < 475)){
 				//Menu
-				menu = true;
-				leaderboard = false;
+				state = State.menu;
 			}
 		} else if (gameOver2){
 			if(e.getY()>450 && e.getY()<525){
@@ -588,7 +600,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 					Game.resetGame();
 				}else if(e.getX()>350 && e.getX()<600){
 					//Menu
-					menu = true;
+					state = State.menu;
 					gameOver = false;
 					gameOver2 = false;
 					attente = true;
