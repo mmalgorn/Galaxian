@@ -27,21 +27,26 @@ public class BossInvaders extends Invaders{
 		this.life = 1500;
 		this.damageAmount = 25;
 		this.setPosition(p);
+		Sound snd = null;
 		switch(name){
 		case "red" : 
 			this.setImage("boss_invaders_red");
+			snd = Sound.soundMap.get("boss1");
 			break;
 		case "grey" : 
 			this.setImage("boss_invaders_grey");
+			snd = Sound.soundMap.get("boss2");
 			break;
 		case "yellow" : 
 			this.setImage("boss_invaders_yellow");
+			snd = Sound.soundMap.get("boss3");
 			break;
 		}
-		Game.theme.stop();
-		Sound snd = Sound.soundMap.get("boss");
+	
+		
+		snd.gainControl(6);
 		snd.play();
-		Game.theme.loop();
+	
 	
 	}
 

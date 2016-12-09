@@ -24,7 +24,9 @@ public class Sound extends Thread {
 		soundMap.put("explosion", new Sound("./sound/explosion.wav"));
 		soundMap.put("theme", new Sound("./sound/mainTheme.wav"));
 		soundMap.put("laser", new Sound("./sound/laser.wav"));
-		soundMap.put("boss", new Sound("./sound/boss2.wav"));
+		soundMap.put("boss1", new Sound("./sound/boss2.wav"));
+		soundMap.put("boss2", new Sound("./sound/boss3.wav"));
+		soundMap.put("boss3", new Sound("./sound/boss4.wav"));
 	}
 	private Clip clip;
     public Sound(String fileName) {

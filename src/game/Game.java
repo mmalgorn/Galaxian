@@ -26,6 +26,7 @@ public class Game {
 	static int i;
 	static int dif = 0;
 	public static Sound theme = Sound.soundMap.get("theme");
+	
 	static int nbLvl = 0;
 	
 	public static void win() throws InterruptedException{
@@ -107,6 +108,7 @@ public class Game {
 	}
 	
 	public static void main(String[] args) throws IOException {
+		theme.gainControl((float)-5);
 		theme.loop();
 		Space root = new Space();
 		new Defender(new Point(350,450));
