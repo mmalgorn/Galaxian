@@ -106,6 +106,7 @@ public class Space extends JComponent implements KeyListener,MouseListener{
 		new GestFenetre(window);
 		Universe.addSpace(this);
 		Score.readScores();
+		username = "";
 	}
 
 	/*
