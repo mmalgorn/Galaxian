@@ -8,6 +8,13 @@ import projectile.Laser;
 import projectile.Missile;
 import ressources.Sound;
 
+import java.awt.Point;
+import java.util.Random;
+
+import defender.Defender;
+import projectile.Laser;
+import projectile.Missile;
+
 public class BossInvaders extends Invaders{
 
 	private int tmpLaser=0;
@@ -30,8 +37,6 @@ public class BossInvaders extends Invaders{
 			this.setImage("boss_invaders_yellow");
 			break;
 		}
-		Sound snd = Sound.soundMap.get("boss");
-		snd.play();
 	}
 
 
