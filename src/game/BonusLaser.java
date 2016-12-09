@@ -4,7 +4,7 @@ import java.awt.Point;
 
 import defender.Defender;
 
-public class BonusLaser extends Bonus{
+public class BonusLaser extends Bonus {
 
 	public BonusLaser(Point p) {
 		this.width = 30;
@@ -14,8 +14,9 @@ public class BonusLaser extends Bonus{
 		this.type = "laser";
 		this.setImage("bonus_laser");
 	}
-	
-	public void action(){
+
+	@Override
+	public void action() {
 		Defender.def.getlaser();
 	}
 
