@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.util.Random;
 
 import projectile.Missile;
-import ressources.Element.movement;
 /*
  * Vaisseau Invaders pouvant tirer
  */

@@ -1,7 +1,6 @@
 package ressources;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.io.IOException;
 
 import game.ImagePanel;
 
